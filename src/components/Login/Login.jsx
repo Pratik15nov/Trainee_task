@@ -7,6 +7,7 @@ import { validPaasword, validEmail } from "../helper";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+
 export default function Login() {
   const [mail, setMail] = useState(" ");
   const [emailErr, setemailErr] = useState(false);
@@ -38,10 +39,11 @@ export default function Login() {
   };
 
   return (
-    <div>
+   <div  className="back" >
+     <div >
       <div>
         <img className="image-conatiner" src={frontendlogo} alt="LOGO" />
-      </div>
+      </div>  
 
       <div className="row grid-container ">
         <div className="col">
@@ -105,12 +107,18 @@ export default function Login() {
                     New User?
                     <Link to="/Register">Register</Link>
                   </p>
+                  <p>
+                    <Link to="/productList">Go to Products</Link>
+                  </p>
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
+     
     </div>
+   </div>
+    
   );
 }

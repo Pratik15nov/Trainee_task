@@ -1,0 +1,26 @@
+.cardConatiner {
+  width: 100%;
+}
+
+.cardView {
+  width: auto;
+  height: auto;
+margin-right:15px;
+margin-top: 15px;
+box-shadow: 0 0 5px;
+
+
+}
+.BTS {
+  background-color: rgba(107, 99, 255, 1);
+  color: white;
+}
+.imageClass {
+  /* border: 1px solid red; */
+  padding: 2%;
+  border-radius: 5%;
+}
+
+.Counter{
+  margin-top: 6%;
+}

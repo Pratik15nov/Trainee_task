@@ -7,6 +7,7 @@ import { validEmail } from "../helper";
 import { validName } from "../helper";
 import { validPhoneno } from "../helper";
 import { validPaasword } from "../helper";
+import { sendData } from "../../services/authservices";
 
 export default function Register() {
   const [firstname, setFirstname] = useState("");
@@ -19,7 +20,9 @@ export default function Register() {
   const [lnameErr, setlnameErr] = useState(false);
   const [phonenoErr, setphonenoErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
-  const [selected, setSelected] = useState("male");
+  // const [fromdata, setformData] = useState([]);
+  // const [selected, setSelected] = useState("male");
+  const allData = [];
 
   const validate = () => {
     let formIsValid = true;
@@ -50,24 +53,40 @@ export default function Register() {
     if (validate() !== true) {
     } else {
       alert(firstname);
-      localStorage.setItem("firstname", JSON.stringify(firstname));
-      localStorage.setItem("lastname", JSON.stringify(lastname));
+      localStorage.setItem("username", JSON.stringify(firstname));
+      localStorage.setItem("role", JSON.stringify(lastname));
       localStorage.setItem("email", JSON.stringify(email));
-      localStorage.setItem("phoneno", JSON.stringify(phoneno));
+      localStorage.setItem("mobileNumber", JSON.stringify(phoneno));
       localStorage.setItem("password", JSON.stringify(password));
     }
     e.preventDefault();
+ 
+const details = {
+  username:firstname,
+  role:lastname,
+  email:email,
+  phoneNumber: phoneno,
+  password:password
+}
+
+
+   allData.push(details);
+   console.log(allData);
+   sendData(allData);
+    
+    // sendData(localStorage);
   };
-  const isButtonSelected = (value) => {
-    if (selected === value) {
-      return true;
-    }
-  };
-  const onChange = (e) => {
-    setSelected(e.target.value);
-  };
+  // const isButtonSelected = (value) => {
+  //   if (selected === value) {
+  //     return true;
+  //   }
+  // };
+  // const onChange = (e) => {
+  //   setSelected(e.target.value);
+  // };
   return (
-    <div className="container ">
+    <div  className="back">
+      <div className="container ">
       <img
         className="logo"
         src="https://frontendarmy.com/wp-content/uploads/2022/02/frontendarmy-logo.svg"
@@ -88,37 +107,37 @@ export default function Register() {
             <h2>Register</h2>
           </div>
           <div>
-            <label className="form-label">First Name</label>
+            <label className="form-label">Username</label>
             <div className="form-floating mb-1">
               <input
                 className="form-control"
                 placeholder="Enter Your Frist Name"
                 type="text"
-                name="fristname"
+                name="username"
                 maxLength={15}
-                id="fristnameErr"
+                id="username"
                 value={firstname}
                 onChange={(e) => [
                   setFirstname(e.target.value),
                   setfnameErr(""),
                 ]}
               />
-              <label htmlFor="fristnameErr">Enter First Name</label>
+              <label htmlFor="fristnameErr">enter your name here</label>
               {fnameErr && <p className="errorstyle">{fnameErr}</p>}
             </div>
-            <label className="form-label">Last Name</label>
+            <label className="form-label">Role</label>
             <div className="form-floating mb-1">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter Last Name"
-                name="lastname"
+                placeholder="enter user if you are a user   "
+                name="role"
                 maxLength={15}
                 id="lastnameErr"
                 value={lastname}
                 onChange={(e) => [setLastname(e.target.value), setlnameErr("")]}
               />
-              <label htmlFor="lastnameErr">Enter Last Name</label>
+              <label htmlFor="user">enter "user" if you are a user , else enter "wholesaler"</label>
               {lnameErr && <p className="errorstyle">{lnameErr}</p>}
             </div>
             <label className="form-label">Password</label>
@@ -174,7 +193,7 @@ export default function Register() {
               {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
             </div>
             <div className="mb-1">
-              <label htmlFor="exampleInputPassword1" className="form-label">
+              {/* <label htmlFor="exampleInputPassword1" className="form-label">
                 Gender
               </label>
               <div>
@@ -208,7 +227,7 @@ export default function Register() {
                     Female
                   </label>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <button type="submit" className="button">
@@ -221,5 +240,7 @@ export default function Register() {
         </form>
       </div>
     </div>
+    </div>
+    
   );
 }

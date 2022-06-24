@@ -70,3 +70,9 @@
     height: 100%;
   }
 }
+.back{
+  background-color: rgb(47, 38, 49);
+  /* background-color: rgb(230, 228, 231); */
+  width: auto;
+    height:750px ;
+}
