@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Register.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Loginbg from "./loginbg.svg";
 import { Link } from "react-router-dom";
 import { validEmail } from "../helper";
@@ -67,158 +66,171 @@ export default function Register() {
     setSelected(e.target.value);
   };
   return (
-    <div className="container ">
-      <img
-        className="logo"
-        src="https://frontendarmy.com/wp-content/uploads/2022/02/frontendarmy-logo.svg"
-        alt="logo"
-      />
-      <div className="row">
-        <div className="col-2">
-          <img className="loginbg" src={Loginbg} alt="login" />
-        </div>
-        <form
-          className="form col-1 scaled "
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-          method="post"
-        >
-          <div>
-            <h2>Register</h2>
+    <div className="reg">
+      <div className="container ">
+        <img
+          className="logo"
+          src="https://frontendarmy.com/wp-content/uploads/2022/02/frontendarmy-logo.svg"
+          alt="logo"
+        />
+        <div className="row">
+          <div className="col-2">
+            <img className="loginbg" src={Loginbg} alt="login" />
           </div>
-          <div>
-            <label className="form-label">First Name</label>
-            <div className="form-floating mb-1">
-              <input
-                className="form-control"
-                placeholder="Enter Your Frist Name"
-                type="text"
-                name="fristname"
-                maxLength={15}
-                id="fristnameErr"
-                value={firstname}
-                onChange={(e) => [
-                  setFirstname(e.target.value),
-                  setfnameErr(""),
-                ]}
-              />
-              <label htmlFor="fristnameErr">Enter First Name</label>
-              {fnameErr && <p className="errorstyle">{fnameErr}</p>}
+          <form
+            className="form col-1 scaled "
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+            method="post"
+          >
+            <div>
+              <h2>Register</h2>
             </div>
-            <label className="form-label">Last Name</label>
-            <div className="form-floating mb-1">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Last Name"
-                name="lastname"
-                maxLength={15}
-                id="lastnameErr"
-                value={lastname}
-                onChange={(e) => [setLastname(e.target.value), setlnameErr("")]}
-              />
-              <label htmlFor="lastnameErr">Enter Last Name</label>
-              {lnameErr && <p className="errorstyle">{lnameErr}</p>}
-            </div>
-            <label className="form-label">Password</label>
-            <div className="form-floating mb-1">
-              <input
-                type="password"
-                className="form-control form-control-sm"
-                placeholder="Enter Password"
-                name="password"
-                maxLength={15}
-                id="passwordErr"
-                value={password}
-                onChange={(e) => [
-                  setPassword(e.target.value),
-                  setPasswordErr(""),
-                ]}
-              />
-              <label htmlFor="passwordErr">Enter Password</label>
-              {passwordErr && <p className="errorstyle">{passwordErr}</p>}
-            </div>
-            <label className="form-label">E-mail</label>
-            <div className="form-floating mb-1">
-              <input
-                type="email"
-                className="form-control form-control-sm"
-                placeholder="Enter Email"
-                name="email"
-                id="emailErr"
-                maxLength={30}
-                value={email}
-                onChange={(e) => [setEmail(e.target.value), setEmailErr("")]}
-              />
-              <label htmlFor="emailErr">Enter Email Address</label>
-              {emailErr && <p className="errorstyle">{emailErr}</p>}
-            </div>
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Phone No.
-            </label>
-            <div className="form-floating mb-1">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                placeholder="name@example.com"
-                id="phonenoErr"
-                value={phoneno}
-                maxLength={10}
-                onChange={(e) => [
-                  setPhoneno(e.target.value),
-                  setphonenoErr(""),
-                ]}
-              />
-              <label htmlFor="phonenoErr">Enter Phone Number</label>
-              {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
-            </div>
-            <div className="mb-1">
+            <div>
+              <label className="form-label">First Name</label>
+              <div className="form-floating mb-1">
+                <input
+                  className="form-control"
+                  placeholder="Enter Your Frist Name"
+                  type="text"
+                  name="fristname"
+                  maxLength={15}
+                  id="fristnameErr"
+                  value={firstname}
+                  onChange={(e) => [
+                    setFirstname(e.target.value),
+                    setfnameErr(""),
+                  ]}
+                />
+                <label htmlFor="fristnameErr">Enter First Name</label>
+                {fnameErr && <p className="errorstyle">{fnameErr}</p>}
+              </div>
+              <label className="form-label">Last Name</label>
+              <div className="form-floating mb-1">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Last Name"
+                  name="lastname"
+                  maxLength={15}
+                  id="lastnameErr"
+                  value={lastname}
+                  onChange={(e) => [
+                    setLastname(e.target.value),
+                    setlnameErr(""),
+                  ]}
+                />
+                <label htmlFor="lastnameErr">Enter Last Name</label>
+                {lnameErr && <p className="errorstyle">{lnameErr}</p>}
+              </div>
+              <label className="form-label">Password</label>
+              <div className="form-floating mb-1">
+                <input
+                  type="password"
+                  className="form-control form-control-sm"
+                  placeholder="Enter Password"
+                  name="password"
+                  maxLength={15}
+                  id="passwordErr"
+                  value={password}
+                  onChange={(e) => [
+                    setPassword(e.target.value),
+                    setPasswordErr(""),
+                  ]}
+                />
+                <label htmlFor="passwordErr">Enter Password</label>
+                {passwordErr && <p className="errorstyle">{passwordErr}</p>}
+              </div>
+              <label className="form-label">E-mail</label>
+              <div className="form-floating mb-1">
+                <input
+                  type="email"
+                  className="form-control form-control-sm"
+                  placeholder="Enter Email"
+                  name="email"
+                  id="emailErr"
+                  maxLength={30}
+                  value={email}
+                  onChange={(e) => [setEmail(e.target.value), setEmailErr("")]}
+                />
+                <label htmlFor="emailErr">Enter Email Address</label>
+                {emailErr && <p className="errorstyle">{emailErr}</p>}
+              </div>
               <label htmlFor="exampleInputPassword1" className="form-label">
-                Gender
+                Phone No.
               </label>
-              <div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios1"
-                    value="Male"
-                    defaultValue="option1"
-                    checked={isButtonSelected("male")}
-                    onChange={onChange}
-                  />
-                  <label className="form-check-label" htmlFor="exampleRadios1">
-                    Male
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios2"
-                    value="Female"
-                    defaultValue="option2"
-                    checked={isButtonSelected("female")}
-                    onChange={onChange}
-                  />
-                  <label className="form-check-label" htmlFor="exampleRadios2">
-                    Female
-                  </label>
+              <div className="form-floating mb-1">
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  placeholder="name@example.com"
+                  id="phonenoErr"
+                  value={phoneno}
+                  maxLength={10}
+                  onChange={(e) => [
+                    setPhoneno(e.target.value),
+                    setphonenoErr(""),
+                  ]}
+                />
+                <label htmlFor="phonenoErr">Enter Phone Number</label>
+                {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
+              </div>
+              <div className="mb-1">
+                <label htmlFor="exampleInputPassword1" className="form-label">
+                  Gender
+                </label>
+                <div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      value="Male"
+                      defaultValue="option1"
+                      checked={isButtonSelected("male")}
+                      onChange={onChange}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios1"
+                    >
+                      Male
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios2"
+                      value="Female"
+                      defaultValue="option2"
+                      checked={isButtonSelected("female")}
+                      onChange={onChange}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios2"
+                    >
+                      Female
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <button type="submit" className="button">
-            Submit
-          </button>
-          <p>
-            Already Register ? 
-            <Link to="/">Login</Link>
-          </p>
-        </form>
+            <button type="submit" className="button">
+              Submit
+            </button>
+            <p>
+              Already Register ?
+              <Link className="text" to="/Login">
+                Login
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
