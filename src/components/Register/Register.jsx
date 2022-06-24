@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Register.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import Loginbg from "./loginbg.svg";
+import { Link } from "react-router-dom";
 import { validEmail } from "../helper";
 import { validName } from "../helper";
 import { validPhoneno } from "../helper";
@@ -213,7 +215,8 @@ export default function Register() {
             Submit
           </button>
           <p>
-            Already Register ? <a href="/Login">Login</a>
+            Already Register ? 
+            <Link to="/">Login</Link>
           </p>
         </form>
       </div>
