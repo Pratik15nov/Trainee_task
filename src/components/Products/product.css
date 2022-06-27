@@ -1,26 +1,67 @@
-.cardConatiner {
-  width: 100%;
-}
-
 .cardView {
-  width: auto;
-  height: auto;
-margin-right:15px;
-margin-top: 15px;
-box-shadow: 0 0 5px;
+  width: 15%;
+  float: left;
+  margin-left: 3%;
+  margin-right: 2%;
+  margin-top: 2%;
+  font-size: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+
+}
+
+.cardView:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.CounterButton{
+background-color: #515fc7;
+color: aliceblue;
+font-size: 15px;
+border: none;
+width: 20%;
+margin: 2%;
+height: 25px;
+border-radius: 10%;
+
 
 
 }
-.BTS {
-  background-color: rgba(107, 99, 255, 1);
-  color: white;
-}
-.imageClass {
-  /* border: 1px solid red; */
-  padding: 2%;
-  border-radius: 5%;
+.BuyButton{
+  background-color: #515fc7;
+color: aliceblue;
+font-size: 15px;
+border: none;
+width: 30%;
+margin: 2%;
+height: 25px;
+border-radius: 10%;
+margin-left: 4%;
+
 }
 
-.Counter{
-  margin-top: 6%;
+.BuyButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+}
+.CounterButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+}
+
+@media only screen and (max-width: 1200px) {
+  .cardView {
+    width: 20%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .cardView {
+    width: 28%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .cardView {
+    width: 45%;
+  }
 }
