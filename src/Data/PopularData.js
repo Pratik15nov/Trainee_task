@@ -1,4 +1,4 @@
- export const Data = [
+ export const PopularData = [
   {
     id: "1",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",

@@ -1,7 +1,7 @@
 import React from "react";
 import "../ProductList/ProductList.css";
 import Products from "../Products";
-import { Data } from "../../Data/Data.js";
+import { PopularData } from "../../Data/PopularData.js";
 
 const ProductList = () => {
   return (
@@ -12,7 +12,7 @@ const ProductList = () => {
         We provide best quality & fresh grocery items near your location
         </p>
       </div>
-      {Data.map((card, id) => {
+      {PopularData.map((card, id) => {
         return <Products card={card} id={id} />;
       })}
     </div>

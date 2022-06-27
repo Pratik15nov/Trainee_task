@@ -5,10 +5,8 @@ import "../Products/product.css";
 const Products = (props) => {
   const [num, setNum] = useState(0);
   const [rate, setRate] = useState(props.card.rate);
-<<<<<<< HEAD
-  console.log(setRate)
-=======
->>>>>>> bfcee15b7362b85ef272f05f95a203b08a201085
+
+  console.log(setRate);
 
   const incNum = () => {
     setNum(Number(num) + 1);
@@ -25,73 +23,58 @@ const Products = (props) => {
   return (
     <div class="cardView">
       <img src={props.card.img} class="card-img-top" alt="..." />
-      <div class="card-body" >
-        <h4 class="card-title">{props.card.name}</h4>
-        {/* <p class="card-text">{props.card.description}</p> */}
+
+      <div className="div1">
+        <h4 style={{ textAlign: "center" }}>{props.card.name}</h4>
+      </div>
+      <div className="d-flex justify-content-center" >
+        <button className="CounterButton" onClick={incNum}>
+          +
+        </button>
+        <b  style={{margin:"2%"}}onChange={handleChange}>{num}</b>
+        <button className="CounterButton" onClick={decNum}>
+          -
+        </button>
       </div>
 
-      
-      <ul class="list-group list-group-flush"  style={{borderRadius:'10px'}} >
-        <li class="list-group-item">
+      <div className="div3">
+        <div className="div4">
           <b>
             {" "}
             Price:{""} ${rate}
           </b>
-        </li>
-        {/* <li class="list-group-item">
-          <b>
-            <p onChange={handleChange}>
-              {""} {num}{" "}
-            </p>
-          </b>
-        </li> */}
-        <li class="list-group-item">
-          <button className="CounterButton" onClick={incNum}>
-            +
-          </button>
-          <b  onChange={handleChange} >{num}</b>
-          <button className="CounterButton" onClick={decNum}>
-            -
-          </button>
-          <button className="BuyButton">Buy</button>
-        </li>
-      </ul>
+          
+        </div>
+        <div className="div5">
+          <button className="BuyButton">Add to Cart</button>
+        </div>
+        
+      </div>
     </div>
   );
 };
 
 export default Products;
 
+/* <ul class="list-group list-group-flush" style={{ borderRadius: "10px" }}>
+        <li class="list-group-item">
+          <h4 class="card-title" style={{ textAlign: "center" }}>
+            {props.card.name}
+          </h4>
+          <button className="CounterButton" onClick={incNum}>
+            +
+          </button>
+          <b onChange={handleChange}>{num}</b>
+          <button className="CounterButton" onClick={decNum}>
+            -
+          </button>
+        </li>
 
-// <div class="cardView">
-//       <img src={props.card.img} class="card-img-top" alt="..." />
-//       <div class="card-body" >
-//         <h4 class="card-title">{props.card.name}</h4>
-//         {/* <p class="card-text">{props.card.description}</p> */}
-//       </div>
-//       <ul class="list-group list-group-flush"  style={{borderRadius:'10px'}} >
-//         <li class="list-group-item">
-//           <b>
-//             {" "}
-//             Price:{""} ${rate}
-//           </b>
-//         </li>
-//         <li class="list-group-item">
-//           <b>
-//             <p onChange={handleChange}>
-//               Quantity: {""} {num}{" "}
-//             </p>
-//           </b>
-//         </li>
-//         <li class="list-group-item">
-//           <button className="CounterButton" onClick={incNum}>
-//             +
-//           </button>
-
-//           <button className="CounterButton" onClick={decNum}>
-//             -
-//           </button>
-//           <button className="BuyButton">Buy</button>
-//         </li>
-//       </ul>
-//     </div>
+        <li class="list-group-item">
+          <b>
+            {" "}
+            Price:{""} ${rate}
+          </b>
+          <button className="BuyButton">Buy</button>
+        </li>
+      </ul> */
