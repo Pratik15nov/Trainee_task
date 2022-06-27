@@ -56,25 +56,3 @@ const Products = (props) => {
 
 export default Products;
 
-/* <ul class="list-group list-group-flush" style={{ borderRadius: "10px" }}>
-        <li class="list-group-item">
-          <h4 class="card-title" style={{ textAlign: "center" }}>
-            {props.card.name}
-          </h4>
-          <button className="CounterButton" onClick={incNum}>
-            +
-          </button>
-          <b onChange={handleChange}>{num}</b>
-          <button className="CounterButton" onClick={decNum}>
-            -
-          </button>
-        </li>
-
-        <li class="list-group-item">
-          <b>
-            {" "}
-            Price:{""} ${rate}
-          </b>
-          <button className="BuyButton">Buy</button>
-        </li>
-      </ul> */
