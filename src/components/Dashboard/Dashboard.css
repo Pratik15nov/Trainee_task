@@ -1,0 +1,27 @@
+.container {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+.card {
+  transition: border 0.1s, transform 0.3s;
+  font-family: "Inter", sans-serif;
+  border-radius: 100px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  background-color: rgb(207, 252, 252);
+  width: 40%;
+  margin-left: 30%;
+}
+
+.card:hover {
+  -webkit-transform: translateY(-10px);
+  transform: translateY(-10px);
+  cursor: pointer;
+}
+
+.cardimg:hover {
+  opacity: 0.6;
+}
+
+.card-title {
+  text-align: center;
+}

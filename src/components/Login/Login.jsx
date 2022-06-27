@@ -6,6 +6,8 @@ import frontendlogo from "../Login/frontendlogo.svg";
 import { validPaasword, validEmail } from "../helper";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
+
 
 
 export default function Login() {
@@ -32,7 +34,7 @@ export default function Login() {
   const handleSubmit = (e) => {
     if (validation() !== true) {
     } else {
-      alert("done");
+     
     }
     e.preventDefault();
     console.log("works");
@@ -96,20 +98,18 @@ export default function Login() {
                 </div>
                 <div className="row">
                   <button type="submit" class="BTN">
-                    LOGIN
+                    Login
                   </button>
                 </div>
                 <div className="row">
                   <p>
-                    <a href="/">Forgot password?</a>
+                    <a className="text" href="/">Forgot password?</a>
                   </p>
                   <p>
-                    New User?
-                    <Link to="/Register">Register</Link>
+                    New User?<span/>
+                    <Link className="text"  to="/Register">Register</Link>
                   </p>
-                  <p>
-                    <Link to="/productList">Go to Products</Link>
-                  </p>
+                  
                 </div>
               </div>
             </form>

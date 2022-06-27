@@ -26,6 +26,7 @@
   background-color: rgb(47, 38, 49);
   /* background-color: rgb(230, 228, 231); */
 }
+
 @media only screen and (max-width: 844px) {
   [class*="col-"] {
     width: 80%;
@@ -41,4 +42,7 @@
 }
 .scaled {
   transform: scale(0.9, 0.9);
+}
+.reg {
+  background-color: rgb(47, 38, 49);
 }

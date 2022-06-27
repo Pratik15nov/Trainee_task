@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Register.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Loginbg from "./loginbg.svg";
 import { Link } from "react-router-dom";
 import { validEmail } from "../helper";
@@ -106,7 +106,6 @@ const details = {
           <div>
             <h2>Register</h2>
           </div>
-          <div>
             <label className="form-label">Username</label>
             <div className="form-floating mb-1">
               <input
@@ -196,51 +195,78 @@ const details = {
               {/* <label htmlFor="exampleInputPassword1" className="form-label">
                 Gender
               </label>
-              <div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios1"
-                    value="Male"
-                    defaultValue="option1"
-                    checked={isButtonSelected("male")}
-                    onChange={onChange}
-                  />
-                  <label className="form-check-label" htmlFor="exampleRadios1">
-                    Male
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios"
-                    id="exampleRadios2"
-                    value="Female"
-                    defaultValue="option2"
-                    checked={isButtonSelected("female")}
-                    onChange={onChange}
-                  />
-                  <label className="form-check-label" htmlFor="exampleRadios2">
-                    Female
-                  </label>
+              <div className="form-floating mb-1">
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  placeholder="name@example.com"
+                  id="phonenoErr"
+                  value={phoneno}
+                  maxLength={10}
+                  onChange={(e) => [
+                    setPhoneno(e.target.value),
+                    setphonenoErr(""),
+                  ]}
+                />
+                <label htmlFor="phonenoErr">Enter Phone Number</label>
+                {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
+              </div>
+              <div className="mb-1">
+                <label htmlFor="exampleInputPassword1" className="form-label">
+                  Gender
+                </label>
+                <div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      value="Male"
+                      defaultValue="option1"
+                      checked={isButtonSelected("male")}
+                      onChange={onChange}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios1"
+                    >
+                      Male
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios2"
+                      value="Female"
+                      defaultValue="option2"
+                      checked={isButtonSelected("female")}
+                      onChange={onChange}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios2"
+                    >
+                      Female
+                    </label>
+                  </div>
                 </div>
               </div> */}
             </div>
-          </div>
-          <button type="submit" className="button">
-            Submit
-          </button>
-          <p>
-            Already Register ? 
-            <Link to="/">Login</Link>
-          </p>
-        </form>
+            <button type="submit" className="button">
+              Submit
+            </button>
+            <p>
+              Already Register ?
+              <Link className="text" to="/Login">
+                Login
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
-    </div>
-    
+    </div> 
   );
 }
