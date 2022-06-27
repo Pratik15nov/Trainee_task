@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
 import Navbar from "./components/Navbar/Navbar";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Categories from "./components/Categories/Categories";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
               <>
                 <Navbar />
                 <Dashboard />
+                <Categories/>
                 <ProductList />
               </>
             }

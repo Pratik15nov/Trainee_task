@@ -5,7 +5,7 @@ import "../Products/product.css";
 const Products = (props) => {
   const [num, setNum] = useState(0);
   const [rate, setRate] = useState(props.card.rate);
-  
+  console.log(setRate)
 
   const incNum = () => {
 
