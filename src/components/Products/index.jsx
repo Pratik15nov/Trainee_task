@@ -5,10 +5,8 @@ import "../Products/product.css";
 const Products = (props) => {
   const [num, setNum] = useState(0);
   const [rate, setRate] = useState(props.card.rate);
-<<<<<<< HEAD
-  console.log(setRate)
-=======
->>>>>>> bfcee15b7362b85ef272f05f95a203b08a201085
+
+  console.log(setRate);
 
   const incNum = () => {
     setNum(Number(num) + 1);
@@ -25,13 +23,12 @@ const Products = (props) => {
   return (
     <div class="cardView">
       <img src={props.card.img} class="card-img-top" alt="..." />
-      <div class="card-body" >
+      <div class="card-body">
         <h4 class="card-title">{props.card.name}</h4>
         {/* <p class="card-text">{props.card.description}</p> */}
       </div>
 
-      
-      <ul class="list-group list-group-flush"  style={{borderRadius:'10px'}} >
+      <ul class="list-group list-group-flush" style={{ borderRadius: "10px" }}>
         <li class="list-group-item">
           <b>
             {" "}
@@ -49,7 +46,7 @@ const Products = (props) => {
           <button className="CounterButton" onClick={incNum}>
             +
           </button>
-          <b  onChange={handleChange} >{num}</b>
+          <b onChange={handleChange}>{num}</b>
           <button className="CounterButton" onClick={decNum}>
             -
           </button>
@@ -61,7 +58,6 @@ const Products = (props) => {
 };
 
 export default Products;
-
 
 // <div class="cardView">
 //       <img src={props.card.img} class="card-img-top" alt="..." />

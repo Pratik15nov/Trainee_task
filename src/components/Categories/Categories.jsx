@@ -6,6 +6,7 @@ import "./Categories.css";
 import { Pagination } from "swiper";
 import { CategoriesData } from "../../Data/CategoriesData.js";
 export default function Categories() {
+    
   return (
     <div>
       <div>
