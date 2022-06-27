@@ -10,7 +10,7 @@ import { validPaasword } from "../helper";
 import { sendData } from "../../services/authservices";
 
 export default function Register() {
-  const [firstname, setFirstname] = useState("");
+  const [firstname, setFirstname] = useState(""); 
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneno, setPhoneno] = useState("");
