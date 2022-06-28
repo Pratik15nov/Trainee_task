@@ -7,9 +7,6 @@ import { validPaasword, validEmail } from "../helper";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 // import { Navigate } from "react-router-dom";
-
-
-
 export default function Login() {
   const [mail, setMail] = useState(" ");
   const [emailErr, setemailErr] = useState(false);
@@ -109,16 +106,13 @@ export default function Login() {
                     New User?<span/>
                     <Link className="text"  to="/Register">Register</Link>
                   </p>
-                  
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-     
     </div>
    </div>
-    
   );
 }

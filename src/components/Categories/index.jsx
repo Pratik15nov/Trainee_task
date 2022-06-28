@@ -6,16 +6,10 @@ import "./Categories.css";
 import { Pagination } from "swiper";
 import { CategoriesData } from "../../Data/CategoriesData.js";
 export default function Categories() {
-    
   return (
     <div>
-      <div>
-        <h1 className="t1">What food you love to order</h1>
-        <p className="t2">
-          Here order your favorite foods from different categories
-        </p>
-      </div>
-
+      <h1>What food you love to order</h1>
+      <p>Here order your favorite foods from different categories</p>
       <Swiper
         slidesPerView={4}
         spaceBetween={5}
@@ -63,9 +57,9 @@ export default function Categories() {
           );
         })}
       </Swiper>
-      <div >
+      <div>
         <img
-            className="ads"
+          className="ads"
           alt="categories"
           src={
             "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
