@@ -31,7 +31,7 @@ export default function App() {
             className="banner"
             alt="bg"
             src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
+              "/images/banner1.jpg"
             }
           />
         </SwiperSlide>
@@ -40,7 +40,7 @@ export default function App() {
             className="banner"
             alt="bg"
             src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
+              "/images/banner2.jpg"
             }
           />
         </SwiperSlide>
@@ -49,7 +49,7 @@ export default function App() {
             className="banner"
             alt="bg"
             src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
+              "/images/banner3.webp"
             }
           />
         </SwiperSlide>

@@ -8,14 +8,10 @@ import { CategoriesData } from "../../Data/CategoriesData.js";
 export default function Categories() {
   return (
     <div>
-      <h1>What food you love to order</h1>
-      <p>Here order your favorite foods from different categories</p>
-      <div>
-        <h1 className="header_one">What food you love to order</h1>
-        <p className="header_two">
-          Here order your favorite foods from different categories
-        </p>
-      </div>
+      <h1 className="header_one">What food you love to order</h1>
+      <p className="header_two">
+        Here order your favorite foods from different categories
+      </p>
 
       <Swiper
         slidesPerView={4}
@@ -64,15 +60,12 @@ export default function Categories() {
           );
         })}
       </Swiper>
-      <div>
-        <img
-          className="ads"
-          alt="categories"
-          src={
-            "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
-          }
-        />
-      </div>
+<div> <img
+        src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
+        className="img-fluid"
+        alt="bg"
+      /></div>
+     
     </div>
   );
 }
