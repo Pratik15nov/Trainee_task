@@ -30,27 +30,21 @@ export default function App() {
           <img
             className="banner"
             alt="bg"
-            src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
-            }
+            src={"/images/VEGETABLE BANNER.jpeg"}
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             className="banner"
             alt="bg"
-            src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
-            }
+            src={"/images/MORE VEGISS BANNER.jpeg"}
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             className="banner"
             alt="bg"
-            src={
-              "https://borobazar.vercel.app/assets/images/hero/banner-4.webp"
-            }
+            src={"/images/VEGISS BANNERrr.jpeg"}
           />
         </SwiperSlide>
       </Swiper>
