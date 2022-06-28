@@ -12,7 +12,7 @@ nav {
 }
 
 nav span {
-  color: #515fc7;
+  color: #02b290;
 }
 
 nav p {
@@ -35,13 +35,13 @@ nav a {
   font-size: 16px;
 }
 nav a:hover {
-  color: #515fc7;
+  color: #02b290;
 }
 
 nav .btn {
   padding: 0.5rem 1rem;
   margin: 0 0 0 0.5rem;
-  border: 1px solid #515fc7;
+  border: 1px solid #02b290;
   border-radius: 5px;
 
   cursor: pointer;
@@ -49,9 +49,9 @@ nav .btn {
 }
 
 .register {
-  background-color: #515fc7;
+  background-color: #02b290;
   color: white;
-  border: 1px solid #515fc7;
+  border: 1px solid #02b290;
   border-radius: 5px;
 }
 
@@ -61,13 +61,13 @@ nav .btn {
 
 .login {
   background-color: white;
-  color: #515fc7;
+  color: #02b290;
 }
 
 .login:hover {
-  background-color: #515fc7;
+  background-color: #02b290;
   color: white;
-  border: 1px solid #515fc7;
+  border: 1px solid #02b290;
   border-radius: 5px;
 }
 

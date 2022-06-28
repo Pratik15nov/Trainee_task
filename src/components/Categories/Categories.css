@@ -10,6 +10,10 @@
   margin: auto;
   text-align: center;
 }
+.cimg:hover{
+  transform: scale(1.1);
+  transition: transform .2s;
+}
 .cimgtext {
   text-align: center;
   padding-bottom: 5%;
