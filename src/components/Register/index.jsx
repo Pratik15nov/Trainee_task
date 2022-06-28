@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Register.css";
-import Loginbg from "./loginbg.svg";
 import { Link } from "react-router-dom";
 import { validEmail } from "../helper";
 import { validName } from "../helper";
@@ -89,12 +88,12 @@ const details = {
       <div className="container ">
       <img
         className="logo"
-        src="https://frontendarmy.com/wp-content/uploads/2022/02/frontendarmy-logo.svg"
-        alt="logo"
+        src="/images/frontendlogo.svg"
+        alt="FRONTENDLOGO"
       />
       <div className="row">
         <div className="col-2">
-          <img className="loginbg" src={Loginbg} alt="login" />
+          <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
         </div>
         <form
           className="form col-1 scaled "

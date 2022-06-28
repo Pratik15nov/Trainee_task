@@ -29,19 +29,19 @@ nav li {
 
 nav a {
   text-decoration: none;
-  color: #121212;
+  color: rgb(18, 18, 18);
   padding: 0 1rem;
   transition: 0.1s ease-in-out;
   font-size: 16px;
 }
 nav a:hover {
-  color: #02b290;
+  color: rgb(2, 178, 144);
 }
 
 nav .btn {
   padding: 0.5rem 1rem;
   margin: 0 0 0 0.5rem;
-  border: 1px solid #02b290;
+  border: 1px solid rgb(2, 178, 144);
   border-radius: 5px;
 
   cursor: pointer;
@@ -49,25 +49,25 @@ nav .btn {
 }
 
 .register {
-  background-color: #02b290;
+  background-color: rgb(2, 178, 144);
   color: white;
-  border: 1px solid #02b290;
+  border: 1px solid rgb(2, 178, 144);
   border-radius: 5px;
 }
 
 .register:hover {
-  background-color: #ffffff;
+  background-color: rgb(255, 255, 255);
 }
 
 .login {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   color: #02b290;
 }
 
 .login:hover {
-  background-color: #02b290;
-  color: white;
-  border: 1px solid #02b290;
+  background-color: rgb(2, 178, 144);
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(2, 178, 144);
   border-radius: 5px;
 }
 
