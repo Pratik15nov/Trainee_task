@@ -7,6 +7,7 @@ import ProductList from "./components/ProductList";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
+import Cart from "./components/Cart";
 
 export default function App() {
   return (
@@ -21,6 +22,15 @@ export default function App() {
                 <Dashboard />
                 <Categories/>
                 <ProductList />
+              </>
+            }
+          />
+           <Route
+            path="/Cart"
+            element={
+              <>
+                <Navbar />
+                <Cart/>
               </>
             }
           />
