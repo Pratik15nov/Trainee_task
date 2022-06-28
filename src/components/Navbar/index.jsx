@@ -4,7 +4,7 @@ import "./Navbar.css";
 export default function Navbar() {
   return (
     <div>
-      <nav className="flex align-center">
+      <nav className="flex align-center fixed-top">
         <p>
           <span>e</span>Commerce
         </p>
