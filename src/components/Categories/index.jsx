@@ -9,10 +9,10 @@ export default function Categories() {
     
   return (
     <div>
-     <h1 className="header_one">What food you love to order</h1>
-        <p className="header_two">
-          Here order your favorite foods from different categories
-        </p>
+      <h1 className="header_one">What food you love to order</h1>
+      <p className="header_two">
+        Here order your favorite foods from different categories
+      </p>
 
       <Swiper
         slidesPerView={4}

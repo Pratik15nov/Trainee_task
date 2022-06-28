@@ -30,21 +30,27 @@ export default function App() {
           <img
             className="banner"
             alt="bg"
-            src={"/images/VEGETABLE BANNER.jpeg"}
+            src={
+              "/images/banner1.jpg"
+            }
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             className="banner"
             alt="bg"
-            src={"/images/MORE VEGISS BANNER.jpeg"}
+            src={
+              "/images/banner2.jpg"
+            }
           />
         </SwiperSlide>
         <SwiperSlide>
           <img
             className="banner"
             alt="bg"
-            src={"/images/VEGISS BANNERrr.jpeg"}
+            src={
+              "/images/banner3.webp"
+            }
           />
         </SwiperSlide>
       </Swiper>
