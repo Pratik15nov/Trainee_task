@@ -49,7 +49,7 @@ export default function App() {
             className="banner"
             alt="bg"
             src={
-              "/images/banner3.webp"
+              "/images/banner3.jpg"
             }
           />
         </SwiperSlide>
