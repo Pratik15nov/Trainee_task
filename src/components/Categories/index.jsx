@@ -10,8 +10,8 @@ export default function Categories() {
   return (
     <div>
       <div>
-        <h1 className="t1">What food you love to order</h1>
-        <p className="t2">
+        <h1 className="header_one">What food you love to order</h1>
+        <p className="header_two">
           Here order your favorite foods from different categories
         </p>
       </div>
@@ -63,9 +63,9 @@ export default function Categories() {
           );
         })}
       </Swiper>
-      <div >
-        <img
-            className="ads"
+      <div>
+        <img className="ads"
+            
           alt="categories"
           src={
             "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"

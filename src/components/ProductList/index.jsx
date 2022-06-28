@@ -6,12 +6,10 @@ import { PopularData } from "../../Data/PopularData.js";
 const ProductList = () => {
   return (
     <div className="ListContainer">
-      <div>
-        <h1 className="t1">Popular product that we sold</h1>
-        <p className="t2">
+      <h1 className="header_one">Popular product that we sold</h1>
+        <p className="header_two">
           We provide best quality & fresh grocery items near your location
         </p>
-      </div>
       {PopularData.map((card, id) => {
         return <Products card={card} id={id} />;
       })}
