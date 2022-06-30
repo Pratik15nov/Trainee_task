@@ -4,6 +4,7 @@ import { PopularData } from "../../Data/PopularData.js";
 import { useState } from "react";
 import CartModal from "../cartModalview";
 
+
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
@@ -27,7 +28,7 @@ const ProductList = (props) => {
 
   return (
     <div>
-      <div className="ListContainer">
+      <div>
         <h1 className="header_one">Popular product that we sold</h1>
         <p className="header_two">
           We provide best quality & fresh grocery items near your location
