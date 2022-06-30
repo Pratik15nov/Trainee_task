@@ -21,7 +21,7 @@ export default function App() {
               <>
                 <Navbar />
                 <Dashboard />
-                <Categories/>
+                <Categories />
                 <ProductList />
                 <Footer/>
               </>
