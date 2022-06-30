@@ -14,7 +14,7 @@ export const PopularData = [
     name: "BOX",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
-    rate: 100,
+    rate: 200,
   },
   {
     id: "3",
@@ -23,7 +23,7 @@ export const PopularData = [
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
 
-    rate: 100,
+    rate: 300,
   },
   {
     id: "4",
@@ -32,7 +32,7 @@ export const PopularData = [
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
 
-    rate: 100,
+    rate: 111111,
   },
   {
     id: "5",

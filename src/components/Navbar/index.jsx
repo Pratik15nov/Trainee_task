@@ -21,7 +21,9 @@ export default function Navbar() {
               {" "}
               <button className="btn login">Log In</button>
             </Link>
+           
             <a href="/">
+              
               <svg
                 className="svg"
                 xmlns="http://www.w3.org/2000/svg"

@@ -8,42 +8,32 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
 }
-
 .cardView:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
-.CounterButton {
-  background-color: rgb(2, 178, 144);
-  color: rgb(240, 248, 255);
-  font-size: 13px;
-  border: none;
-  width: 10%;
-  border-radius: 50%;
-}
 .BuyButton {
   background-color: rgb(2, 178, 144);
-  color: aliceblue;
-  font-size: 17px;
+  color: rgb(240, 248, 255);
+  font-size: 16px;
   border: none;
   height: 2rem;
-  border-radius: 10%;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
 }
-
 .div3 {
   display: flex;
-  justify-content: space-between;
-  margin: 10px;
+  justify-content: space-evenly;
+  margin: 11px;
   align-items: center;
 }
-
+.div4 {
+  font-size: 16px;
+}
 .BuyButton:hover {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
-.CounterButton:hover {
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-}
-
 @media only screen and (max-width: 1200px) {
   .cardView {
     width: 20%;
@@ -51,9 +41,10 @@
   }
   .BuyButton {
     margin-left: 30%;
+    height: 3.5rem;
+    margin: auto;
   }
 }
-
 @media only screen and (max-width: 900px) {
   .cardView {
     width: 28%;
@@ -63,7 +54,6 @@
     margin-left: 30%;
   }
 }
-
 @media only screen and (max-width: 600px) {
   .cardView {
     width: 44%;
@@ -75,125 +65,19 @@
   }
   .div3 {
     display: block;
+    text-align: center;
   }
   .div4 {
     margin-left: 12%;
   }
   .div5 {
-    margin-right: 18%;
+    margin-right: 20%;
+    margin-left: 20%;
   }
 }
-
 @media only screen and (max-width: 355px) {
   .BuyButton {
     margin-left: 30%;
     height: 10%;
-  }
-}
-.modalConatiner {
-  display: flex;
-}
-.headerModal {
-  color: black;
-  background-color: rgb(2, 178, 144);
-}
-
-.modalImage {
-  width: 30rem;
-  height: 17rem;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  border-radius: 10px;
-  margin: 1rem;
-}
-.modalDetails {
-}
-.nameModal {
-  margin-left: 1rem;
-  font-size: 25px;
-}
-.priceModal {
-  margin-left: 1rem;
-  font-size: 25px;
-}
-
-.descriptionModal {
-  margin-left: 1rem;
-  margin-top: 1rem;
-}
-.counterModal {
-  margin-left: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  /* background-color: rgb(243, 245, 249); */
-}
-.counterbuttonModal {
-  background-color: white;
-  color: rgb(0, 1, 1);
-  font-size: 25px;
-  border: none;
-  height: 3rem;
-  border-radius: 50%;
-  width: 3rem;
-}
-.counterNum {
-  margin: 2% 6% 0 6%;
-  font-size: 20px;
-}
-.counterbuttonModal:hover {
-  background-color: rgb(243, 245, 249);
-}
-.addcartToModal {
-  margin-top: 1%;
-}
-.cartbuttonModal {
-  background-color: rgba(47, 46, 65);
-  color: aliceblue;
-  height: 3rem;
-
-  border: none;
-  border-radius: 10px;
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
-.cartbuttonModal:hover {
-  background: rgb(2, 178, 144);
-  color: black;
-}
-
-/* @media only screen and (max-width: 1300px) {
-}
-@media only screen and (max-width: 1200px) {
-  
-}
-
-@media only screen and (max-width: 1024px) {
-  
-}
-
-@media only screen and (max-width: 900px) {
-  
-}
-@media only screen and (max-width: 767px) {
-}
-@media only screen and (max-width: 600px) {
-}
-@media only screen and (max-width: 374px) {
-} */
-
-@media only screen and (max-width: 991px) {
-  .modalImage {
-    height: 9rem;
-  }
-  .counterNum {
-    margin: 4% 7% 0 7%;
-  }
-}
-
-
-
-@media only screen and (max-width: 402px) {
-  .cartbuttonModal {
-    height: 5rem;
   }
 }
