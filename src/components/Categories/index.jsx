@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "./Categories.css";
 import { Pagination } from "swiper";
 import { CategoriesData } from "../../Data/CategoriesData.js";
+
 export default function Categories() {
   return (
     <div>
@@ -47,7 +48,7 @@ export default function Categories() {
       >
         {CategoriesData.map((card, id) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={card.id}>
               <div className="">
                 <div className="cimgcontainer" key={id}>
                   <p className="cimgtext">
@@ -60,12 +61,13 @@ export default function Categories() {
           );
         })}
       </Swiper>
-<div> <img
-        src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
-        className="img-fluid"
-        alt="bg"
-      /></div>
-     
+      <div>
+        <img
+          src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
+          className="img-fluid"
+          alt="bg"
+        />
+      </div>
     </div>
   );
 }

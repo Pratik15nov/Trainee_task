@@ -19,7 +19,6 @@ export default function Login() {
       formIsValid = false;
       setpwdErr("iNVALID PAWSSWORD");
     }
-
     return formIsValid;
   };
 
@@ -34,13 +33,21 @@ export default function Login() {
     <div className="back">
       <div>
         <div>
-          <img className="image-conatiner" src='/images/frontendlogo.svg' alt="LOGO" />
+          <img
+            className="image-conatiner"
+            src="/images/frontendlogo.svg"
+            alt="LOGO"
+          />
         </div>
 
         <div className="row grid-container ">
           <div className="col">
             <div>
-              <img className="side-image" src='/images/sideimage.svg' alt="side img" />
+              <img
+                className="side-image"
+                src="/images/sideimage.svg"
+                alt="side img"
+              />
             </div>
           </div>
           <div className="col">

@@ -1,124 +1,154 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import { PopularData } from "../../Data/PopularData.js";
+import { Link } from "react-router-dom";
+import Cartproduct from "./Cartproduct";
 
 export default function Cart() {
-  console.log(PopularData);
-  const [totalValue,setTotalValue]=useState([]);
+  const [cart, setCart] = useState(PopularData);
+  const [ship, setShip] = useState();
+
+  useEffect(() => {
+    shipCharge();
+  });
+
+  const orderSubtotal = Object.values(cart).reduce(
+    (r, { rate }) => r + rate,
+    0
+  );
+  const handleDelete = (itemId) => {
+    const items = cart.filter((item) => item.id !== itemId);
+    setCart(items);
+  };
+
+  const shipCharge = () => {
+    if (orderSubtotal < 500) {
+      return setShip(40);
+    }
+    return setShip(0);
+  };
+
+  const orderGreaterTehnZero = () => {
+    return orderSubtotal > 0;
+  };
+
+  const deleteAll = () => {
+    setCart([]);
+  };
+
   return (
-    <>
-      <div className="container">
-        <div className="mb-5 row">
-          <div className="pe-xl-5 col-lg-8 card">
-            <div className="cart mb-3">
-              <div className="cart-body" />
-              <div className="main-content">
-                <h4 className="main-heading main">Shopping Cart</h4>
-                <div>
-                  <p>You have {PopularData.length} items in your cart.</p>
-                </div>
+    <div className="container">
+      <div className="mb-5 row">
+        <div
+          className={
+            orderGreaterTehnZero()
+              ? "pe-xl-3 col-lg-8 card "
+              : "pe-xl-3 col-lg-12 card"
+          }
+        >
+          <div className="cart mb-3">
+            <div className="cart-body" />
+            <div className="main-content">
+              <h4 className="main-heading main">Shopping Cart</h4>
+              <div>
+                <p>You have {cart.length} items in your cart.</p>{" "}
               </div>
-              <div className="container scroll  mt-5 ">
-                <div className="d-flex justify-content-center row">
-                  {PopularData.map((card, id) => {
+              <div
+                style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
+              >
+                <button className="dbutton" type="button" onClick={deleteAll}>
+                  Clear all
+                </button>
+              </div>
+            </div>
+            <div className="container scroll mt-5 ">
+              <div className="d-flex justify-content-center row">
+                {cart.length > 0 ? (
+                  cart.map((card, id) => {
                     return (
-                      <div className="col-md-10 main pt-2" key={card.id}>
-                        <div className="row  border rounded  ">
-                          <div className="col-md-3 mt-1">
-                            <img
-                              className="img-fluid img-responsive rounded product-image"
-                              src={card.img}
-                              alt="cardimg"
-                            />
-                          </div>
-                          <div className="col-md-6 mt-3">
-                            <h5>{card.name}</h5>
-                            <div className="mt-1 mb-1 spec-1">
-                              <p>Product id: {card.id}</p>
-                              <p>{card.description}</p>
-                            </div>
-                          </div>
-                          <div className="align-items-center align-content-center col-md-3 border-left mt-1">
-                            <div className="d-flex flex-row align-items-center mt-2">
-                              <h4 className="mr-1">Rs :{card.rate}</h4>
-                            </div>
-                            <div className="d-flex flex-column mt-3 ">
-                              <button className=" dbutton" type="button">
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <Cartproduct
+                        card={card}
+                        key={card.id}
+                        id={id}
+                        onDelete={handleDelete}
+                      />
                     );
-                  })}
-                </div>
+                  })
+                ) : (
+                  <div className="col-md-10 main pt-2">
+                    <img
+                      src="/images/empty-cart.webp"
+                      className="mx-auto d-block"
+                      alt="..."
+                    />
+                    <p className="header_one">Your cart is empty.</p>
+                    <p className="header_two">
+                      Please add product to your cart list
+                    </p>
+                    <Link to="/">
+                      <button className="carthome button">Go to Home</button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          <div className="col-lg-4 main">
-            <div className="mb-5 card">
-              <div className="card-header">
-                <h6 className="mb-0">Order Summary</h6>
-              </div>
-              <div className="py-4 card-body">
-                <p className="text-muted text-sm">
-                  Shipping and additional costs are calculated based on values
-                  you have entered.
-                </p>
-                <table className="table card-text">
-                  <tbody>
-                    <tr>
-                      <th className="py-4">Order Subtotal</th>
-                      <td className="py-4 text-end text-muted">
-                        
-                          <>
-                            Rs.
-                            {/* {PopularData && PopularData.rate.reduce((acc, curr) => console.log("acc",acc,curr))} */}
-                          </>
-                       
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="py-4">Shipping</th>
-                      <td className="py-4 text-end text-muted">
-                        {/* */}Rs.{/* */}10.00
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="py-4">Tax</th>
-                      <td className="py-4 text-end text-muted">Rs. 0.00</td>
-                    </tr>
-                    <tr>
-                      <th className="pt-4 border-0">Total</th>
-                      <td className="pt-4 border-0 text-end h3 fw-normal">
-                        Rs.10.00
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p className="text-muted text-sm">
-                  Final price and discounts will be determined at the time of
-                  payment processing.
-                </p>
-                <div className="overflow-hidden p-0 card-footer">
-                  <div className="d-grid">
-                    <a
-                      role="button"
-                      tabIndex={0}
-                      href="/checkout1"
-                      className="button"
-                    >
-                      Proceed to Checkout
-                    </a>
-                  </div>
+        </div>
+
+        <div
+          style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
+          className="col-lg-4 main"
+        >
+          <div className="mb-5 card">
+            <div className="card-header">
+              <h6 className="mb-0">Order Summary</h6>
+            </div>
+            <div className="py-4 card-body">
+              <p className="text-muted text-sm">
+                Shipping and additional costs are calculated based on values you
+                have entered.
+              </p>
+              <table className="table card-text">
+                <tbody>
+                  <tr>
+                    <th className="py-4">Order Subtotal</th>
+                    <td className="py-4 text-end text-muted">
+                      Rs.{orderSubtotal}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th className="py-4">Shipping Charge</th>
+                    <td className="py-4 text-end text-muted">Rs.{ship}</td>
+                  </tr>
+                  <tr>
+                    <th className="py-4">Tax (SGST+ CGST)</th>
+                    <td className="py-4 text-end text-muted">
+                      Rs.{(orderSubtotal / 100) * 18}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th className="pt-4 border-0">Total</th>
+                    <td className="pt-4 border-0 text-end h3 fw-normal">
+                      Rs.{orderSubtotal + ship + (orderSubtotal / 100) * 18}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p className="text-muted text-sm">
+                Final price and discounts will be determined at the time of
+                payment processing.
+              </p>
+              <div className="overflow-hidden p-0 card-footer">
+                <div className="d-grid">
+                  <Link to="/">
+                    <button className="button">Proceed to Checkout</button>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

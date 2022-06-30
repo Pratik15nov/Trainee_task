@@ -4,9 +4,10 @@ import { useState } from "react";
 import "../Products/product.css";
 const Products = (props) => {
   const [num, setNum] = useState(0);
+  // eslint-disable-next-line
   const [rate, setRate] = useState(props.card.rate);
 
-  console.log(setRate);
+  // console.log(setRate);
 
   const incNum = () => {
     setNum(Number(num) + 1);
@@ -21,17 +22,19 @@ const Products = (props) => {
   };
 
   return (
-    <div class="cardView">
-      <img src={props.card.img} class="card-img-top" alt="..." />
+    <div className="cardView">
+      <img src={props.card.img} className="card-img-top" alt="..." />
 
       <div className="div1">
         <h4 style={{ textAlign: "center" }}>{props.card.name}</h4>
       </div>
-      <div className="d-flex justify-content-center" >
+      <div className="d-flex justify-content-center">
         <button className="CounterButton" onClick={incNum}>
           +
         </button>
-        <b  style={{margin:"2%"}}onChange={handleChange}>{num}</b>
+        <b style={{ margin: "2%" }} onChange={handleChange}>
+          {num}
+        </b>
         <button className="CounterButton" onClick={decNum}>
           -
         </button>
@@ -43,16 +46,13 @@ const Products = (props) => {
             {" "}
             Price:{""} ${rate}
           </b>
-          
         </div>
         <div className="div5">
           <button className="BuyButton">Add to Cart</button>
         </div>
-        
       </div>
     </div>
   );
 };
 
 export default Products;
-
