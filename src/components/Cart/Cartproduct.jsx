@@ -41,4 +41,4 @@ const Cartproduct = (props) => {
     </div>
   );
 };
-export default Cartproduct;
+export default Cartproduct; 

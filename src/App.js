@@ -23,16 +23,17 @@ export default function App() {
                 <Dashboard />
                 <Categories />
                 <ProductList />
-                <Footer/>
+                <Footer />
               </>
             }
           />
-           <Route
+          <Route
             path="/Cart"
             element={
               <>
                 <Navbar />
-                <Cart/>
+                <Cart />
+                <Footer />
               </>
             }
           />

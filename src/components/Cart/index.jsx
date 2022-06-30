@@ -4,13 +4,26 @@ import { PopularData } from "../../Data/PopularData.js";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
 
+
 export default function Cart() {
   const [cart, setCart] = useState(PopularData);
   const [ship, setShip] = useState();
-
+  // const [PopularData, setPopularData] = useState([]);
+   
   useEffect(() => {
     shipCharge();
+    const PopularData = localStorage.getItem("Data");
+    console.log(JSON.parse(PopularData));
   });
+  // const [items, setItems] = useState([]);
+
+  // useEffect(() => {
+  //   const items = JSON.parse(localStorage.getItem("items",));
+  //   if (items) {
+  //     setItems(items);
+  //   }
+  // }, []);
+  // console.log(localStorage.getItem(cartdata));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
@@ -61,7 +74,7 @@ export default function Cart() {
                 </button>
               </div>
             </div>
-            <div className="container scroll mt-5 ">
+            <div className="container scroll  mt-5 ">
               <div className="d-flex justify-content-center row">
                 {cart.length > 0 ? (
                   cart.map((card, id) => {
@@ -78,7 +91,7 @@ export default function Cart() {
                   <div className="col-md-10 main pt-2">
                     <img
                       src="/images/empty-cart.webp"
-                      className="mx-auto d-block"
+                      className=" mx-auto d-block"
                       alt="..."
                     />
                     <p className="header_one">Your cart is empty.</p>
