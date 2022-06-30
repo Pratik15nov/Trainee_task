@@ -8,7 +8,6 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
 import Cart from "./components/Cart";
-import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -23,7 +22,6 @@ export default function App() {
                 <Dashboard />
                 <Categories />
                 <ProductList />
-                <Footer />
               </>
             }
           />
@@ -33,7 +31,6 @@ export default function App() {
               <>
                 <Navbar />
                 <Cart />
-                <Footer />
               </>
             }
           />
