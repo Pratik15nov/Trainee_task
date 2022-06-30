@@ -3,17 +3,15 @@ import "./Cart.css";
 import { PopularData } from "../../Data/PopularData.js";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
-
+import cartdata from "../ProductList";
 
 export default function Cart() {
   const [cart, setCart] = useState(PopularData);
   const [ship, setShip] = useState();
   // const [PopularData, setPopularData] = useState([]);
-   
+
   useEffect(() => {
     shipCharge();
-    const PopularData = localStorage.getItem("Data");
-    console.log(JSON.parse(PopularData));
   });
   // const [items, setItems] = useState([]);
 
@@ -23,7 +21,7 @@ export default function Cart() {
   //     setItems(items);
   //   }
   // }, []);
-  // console.log(localStorage.getItem(cartdata));
+  console.log(localStorage.getItem(cartdata));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
