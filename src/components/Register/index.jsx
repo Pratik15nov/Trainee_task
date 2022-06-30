@@ -67,8 +67,6 @@ const details = {
   phoneNumber: phoneno,
   password:password
 }
-
-
    allData.push(details);
    console.log(allData);
    sendData(allData);
@@ -96,7 +94,7 @@ const details = {
           <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
         </div>
         <form
-          className="form col-1 scaled "
+          className="form col-1 scaled"
           onSubmit={(e) => {
             handleSubmit(e);
           }}
@@ -128,7 +126,7 @@ const details = {
               <input
                 type="text"
                 className="form-control"
-                placeholder="enter user if you are a user   "
+                placeholder="enter user if you are a user"
                 name="role"
                 maxLength={15}
                 id="lastnameErr"

@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "./Categories.css";
 import { Pagination } from "swiper";
 import { CategoriesData } from "../../Data/CategoriesData.js";
+
 export default function Categories() {
   return (
     <div>
@@ -47,7 +48,7 @@ export default function Categories() {
       >
         {CategoriesData.map((card, id) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={card.id}>
               <div className="">
                 <div className="cimgcontainer" key={id}>
                   <p className="cimgtext">

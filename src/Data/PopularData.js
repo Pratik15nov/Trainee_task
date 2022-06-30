@@ -4,7 +4,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "SHOE",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -21,7 +21,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "MOBILE",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 300,
   },
@@ -30,7 +30,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "LAPTOP",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
     rate: 111111,
   },
@@ -39,7 +39,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -48,7 +48,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
@@ -57,7 +57,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -66,7 +66,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -75,7 +75,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
@@ -84,7 +84,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -93,7 +93,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
   },
@@ -102,7 +102,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
@@ -111,7 +111,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -120,7 +120,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
@@ -129,7 +129,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
     rate: 100,
   },
@@ -138,7 +138,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
   },
@@ -147,7 +147,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
   },
@@ -156,7 +156,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
@@ -165,7 +165,7 @@ export const PopularData = [
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
     description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
+      "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
   },
