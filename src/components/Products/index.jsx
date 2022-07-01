@@ -8,16 +8,17 @@ const Products = (props) => {
 
   return (
     <div className="cardView">
-      <img src={props.card.img} className="card-img-top" alt="..." />
+      <img
+        src={props.card.img}
+        className="card-img-top"
+        alt={props.card.name}
+      />
       <div className="div1">
         <h4 style={{ textAlign: "center" }}>{props.card.name}</h4>
       </div>
       <div className="div3">
         <div className="div4">
-          <b>
-            {" "}
-            Price:{""} ${props.card.rate}
-          </b>
+          <b>Price: ${props.card.rate}</b>
         </div>
         <div className="div5">
           <button className="BuyButton" onClick={(e) => passtoParent(e)}>

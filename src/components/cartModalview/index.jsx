@@ -3,23 +3,22 @@ import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 const CartModal = (props) => {
-  const [data, setData] = useState(props.childata);
+  const data = props.childata;
   const [num, setNum] = useState(1);
-  console.log(setData);
   const goBack = () => {
     props.closeHandle();
   };
   const addFunc = () => {
-    props.closeHandle();
     const details = {
-      id: data[0].id,
-      name: data[0].name,
-      img: data[0].img,
-      rate: data[0].rate * num,
-      description: data[0].description,
+      id: data.id,
+      name: data.name,
+      img: data.img,
+      rate: data.rate * num,
+      description: data.description,
       quantity: num,
     };
     props.cartFunc(details);
+    props.closeHandle();
   };
   const incNum = (e) => {
     e.preventDefault();
@@ -48,18 +47,18 @@ const CartModal = (props) => {
       <Modal.Body>
         <div className="modalConatiner">
           <div className="modalImage">
-            <img src={data[0].img} className="card-img-top" alt="..." />
+            <img src={data.img} className="card-img-top" alt="..." />
           </div>
           <div className="modalDetails">
             <div className="nameModal">
-              <b>{data[0].name}</b>
+              <b>{data.name}</b>
             </div>
             <div className="priceModal">
-              <b>Price : </b>${data[0].rate * num}
+              <b>Price : </b>${data.rate * num}
             </div>
             <div className="descriptionModal">
               <b>Description : </b>
-              {data[0].description}
+              {data.description}
             </div>
             <div className="counterModal d-flex justify-content-center">
               <button className="counterbuttonModal" onClick={(e) => incNum(e)}>

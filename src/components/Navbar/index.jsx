@@ -12,7 +12,7 @@ export default function Navbar() {
         <li className="big-screens">
           <Link to="/">Home</Link>
           <Link to="/Categories">Categories</Link>
-          <Link to="/Product">Products</Link>
+          <Link to="/allproducts ">Products</Link>
           <Link to="/Register">
             <button className="btn register">Register</button>
           </Link>

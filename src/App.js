@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
 import Cart from "./components/Cart";
+import Allproducts from "./components/AllProducts";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
               </>
             }
           />
+           <Route path="/allproducts" element={<Allproducts />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
         </Routes>
