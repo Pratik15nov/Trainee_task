@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import { PopularData } from "../../Data/PopularData.js";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
-import cartdata from "../ProductList";
 
 export default function Cart() {
-  const [cart, setCart] = useState(PopularData);
+  const [cart, setCart] = useState([]);
   const [ship, setShip] = useState();
-  // const [PopularData, setPopularData] = useState([]);
+
+  console.log(JSON.parse(localStorage.getItem("Data")));
 
   useEffect(() => {
     shipCharge();
-  });
-  // const [items, setItems] = useState([]);
+    setCart(JSON.parse(localStorage.getItem("Data")));
+    // eslint-disable-next-line
+  }, []);
 
-  // useEffect(() => {
-  //   const items = JSON.parse(localStorage.getItem("items",));
-  //   if (items) {
-  //     setItems(items);
-  //   }
-  // }, []);
-  console.log(localStorage.getItem(cartdata));
+  console.log(JSON.parse(localStorage.Data));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
@@ -30,6 +24,8 @@ export default function Cart() {
   const handleDelete = (itemId) => {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
+    localStorage.setItem("Data", JSON.stringify(items));
+    console.log(itemId);
   };
 
   const shipCharge = () => {
@@ -80,7 +76,6 @@ export default function Cart() {
                       <Cartproduct
                         card={card}
                         key={card.id}
-                        id={id}
                         onDelete={handleDelete}
                       />
                     );

@@ -29,8 +29,7 @@ export const PopularData = [
     id: "4",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "LAPTOP",
-    description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus ",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
     rate: 111111,
   },
@@ -92,8 +91,7 @@ export const PopularData = [
     id: "11",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
-    description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
   },
@@ -128,8 +126,7 @@ export const PopularData = [
     id: "15",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
-    description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus ",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
     rate: 100,
   },
@@ -146,8 +143,7 @@ export const PopularData = [
     id: "17",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
     name: "Country Road",
-    description:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
   },

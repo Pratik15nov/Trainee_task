@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+.body{
+  position: relative;
+}
 .button {
   cursor: pointer;
   background-color: rgba(47, 46, 65);
@@ -10,7 +13,6 @@
   text-decoration: none;
   text-align: center;
   width: 100%;
-  padding-top: 2%;
 }
 .dbutton {
   cursor: pointer;

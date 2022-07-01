@@ -34,6 +34,24 @@ export default function App() {
               </>
             }
           />
+          <Route
+            path="/Categories"
+            element={
+              <>
+                <Navbar />
+                <Categories />
+              </>
+            }
+          />
+          <Route
+            path="/Products"
+            element={
+              <>
+                <Navbar />
+                {/* <ProductList /> */}
+              </>
+            }
+          />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
         </Routes>

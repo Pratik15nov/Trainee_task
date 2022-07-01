@@ -2,10 +2,6 @@ import React from "react";
 import "./Cart.css";
 
 const Cartproduct = (props) => {
-  const deleteHandler = (id) => {
-    props.onDelete(id);
-  };
-
   return (
     <div className="col-md-10 main pt-2" key={props.card.id}>
       <div className="row border rounded">
@@ -31,7 +27,7 @@ const Cartproduct = (props) => {
             <button
               className="dbutton"
               type="button"
-              onClick={() => deleteHandler(props.card.id)}
+              onClick={() => props.onDelete(props.card.id)}
             >
               Delete
             </button>
@@ -41,4 +37,4 @@ const Cartproduct = (props) => {
     </div>
   );
 };
-export default Cartproduct; 
+export default Cartproduct;

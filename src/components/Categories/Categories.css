@@ -1,22 +1,20 @@
-.cimgcontainer {
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+.cimg-container {
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
   border-radius: 10px;
+  margin: 1%;
 }
-.cimgcontainer:hover {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  border-radius: 10px;
-}
-.cimg {
-  margin: auto;
+.categories-img {
   text-align: center;
+  border-radius: 50%;
+  background-color: rgb(240, 248, 255);
 }
 .cimg:hover {
   transform: scale(1.1);
   transition: transform 0.2s;
+  
 }
-.cimgtext {
+.categories-text {
   text-align: center;
-  padding-bottom: 5%;
   font-family: "Inter", sans-serif;
 }
 
@@ -29,9 +27,6 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -41,6 +36,11 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+
+}
+.swip{
+  padding-left: 7%;
+  padding-right: 7%;
 }
 
 .swiper-slide img {
