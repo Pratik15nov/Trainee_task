@@ -1,11 +1,10 @@
-import React from "react";
+import { React } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./Categories.css";
-import { Pagination } from "swiper";
 import { CategoriesData } from "../../Data/CategoriesData.js";
-
+import { Autoplay, Pagination, Navigation } from "swiper";
 export default function Categories() {
   return (
     <div>
@@ -16,10 +15,13 @@ export default function Categories() {
 
       <Swiper
         slidesPerView={4}
-        spaceBetween={5}
-        // pagination={{
-        //   clickable: true,
-        // }}
+        spaceBetween={30}
+        autoplay={{
+          delay: 1500,
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper swip"
         breakpoints={{
           120: {
             slidesPerView: 1,
@@ -43,24 +45,21 @@ export default function Categories() {
             spaceBetween: 50,
           },
         }}
-        modules={[Pagination]}
-        className="mySwiper"
       >
         {CategoriesData.map((card, id) => {
           return (
             <SwiperSlide key={card.id}>
-              <div className="">
-                <div className="cimgcontainer" key={id}>
-                  <p className="cimgtext">
-                    <img src={card.img} className="cimg" alt="categories" />
-                  </p>
-                  <p className="cimgtext">{card.cname}</p>
-                </div>
+              <div className="cimg-container" key={id}>
+                <p className="categories-img">
+                  <img src={card.img} className="cimg" alt="categories" />
+                </p>
+                <p className="categories-text">{card.cname}</p>
               </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
+
       <div>
         <img
           src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
