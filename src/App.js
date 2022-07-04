@@ -8,66 +8,53 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
 import Cart from "./components/Cart";
-// import { useEffect } from "react";
-// import { useState } from "react";
+import Allproducts from "./components/AllProducts";
 
-export default function App() {
-  // const [count, setCount] = useState([]);
-  // useEffect(() => {
-  //   countFunc();
-  // }, []);
-  // const countFunc = () => {
-  //   setCount(JSON.parse(localStorage.getItem("Data")).length);
-  // };
-
-  const count = JSON.parse(localStorage.getItem("Data")) || [];
-  console.log(count);
+export default function App(props) {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Navbar count={count} />
-                <Dashboard />
-                <Categories />
-                <ProductList />
-              </>
-            }
-          />
-          <Route
-            path="/Cart"
-            element={
-              <>
-                <Navbar />
-                <Cart />
-              </>
-            }
-          />
-          <Route
-            path="/Categories"
-            element={
-              <>
-                <Navbar />
-                <Categories />
-              </>
-            }
-          />
-          <Route
-            path="/Products"
-            element={
-              <>
-                <Navbar />
-                {/* <ProductList /> */}
-              </>
-            }
-          />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Dashboard />
+              <Categories />
+              <ProductList />
+            </>
+          }
+        />
+        <Route
+          path="/Cart"
+          element={
+            <>
+              <Navbar />
+              <Cart />
+            </>
+          }
+        />
+        <Route
+          path="/Categories"
+          element={
+            <>
+              <Navbar />
+              <Categories />
+            </>
+          }
+        />
+        <Route
+          path="/Products"
+          element={
+            <>
+              <Navbar />
+              <Allproducts />
+            </>
+          }
+        />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

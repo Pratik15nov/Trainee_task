@@ -4,7 +4,7 @@ import "./Navbar.css";
 import { EventEmitter } from "../../utils/helper";
 
 export default function Navbar() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState([]);
   EventEmitter.subscribe("DATA", (res) => {
     setCount(res);
   });
