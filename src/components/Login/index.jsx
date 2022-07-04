@@ -1,6 +1,6 @@
 import React from "react";
 import "../Login/Login.css";
-import { validPaasword, validEmail } from "../helper";
+import { validPaasword, validEmail } from "../../utils/helper";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 export default function Login() {

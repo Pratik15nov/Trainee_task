@@ -1,3 +1,8 @@
+.data_container{
+
+  margin-top: 4rem;
+}
+
 .cardView {
     width: 20%;
     float: left;
@@ -8,6 +13,7 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 10px;
     margin-bottom: 2%;
+    
   }
   .cardView:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -23,13 +29,13 @@
     border-radius: 5px;
     font-family: "Inter", sans-serif;
   }
-  .div3 {
+  .third_container {
     display: flex;
     justify-content: space-evenly;
     margin: 11px;
     align-items: center;
   }
-  .div4 {
+  .fourth_container {
     font-size: 16px;
   }
   .BuyButton:hover {
@@ -64,14 +70,14 @@
       margin-left: 30%;
       width: 90%;
     }
-    .div3 {
+    .third_container {
       display: block;
       text-align: center;
     }
-    .div4 {
+    .fourth_container{
       margin-left: 12%;
     }
-    .div5 {
+    .fifth_container {
       margin-right: 20%;
       margin-left: 20%;
     }

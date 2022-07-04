@@ -1,10 +1,18 @@
 import "../Products/product.css";
+// import {EventEmitter} from "../utils/EventEmitter";
 
 const Products = (props) => {
   const passtoParent = () => {
     props.parentFunc();
     props.takeData(props.card);
+    // fireCall()
   };
+
+  // const fireCall = () => {
+  //   EventEmitter.emit("addProduct", {
+  //     text: "HELLOW",
+  //   });
+  // };
 
   return (
     <div className="cardView">

@@ -4,6 +4,7 @@ import { PopularData } from "../../Data/PopularData.js";
 import { useState } from "react";
 import CartModal from "../cartModalview";
 import SeeMore from "../SeemoreCard";
+import { EventEmitter } from "../../utils/helper";
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
@@ -25,7 +26,9 @@ const ProductList = (props) => {
         (oldinfo) => oldinfo.id !== cartinfo.id
       ) || [];
     data.push(cartinfo);
+
     localStorage.setItem("Data", JSON.stringify(data));
+    EventEmitter.dispatch("DATA", data);
   };
 
   return (
