@@ -3,7 +3,7 @@ import "../AllProducts/Allproducts.css";
 import { PopularData } from "../../Data/PopularData";
 import CartModal from "../cartModalview";
 import { useState } from "react";
-
+import { EventEmitter } from "../../utils/helper";
 const Allproducts = () => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
@@ -23,6 +23,7 @@ const Allproducts = () => {
       ) || [];
     data.push(cartinfo);
     localStorage.setItem("Data", JSON.stringify(data));
+    EventEmitter.dispatch("DATA", data);
   };
 
   return (

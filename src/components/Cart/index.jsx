@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
+import { EventEmitter } from "../../utils/helper";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -25,6 +26,8 @@ export default function Cart() {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
+    console.log(itemId);
+    EventEmitter.dispatch("DATA", items);
   };
 
   const shipCharge = () => {

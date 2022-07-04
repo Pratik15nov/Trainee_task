@@ -8,6 +8,9 @@ export default function Navbar() {
   EventEmitter.subscribe("DATA", (res) => {
     setCount(res);
   });
+  EventEmitter.subscribe("DELETE", (res) => {
+    setCount(res);
+  });
 
   return (
     <nav className="flex align-center">
