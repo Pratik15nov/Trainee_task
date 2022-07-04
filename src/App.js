@@ -8,8 +8,20 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
 import Cart from "./components/Cart";
+// import { useEffect } from "react";
+// import { useState } from "react";
 
 export default function App() {
+  // const [count, setCount] = useState([]);
+  // useEffect(() => {
+  //   countFunc();
+  // }, []);
+  // const countFunc = () => {
+  //   setCount(JSON.parse(localStorage.getItem("Data")).length);
+  // };
+
+  const count = JSON.parse(localStorage.getItem("Data")) || [];
+  console.log(count);
   return (
     <div>
       <BrowserRouter>
@@ -18,7 +30,7 @@ export default function App() {
             path="/"
             element={
               <>
-                <Navbar />
+                <Navbar count={count} />
                 <Dashboard />
                 <Categories />
                 <ProductList />

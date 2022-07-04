@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Register.css";
 import { Link } from "react-router-dom";
-import { validEmail } from "../helper";
-import { validName } from "../helper";
-import { validPhoneno } from "../helper";
-import { validPaasword } from "../helper";
+import { validEmail } from "../../utils/helper";
+import { validName } from "../../utils/helper";
+import { validPhoneno } from "../../utils/helper";
+import { validPaasword } from "../../utils/helper";
 import { sendData } from "../../services/authservices";
 
 export default function Register() {

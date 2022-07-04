@@ -7,7 +7,7 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const [ship, setShip] = useState();
 
-  console.log(JSON.parse(localStorage.getItem("Data")));
+  // console.log(JSON.parse(localStorage.getItem("Data")));
 
   useEffect(() => {
     shipCharge();
@@ -15,7 +15,7 @@ export default function Cart() {
     // eslint-disable-next-line
   }, []);
 
-  console.log(JSON.parse(localStorage.Data));
+  // console.log(JSON.parse(localStorage.Data));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
@@ -25,7 +25,6 @@ export default function Cart() {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
-    console.log(itemId);
   };
 
   const shipCharge = () => {
