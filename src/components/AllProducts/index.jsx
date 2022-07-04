@@ -28,34 +28,41 @@ const Allproducts = () => {
 
   return (
     <div>
-      <Navbar />
-      {PopularData.map((card) => {
-        return (
-          <div className="cardView">
-            <img src={card.img} className="card-img-top" alt={card.name} />
-            <div className="div1">
-              <h4 style={{ textAlign: "center" }}>{card.name}</h4>
-            </div>
-            <div className="div3">
-              <div className="div4">
-                <b>Price: ${card.rate}</b>
+      <div>
+        <Navbar />
+      </div>
+      <div>
+        {PopularData.map((card) => {
+          return (
+            <div className="cardView">
+              <img src={card.img} className="card-img-top" alt={card.name} />
+              <div className="div1">
+                <h4 style={{ textAlign: "center" }}>{card.name}</h4>
               </div>
-              <div className="div5">
-                <button className="BuyButton" onClick={(e) => parentFunc(card)}>
-                  Buy Now
-                </button>
+              <div className="div3">
+                <div className="div4">
+                  <b>Price: ${card.rate}</b>
+                </div>
+                <div className="div5">
+                  <button
+                    className="BuyButton"
+                    onClick={(e) => parentFunc(card)}
+                  >
+                    Buy Now
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-      {show && (
-        <CartModal
-          childata={childata}
-          cartFunc={cartFunc}
-          closeHandle={closeHandle}
-        />
-      )}
+          );
+        })}
+        {show && (
+          <CartModal
+            childata={childata}
+            cartFunc={cartFunc}
+            closeHandle={closeHandle}
+          />
+        )}
+      </div>
     </div>
   );
 };
