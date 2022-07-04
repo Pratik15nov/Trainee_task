@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { EventEmitter } from "../../utils/helper";
+import { useEffect } from "react";
 
 export default function Navbar() {
+  const storageData = JSON.parse(localStorage.getItem("Data"));
+
+  useEffect(() => {
+    setCount(storageData ? storageData : []);
+  }, []);
+
   const [count, setCount] = useState([]);
+
   EventEmitter.subscribe("DATA", (res) => {
     setCount(res);
   });

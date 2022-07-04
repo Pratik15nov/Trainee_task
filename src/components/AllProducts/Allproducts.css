@@ -1,91 +1,88 @@
-.data_container{
-
-  margin-top: 4rem;
+.data_container {
+  margin-top: 5rem;
 }
 
 .cardView {
+  width: 20%;
+  float: left;
+  margin-left: 3%;
+  margin-right: 2%;
+  margin-top: 2%;
+  font-size: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  margin-bottom: 2%;
+}
+.cardView:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.BuyButton {
+  background-color: rgb(2, 178, 144);
+  color: rgb(240, 248, 255);
+  font-size: 16px;
+  border: none;
+  height: 2rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+}
+.third_container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 11px;
+  align-items: center;
+}
+.fourth_container {
+  font-size: 16px;
+}
+.BuyButton:hover {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+@media only screen and (max-width: 1200px) {
+  .cardView {
     width: 20%;
-    float: left;
-    margin-left: 3%;
-    margin-right: 2%;
-    margin-top: 2%;
-    font-size: 15px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    border-radius: 10px;
-    margin-bottom: 2%;
-    
-  }
-  .cardView:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    font-size: 20px;
   }
   .BuyButton {
-    background-color: rgb(2, 178, 144);
-    color: rgb(240, 248, 255);
-    font-size: 16px;
-    border: none;
-    height: 2rem;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 5px;
-    font-family: "Inter", sans-serif;
+    margin-left: 30%;
+    height: 3.5rem;
+    margin: auto;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .cardView {
+    width: 28%;
+    font-size: 20px;
+  }
+  .BuyButton {
+    margin-left: 30%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .cardView {
+    width: 44%;
+    font-size: 20px;
+  }
+  .BuyButton {
+    margin-left: 30%;
+    width: 90%;
   }
   .third_container {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 11px;
-    align-items: center;
+    display: block;
+    text-align: center;
   }
   .fourth_container {
-    font-size: 16px;
+    margin-left: 12%;
   }
-  .BuyButton:hover {
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  .fifth_container {
+    margin-right: 20%;
+    margin-left: 20%;
   }
-  @media only screen and (max-width: 1200px) {
-    .cardView {
-      width: 20%;
-      font-size: 20px;
-    }
-    .BuyButton {
-      margin-left: 30%;
-      height: 3.5rem;
-      margin: auto;
-    }
+}
+@media only screen and (max-width: 355px) {
+  .BuyButton {
+    margin-left: 30%;
+    height: 10%;
   }
-  @media only screen and (max-width: 900px) {
-    .cardView {
-      width: 28%;
-      font-size: 20px;
-    }
-    .BuyButton {
-      margin-left: 30%;
-    }
-  }
-  @media only screen and (max-width: 600px) {
-    .cardView {
-      width: 44%;
-      font-size: 20px;
-    }
-    .BuyButton {
-      margin-left: 30%;
-      width: 90%;
-    }
-    .third_container {
-      display: block;
-      text-align: center;
-    }
-    .fourth_container{
-      margin-left: 12%;
-    }
-    .fifth_container {
-      margin-right: 20%;
-      margin-left: 20%;
-    }
-  }
-  @media only screen and (max-width: 355px) {
-    .BuyButton {
-      margin-left: 30%;
-      height: 10%;
-    }
-  }
-  
+}

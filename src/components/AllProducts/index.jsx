@@ -28,9 +28,12 @@ const Allproducts = () => {
 
   return (
     <div>
-      <div class="row no-gutters data_container">
+      {/* <div class="row no-gutters data_container">
         <div class="col-6 col-md-4">FILTER</div>
-        <div class="col-12 col-sm-6 col-md-8">{PopularData.map((card) => {
+        <div class="col-12 col-sm-6 col-md-8"> DATA</div>
+      </div> */}
+      <div className="data_container">
+        {PopularData.map((card) => {
           return (
             <div className="cardView">
               <img src={card.img} className="card-img-top" alt={card.name} />
@@ -59,11 +62,8 @@ const Allproducts = () => {
             cartFunc={cartFunc}
             closeHandle={closeHandle}
           />
-        )}</div>
+        )}
       </div>
-      {/* <div className="data_container">
-        
-      </div> */}
     </div>
   );
 };
