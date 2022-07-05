@@ -131,7 +131,7 @@ export default function Cart() {
               </p>
               <div className="overflow-hidden p-0 card-footer">
                 <div className="d-grid">
-                  <Link to="/">
+                  <Link to="/Checkout">
                     <button className="button">Proceed to Checkout</button>
                   </Link>
                 </div>
