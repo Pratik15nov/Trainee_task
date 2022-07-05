@@ -1,19 +1,10 @@
 import "../Products/product.css";
-// import {EventEmitter} from "../utils/EventEmitter";
 
 const Products = (props) => {
   const passtoParent = () => {
     props.parentFunc();
     props.takeData(props.card);
-    // fireCall()
   };
-
-  // const fireCall = () => {
-  //   EventEmitter.emit("addProduct", {
-  //     text: "HELLOW",
-  //   });
-  // };
-
   return (
     <div className="cardView">
       <img
@@ -26,7 +17,7 @@ const Products = (props) => {
       </div>
       <div className="div3">
         <div className="div4">
-          <b>Price: ${props.card.rate}</b>
+          <b>Price: Rs.{props.card.rate}</b>
         </div>
         <div className="div5">
           <button className="BuyButton" onClick={(e) => passtoParent(e)}>

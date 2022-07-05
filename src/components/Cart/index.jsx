@@ -6,17 +6,9 @@ import { EventEmitter } from "../../utils/helper";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-  const [ship, setShip] = useState();
-
-  // console.log(JSON.parse(localStorage.getItem("Data")));
-
   useEffect(() => {
-    shipCharge();
     setCart(JSON.parse(localStorage.getItem("Data")));
-    // eslint-disable-next-line
   }, []);
-
-  // console.log(JSON.parse(localStorage.Data));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
@@ -26,23 +18,7 @@ export default function Cart() {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
-    console.log(itemId);
-    EventEmitter.dispatch("DATA", items);
-  };
-
-  const shipCharge = () => {
-    if (orderSubtotal < 500) {
-      return setShip(40);
-    }
-    return setShip(0);
-  };
-
-  const orderGreaterTehnZero = () => {
-    return orderSubtotal > 0;
-  };
-
-  const deleteAll = () => {
-    setCart([]);
+    EventEmitter.dispatch("DELETE", items);
   };
 
   return (
@@ -50,7 +26,7 @@ export default function Cart() {
       <div className="mb-5 row">
         <div
           className={
-            orderGreaterTehnZero()
+            orderSubtotal > 0
               ? "pe-xl-3 col-lg-8 card "
               : "pe-xl-3 col-lg-12 card"
           }
@@ -62,10 +38,12 @@ export default function Cart() {
               <div>
                 <p>You have {cart.length} items in your cart.</p>{" "}
               </div>
-              <div
-                style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
-              >
-                <button className="dbutton" type="button" onClick={deleteAll}>
+              <div style={{ display: orderSubtotal > 0 ? "block" : "none" }}>
+                <button
+                  className="dbutton"
+                  type="button"
+                  onClick={() => setCart([])}
+                >
                   Clear all
                 </button>
               </div>
@@ -104,7 +82,7 @@ export default function Cart() {
         </div>
 
         <div
-          style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
+          style={{ display: orderSubtotal > 0 ? "block" : "none" }}
           className="col-lg-4 main"
         >
           <div className="mb-5 card">
@@ -126,7 +104,9 @@ export default function Cart() {
                   </tr>
                   <tr>
                     <th className="py-4">Shipping Charge</th>
-                    <td className="py-4 text-end text-muted">Rs.{ship}</td>
+                    <td className="py-4 text-end text-muted">
+                      Rs.{orderSubtotal > 500 ? "0" : "40"}
+                    </td>
                   </tr>
                   <tr>
                     <th className="py-4">Tax (SGST+ CGST)</th>
@@ -137,7 +117,10 @@ export default function Cart() {
                   <tr>
                     <th className="pt-4 border-0">Total</th>
                     <td className="pt-4 border-0 text-end h3 fw-normal">
-                      Rs.{orderSubtotal + ship + (orderSubtotal / 100) * 18}
+                      Rs.
+                      {orderSubtotal > 500
+                        ? orderSubtotal + (orderSubtotal / 100) * 18
+                        : orderSubtotal + 40 + (orderSubtotal / 100) * 18}
                     </td>
                   </tr>
                 </tbody>
