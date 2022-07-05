@@ -6,17 +6,9 @@ import { EventEmitter } from "../../utils/helper";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-  const [ship, setShip] = useState();
-
-  // console.log(JSON.parse(localStorage.getItem("Data")));
-
   useEffect(() => {
-    shipCharge();
     setCart(JSON.parse(localStorage.getItem("Data")));
-    // eslint-disable-next-line
   }, []);
-
-  // console.log(JSON.parse(localStorage.Data));
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { rate }) => r + rate,
@@ -27,14 +19,7 @@ export default function Cart() {
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
     console.log(itemId);
-    EventEmitter.dispatch("DATA", items);
-  };
-
-  const shipCharge = () => {
-    if (orderSubtotal < 500) {
-      return setShip(40);
-    }
-    return setShip(0);
+    EventEmitter.dispatch("DELETE", items);
   };
 
   const orderGreaterTehnZero = () => {
@@ -126,7 +111,9 @@ export default function Cart() {
                   </tr>
                   <tr>
                     <th className="py-4">Shipping Charge</th>
-                    <td className="py-4 text-end text-muted">Rs.{ship}</td>
+                    <td className="py-4 text-end text-muted">
+                      Rs.{orderSubtotal > 500 ? "0" : "40"}
+                    </td>
                   </tr>
                   <tr>
                     <th className="py-4">Tax (SGST+ CGST)</th>
@@ -137,7 +124,10 @@ export default function Cart() {
                   <tr>
                     <th className="pt-4 border-0">Total</th>
                     <td className="pt-4 border-0 text-end h3 fw-normal">
-                      Rs.{orderSubtotal + ship + (orderSubtotal / 100) * 18}
+                      Rs.
+                      {orderSubtotal > 500
+                        ? orderSubtotal + (orderSubtotal / 100) * 18
+                        : orderSubtotal + 40 + (orderSubtotal / 100) * 18}
                     </td>
                   </tr>
                 </tbody>
@@ -148,7 +138,7 @@ export default function Cart() {
               </p>
               <div className="overflow-hidden p-0 card-footer">
                 <div className="d-grid">
-                  <Link to="/">
+                  <Link to="/Checkout">
                     <button className="button">Proceed to Checkout</button>
                   </Link>
                 </div>

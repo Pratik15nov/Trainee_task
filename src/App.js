@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard";
 import Categories from "./components/Categories";
 import Cart from "./components/Cart";
 import Allproducts from "./components/AllProducts";
+import Checkout from "./components/Checkout";
 
 export default function App(props) {
   return (
@@ -49,6 +50,15 @@ export default function App(props) {
             <>
               <Navbar />
               <Allproducts />
+            </>
+          }
+        />
+         <Route
+          path="/Checkout"
+          element={
+            <>
+              <Navbar />
+              <Checkout />
             </>
           }
         />
