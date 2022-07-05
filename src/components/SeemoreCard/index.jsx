@@ -7,7 +7,7 @@ const SeeMore = () => {
     <div className="see_more_card">
       <div className="display_container">
         {" "}
-        <Link to="/allproducts">
+        <Link to="/Products">
           {" "}
           <button className="see_more_button">SEE MORE</button>
         </Link>

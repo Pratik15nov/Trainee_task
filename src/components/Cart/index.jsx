@@ -18,6 +18,7 @@ export default function Cart() {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
+<<<<<<< HEAD
     console.log(itemId);
     EventEmitter.dispatch("DELETE", items);
   };
@@ -28,6 +29,9 @@ export default function Cart() {
 
   const deleteAll = () => {
     setCart([]);
+=======
+    EventEmitter.dispatch("DELETE", items);
+>>>>>>> 963b0c6f51810626ce77f7bcddb5c35755c0cac6
   };
 
   return (
@@ -35,7 +39,7 @@ export default function Cart() {
       <div className="mb-5 row">
         <div
           className={
-            orderGreaterTehnZero()
+            orderSubtotal > 0
               ? "pe-xl-3 col-lg-8 card "
               : "pe-xl-3 col-lg-12 card"
           }
@@ -47,10 +51,12 @@ export default function Cart() {
               <div>
                 <p>You have {cart.length} items in your cart.</p>{" "}
               </div>
-              <div
-                style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
-              >
-                <button className="dbutton" type="button" onClick={deleteAll}>
+              <div style={{ display: orderSubtotal > 0 ? "block" : "none" }}>
+                <button
+                  className="dbutton"
+                  type="button"
+                  onClick={() => setCart([])}
+                >
                   Clear all
                 </button>
               </div>
@@ -89,7 +95,7 @@ export default function Cart() {
         </div>
 
         <div
-          style={{ display: orderGreaterTehnZero() ? "block" : "none" }}
+          style={{ display: orderSubtotal > 0 ? "block" : "none" }}
           className="col-lg-4 main"
         >
           <div className="mb-5 card">

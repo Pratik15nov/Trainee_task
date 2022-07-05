@@ -2,167 +2,186 @@ export const PopularData = [
   {
     id: "1",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "SHOE",
+    name: "MILK",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
-
     rate: 100,
+    category:"dairyproducts"
   },
   {
     id: "2",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "BOX",
+    name: "CURD",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti   ",
     rate: 200,
+    category:"dairyproducts"
   },
   {
     id: "3",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "MOBILE",
+    name: "BUTTER",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 300,
+    category:"dairyproducts"
   },
   {
     id: "4",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "LAPTOP",
+    name: "CHEESE",
     description: "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
-    rate: 111111,
+    rate: 450,
+    category:"dairyproducts"
   },
   {
     id: "5",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "PANNER",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"dairyproducts"
   },
   {
     id: "6",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "SHIRTS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"clothingwear"
   },
   {
     id: "7",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "JEANS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"clothingwear"
   },
   {
     id: "8",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "T-SHIRTS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"clothingwear"
   },
   {
     id: "9",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "SHORTS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"clothingwear"
   },
   {
     id: "10",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "JACKETS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"clothingwear"
   },
   {
     id: "11",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "SPORTS",
     description: "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
+    category:"footwear"
   },
   {
     id: "12",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "FORMAL",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"footwear"
   },
   {
     id: "13",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "CASUAL",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"footwear"
   },
   {
     id: "14",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "SLIPPERS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"footwear"
   },
   {
     id: "15",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "HOLE SHOES",
     description: "At vero eos et accusamus et iusto odio dignissimos ducimus ",
 
     rate: 100,
+    category:"footwear"
   },
   {
     id: "16",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "ROLEX",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus   ",
 
     rate: 100,
+    category:"accessories"
   },
   {
     id: "17",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "ANKLETS",
     description: "At vero eos et accusamus et iusto odio dignissimos ducimus  ",
 
     rate: 100,
+    category:"accessories"
+
   },
   {
     id: "18",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "CHAINS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"accessories"
   },
   {
     id: "19",
     img: "https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fcategory%2Ffruits-items.png&w=384&q=100",
-    name: "Country Road",
+    name: "NOSE PINS",
     description:
       "At vero eos et accusamus et iusto odio dignissimos ducimus    ",
 
     rate: 100,
+    category:"accessories"
   },
 ];
