@@ -44,7 +44,8 @@ const Allproducts = (props) => {
               <div className="cardView">
                 <img src={card.img} className="card-img-top" alt={card.name} />
                 <div className="div1">
-                  <h4 style={{ textAlign: "center" }}>{card.name}</h4>
+                  {/* <h4 style={{ textAlign: "center" }}>{card.name}</h4> */}
+                  <p className="font_cardView" ><b>{card.name}</b></p>
                 </div>
                 <div className="third_container">
                   <div className="fourth_container">

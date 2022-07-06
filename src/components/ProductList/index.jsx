@@ -45,6 +45,7 @@ const ProductList = (props) => {
                 parentFunc={parentFunc}
                 takeData={takeData}
                 card={card}
+                key={card.id}
               />
             );
           })}
