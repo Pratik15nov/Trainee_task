@@ -6,16 +6,16 @@ import { useEffect } from "react";
 
 export default function Navbar() {
   const storageData = JSON.parse(localStorage.getItem("Data"));
-
+  const [count, setCount] = useState([]);
   useEffect(() => {
     setCount(storageData ? storageData : []);
+    // eslint-disable-next-line
   }, []);
-
-  const [count, setCount] = useState([]);
 
   EventEmitter.subscribe("DATA", (res) => {
     setCount(res);
   });
+
   EventEmitter.subscribe("DELETE", (res) => {
     setCount(res);
   });

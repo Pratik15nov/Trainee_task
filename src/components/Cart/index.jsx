@@ -18,20 +18,7 @@ export default function Cart() {
     const items = cart.filter((item) => item.id !== itemId);
     setCart(items);
     localStorage.setItem("Data", JSON.stringify(items));
-<<<<<<< HEAD
-    console.log(itemId);
     EventEmitter.dispatch("DELETE", items);
-  };
-
-  const orderGreaterTehnZero = () => {
-    return orderSubtotal > 0;
-  };
-
-  const deleteAll = () => {
-    setCart([]);
-=======
-    EventEmitter.dispatch("DELETE", items);
->>>>>>> 963b0c6f51810626ce77f7bcddb5c35755c0cac6
   };
 
   return (
@@ -112,25 +99,25 @@ export default function Cart() {
                   <tr>
                     <th className="py-4">Order Subtotal</th>
                     <td className="py-4 text-end text-muted">
-                      Rs.{orderSubtotal}
+                      Rs : {orderSubtotal}
                     </td>
                   </tr>
                   <tr>
                     <th className="py-4">Shipping Charge</th>
                     <td className="py-4 text-end text-muted">
-                      Rs.{orderSubtotal > 500 ? "0" : "40"}
+                      Rs : {orderSubtotal > 500 ? "0" : "40"}
                     </td>
                   </tr>
                   <tr>
                     <th className="py-4">Tax (SGST+ CGST)</th>
                     <td className="py-4 text-end text-muted">
-                      Rs.{(orderSubtotal / 100) * 18}
+                      Rs : {(orderSubtotal / 100) * 18}
                     </td>
                   </tr>
                   <tr>
                     <th className="pt-4 border-0">Total</th>
                     <td className="pt-4 border-0 text-end h3 fw-normal">
-                      Rs.
+                      Rs : 
                       {orderSubtotal > 500
                         ? orderSubtotal + (orderSubtotal / 100) * 18
                         : orderSubtotal + 40 + (orderSubtotal / 100) * 18}

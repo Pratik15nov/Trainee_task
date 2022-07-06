@@ -77,20 +77,3 @@ const Allproducts = (props) => {
 
 export default Allproducts;
 
-{
-  /* <div className="navbar" onClick={()=>console.log("WORKS")} >
-<label for="touch" className="label_nav"  >
-  <span>Categorey name</span>
-</label>
-<input type="checkbox" id="touch" />
-
-<ul class="slide">
-  <li>
-    <a href="/">Sub category</a>
-  </li>
-  <li>
-    <a href="/">Sub category</a>
-  </li>
-</ul>
-</div> */
-}
