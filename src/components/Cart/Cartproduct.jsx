@@ -15,7 +15,7 @@ const Cartproduct = (props) => {
         <div className="col-md-6 mt-3">
           <h5>{props.card.name}</h5>
           <div className="mt-1 mb-1 spec-1">
-            <p>Product id: {props.card.id}</p>
+            <p>Product Quantity : {props.card.quantity}</p>
             <p>{props.card.description}</p>
           </div>
         </div>
