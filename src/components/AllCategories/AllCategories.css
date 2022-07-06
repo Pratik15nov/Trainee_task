@@ -9,8 +9,11 @@
 }
 .navbar span {
   padding: 20px;
-  background: rgb(112, 162, 152);
-  color: rgb(255, 255, 255);
+  /* background: rgb(7, 104, 84); */
+  /* background:rgb(195, 255, 221); */
+  background:rgb(6, 178, 144) ;
+  color: rgb(0, 0, 0);
+
   font-size: 1.2em;
   font-variant: small-caps;
   cursor: pointer;
@@ -25,8 +28,10 @@
   margin-left: 10%;
 }
 .navbar span:hover {
-  background: rgb(7, 104, 84);
-  color: rgb(0, 0, 0);
+  
+  /* background: rgb(112, 162, 152);*/
+  background: rgb(6, 7, 7);
+  color: rgb(255, 255, 255);
 }
 /* .navbar span::after {
     float: right;
@@ -60,3 +65,19 @@
   overflow-y: scroll;
   height: 420px;
 }
+/*USE THIS FOR A DROPDON IF HAVE SUBCATEGORIES */
+/* <div className="navbar" onClick={()=>console.log("WORKS")} >
+<label for="touch" className="label_nav"  >
+  <span>Categorey name</span>
+</label>
+<input type="checkbox" id="touch" />
+
+<ul class="slide">
+  <li>
+    <a href="/">Sub category</a>
+  </li>
+  <li>
+    <a href="/">Sub category</a>
+  </li>
+</ul>
+</div> */

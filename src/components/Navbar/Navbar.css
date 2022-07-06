@@ -59,7 +59,8 @@ nav a:hover {
   background-color: rgb(196, 255, 222);
   border-radius: 10px;
   padding-right: 5px;
-  padding-left: 5px;
+  /* padding-left: 5px; */
+  padding-left: 13px;
   font-size: 16px;
   color: rgb(0, 0, 0);
 }
@@ -75,9 +76,26 @@ nav .btn {
 
 .register {
   background-color: rgb(2, 178, 144);
-  color: white;
+  color: rgb(255, 255, 255);
   border: 1px solid rgb(2, 178, 144);
   border-radius: 5px;
+  animation-name: btn_register;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+@keyframes btn_register {
+  0% {
+    background-color: rgb(2, 178, 144);
+  }
+  25% {
+    background-color: rgb(108, 239, 30);
+  }
+  50% {
+    background-color: rgb(3, 131, 34);
+  }
+  100% {
+    background-color: rgb(0, 128, 0) 46;
+  }
 }
 
 .register:hover {
@@ -86,7 +104,7 @@ nav .btn {
 
 .login {
   background-color: rgb(255, 255, 255);
-  color: #02b290;
+  color: rgb(0, 0, 0);
 }
 
 .login:hover {
@@ -95,24 +113,167 @@ nav .btn {
   border: 1px solid rgb(2, 178, 144);
   border-radius: 5px;
 }
-
-@media screen and (min-width: 850px) {
-  nav .small-screens {
-    display: none;
-  }
+/* hamburger css*/
+.ham_btn {
+  border: 1px solid rgb(2, 178, 144);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  width: 7rem;
+  height: 3rem;
+}
+.btn_register {
+  background-color: rgb(2, 178, 144);
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(2, 178, 144);
+  border-radius: 5px;
+  text-align: center;
+  padding: 0%;
+}
+.btn_register:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(2, 178, 144);
+}
+.btn_login {
+  background-color: rgb(255, 255, 255);
+  color: rgb(2, 178, 144);
+  text-align: center;
+  padding: 0%;
+}
+.btn_login:hover {
+  background-color: rgb(2, 178, 144);
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(2, 178, 144);
+  border-radius: 5px;
 }
 
-@media screen and (max-width: 850px) {
-  nav {
-    padding: 1rem 5vw;
-  }
+#hamburger-input {
+  display: none;
+}
 
-  nav .small-screens i {
-    font-size: 25px;
-    cursor: pointer;
-  }
+#hamburger-menu {
+  position: fixed;
+  top: 2%;
+  right: 2%;
+  width: 4%;
+  height: 3%;
+  display: none;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Cabin", Sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #121212,
+    #121212 20%,
+    #c4ffde 20%,
+    #c4ffde 40%,
+    #121212 40%,
+    #121212 60%,
+    #c4ffde 60%,
+    #c4ffde 80%,
+    #121212 80%,
+    #121212 100%
+  );
+  /* background: linear-gradient(
+    to bottom,
+    #b8b8b8,
+    #b8b8b8 20%,
+    #c4ffde 20%,
+    #c4ffde 40%,
+    #b8b8b8 40%,
+    #b8b8b8 60%,
+    #c4ffde 60%,
+    #c4ffde 80%,
+    #b8b8b8 80%,
+    #b8b8b8 100%
+  ); */
+}
 
-  nav .big-screens {
+#hamburger-menu #sidebar-menu {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 55%;
+  height: 100%;
+  background-color: rgb(255 255 255 / 90%);
+  transition: 0.3s;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+
+#hamburger-menu ul {
+  padding-left: 8px;
+  margin-top: 10px;
+}
+
+#hamburger-menu li {
+  list-style-type: none;
+  line-height: 3rem;
+  margin: 20px 0px 0px 0px;
+}
+
+#hamburger-menu a {
+  color: rgb(0, 0, 0);
+  font-size: 1.3rem;
+  text-decoration: none;
+}
+
+#hamburger-menu a:hover {
+  color: rgb(2, 178, 144);
+}
+
+#hamburger-input:checked + #hamburger-menu #sidebar-menu {
+  visibility: visible;
+  left: 0;
+}
+.ham_cart {
+  display: none;
+}
+
+/*gduvaud*/
+
+@media only screen and (max-width: 900px) {
+  .logo {
+    font-size: 20px;
+  }
+  nav a {
+    padding-left: 0%;
+    margin-right: 10px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .big-screens {
     display: none;
+  }
+  #hamburger-menu {
+    display: inline;
+  }
+  .ham_cart {
+    display: flex;
+    margin-right: 18px;
+    margin-top: -15px;
+  }
+  .svg {
+    margin-left: 5px;
+    margin-right: 4px;
+  }
+  .count {
+    padding-left: 5px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .ham_cart {
+    margin-top: -17%;
+  }
+}
+@media only screen and (max-width: 374px) {
+  #hamburger-menu {
+    width: 7%;
+    right: 3%;
+  }
+  .ham_cart {
+    margin-top: -11%;
   }
 }

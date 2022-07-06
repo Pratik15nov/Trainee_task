@@ -44,7 +44,8 @@ const Allproducts = (props) => {
               <div className="cardView">
                 <img src={card.img} className="card-img-top" alt={card.name} />
                 <div className="div1">
-                  <h4 style={{ textAlign: "center" }}>{card.name}</h4>
+                  {/* <h4 style={{ textAlign: "center" }}>{card.name}</h4> */}
+                  <p className="font_cardView" ><b>{card.name}</b></p>
                 </div>
                 <div className="third_container">
                   <div className="fourth_container">
@@ -77,20 +78,4 @@ const Allproducts = (props) => {
 
 export default Allproducts;
 
-{
-  /* <div className="navbar" onClick={()=>console.log("WORKS")} >
-<label for="touch" className="label_nav"  >
-  <span>Categorey name</span>
-</label>
-<input type="checkbox" id="touch" />
 
-<ul class="slide">
-  <li>
-    <a href="/">Sub category</a>
-  </li>
-  <li>
-    <a href="/">Sub category</a>
-  </li>
-</ul>
-</div> */
-}
