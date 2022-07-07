@@ -36,7 +36,19 @@ export default function Navbar() {
       <ul>
         <li className="big-screens">
           <Link to="/">Home</Link>
-          <Link to="/Categories">Categories</Link>
+          {/* */}
+
+          <div className="list_categories">
+            <Link to="/Categories">Categories</Link>
+            <div className="dropdown_list">
+              <p>LINK</p>
+              <p>LINK</p>
+              <p>LINK</p>
+              <p>LINK</p>
+            </div>
+          </div>
+
+          {/* */}
           <Link to="/Products">Products</Link>
           <Link to="/Register">
             <button className="btn register">Register</button>

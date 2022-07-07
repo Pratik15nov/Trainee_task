@@ -277,3 +277,19 @@ nav .btn {
     margin-top: -11%;
   }
 }
+.list_categories {
+  color: red;
+  position: relative;
+  margin-bottom: 2px;
+}
+.dropdown_list {
+  display: none;
+  position: absolute;
+  width: 9rem;
+  height: auto;
+  border: 2px solid red;
+  margin-top: 20%;
+} 
+
+.list_categories:hover .dropdown_list{display: block;}
+

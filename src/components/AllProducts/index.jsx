@@ -54,6 +54,7 @@ const Allproducts = (props) => {
                   <div className="fifth_conatiner">
                     <button
                       className="BuyButton"
+                      // className="button "
                       onClick={(e) => parentFunc(card)}
                     >
                       Buy Now
