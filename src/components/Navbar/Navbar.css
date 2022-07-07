@@ -278,7 +278,6 @@ nav .btn {
   }
 }
 .list_categories {
-  color: red;
   position: relative;
   margin-bottom: 2px;
 }
@@ -287,9 +286,24 @@ nav .btn {
   position: absolute;
   width: 9rem;
   height: auto;
-  border: 2px solid red;
-  margin-top: 20%;
+  margin-left: 12%;
+  background-color:#c4ffde;
+  border: 1px solid #e1e1e1;
+  border-radius: 5%;
+}
+.list_content {
+  margin-top: 4%;
+  border-radius: 18%;
+}
+
+.list_categories:hover .dropdown_list {
+  display: block;
+}
+.list_content p {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10%;
+}
+.list_content :hover{
+color: rgb(2, 178, 144);;
 } 
-
-.list_categories:hover .dropdown_list{display: block;}
-
