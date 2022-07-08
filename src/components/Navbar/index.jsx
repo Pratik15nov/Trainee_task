@@ -16,6 +16,7 @@ export default function Navbar() {
   const pushPath = () => {
     navigate("/Cart");
   };
+  const [count, setCount] = useState([]);
 
   EventEmitter.subscribe("DATA", (res) => {
     setCount(res);

@@ -2,7 +2,7 @@ import React, { useEffect, useState ,useRef} from "react";
 import "./Order.css";
 import { useReactToPrint } from "react-to-print";
 export default function Order() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]); 
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("Data")));
