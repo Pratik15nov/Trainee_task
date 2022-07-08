@@ -4,11 +4,6 @@ import "./Navbar.css";
 import { EventEmitter } from "../../utils/helper";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PopularData } from "../../Data/PopularData";
-import { DairyProducts } from "../../Data/DairyProductsData";
-import { FootWear } from "../../Data/FootWearData";
-import { ClothingWear } from "../../Data/ClothingWearData";
-import { Accessories } from "../../Data/AccessoriesData";
 
 export default function Navbar() {
   const storageData = JSON.parse(localStorage.getItem("Data"));
@@ -18,10 +13,6 @@ export default function Navbar() {
     setCount(storageData ? storageData : []);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const fetchFunc = () => {
-    EventEmitter.dispatch("PopularData", DairyProducts);
-    navigate("/Products");
-  };
   const pushPath = () => {
     navigate("/Cart");
   };
@@ -48,28 +39,27 @@ export default function Navbar() {
           {/* */}
 
           <div className="list_categories">
-            <Link to="/Categories">Categories</Link>
+            <Link to="/">Categories</Link>
             <div className="dropdown_list">
-              <div className="list_content">
-                <p>All Products</p>
-              </div>
-              <div className="list_content">
-                <p onClick={() => fetchFunc()}>Dairy Items</p>
-              </div>
-              <div className="list_content">
-                <p>Clothing Wear</p>
-              </div>
-              <div className="list_content">
-                <p>FootWears</p>
-              </div>
-              <div className="list_content">
-                <p>Accessories</p>
-              </div>
+              <Link to="/Products" state={{ data: "dairy" }}>
+                <p> Dairy Items</p>
+              </Link>
+              <Link to="/Products" state={{ data: "cloth" }}>
+                <p> Clothing Wear</p>
+              </Link>
+              <Link to="/Products" state={{ data: "foot" }}>
+                <p>FootWear </p>
+              </Link>
+              <Link to="/Products" state={{ data: "Accessories" }}>
+                <p>Accessories </p>
+              </Link>
             </div>
           </div>
 
           {/* */}
-          <Link to="/Products">Products</Link>
+          <Link to="/Products" state={{ data: "seeall" }}>
+            Products
+          </Link>
           <Link to="/Register">
             <button className="btn register">Register</button>
           </Link>
@@ -99,6 +89,7 @@ export default function Navbar() {
           <i className="fa-solid fa-bars" />
         </li>
       </ul>
+      {/* the below div is invoked when max-width is 767px(for samll devices)*/}
       <div>
         <div className="ham_cart" onClick={() => pushPath()}>
           <span className="count">{count.length}</span>
@@ -136,10 +127,26 @@ export default function Navbar() {
                 <Link to="/"> Home</Link>
               </li>
               <li>
-                <Link to="/Categories"> Categories</Link>
+                <Link to="/Products"> Products</Link>
               </li>
               <li>
-                <Link to="/Products"> Products</Link>
+                <div className="cellview_list">
+                  <Link to="/">Categories</Link>
+                  <div className="cellview_dropdown">
+                    <Link to="/Products" state={{ data: "dairy" }}>
+                      <p> Dairy Items</p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "cloth" }}>
+                      <p> Clothing Wear</p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "foot" }}>
+                      <p>FootWear </p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "Accessories" }}>
+                      <p>Accessories </p>
+                    </Link>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
