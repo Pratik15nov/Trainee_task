@@ -14,5 +14,27 @@
   color: #6c757d;
   padding-top: 3%;
   padding-bottom: 3%;
-
 }
+
+.customcard {
+  padding: 2%;
+
+  margin: 10px;
+}
+/* .invoice {
+  
+  font-family: "Inter", sans-serif;
+}
+.card-body {
+  margin: 3%;
+  padding: 2%;
+}
+.maincard {
+    margin: 7%;
+}
+.invoicecard{
+    margin-left: 7%;
+    margin-right: 7%;
+    margin-bottom:2%;
+} */
+

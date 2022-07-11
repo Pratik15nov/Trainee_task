@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
-.body{
+.body {
   position: relative;
 }
 .button {
@@ -25,8 +25,26 @@
   text-decoration: none;
 }
 .errorstyle {
-  color: rgb(255, 0, 0);
+  color: rgb(23, 2, 2);
+  background-color: rgb(252, 157, 157);
+  border-radius: 5px;
+  margin-top: 2%;
+  font-size: 14px;
+  margin-bottom: 0rem rem;
+  text-align: center;
+  padding: 3px;
 }
+
+.Sstyle {
+  color: rgb(23, 2, 2);
+  background-color: rgb(174, 255, 172);
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+  padding: 3px;
+  align-items: center;
+}
+
 .text {
   text-decoration: none;
 }
@@ -45,4 +63,24 @@
   text-align: center;
   font-family: "Inter", sans-serif;
   font-size: 18px;
+}
+.badge {
+  background-color: rgb(116, 189, 115);
+  padding: 3px;
+}
+#RFS-StepButton {
+  /* background-color: rgba(47, 46, 65); */
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+}
+/* .StepButton-d6-0-2-26.active{
+  background-color: rgba(47, 46, 65);
+} */
+#RFS-Label {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+}
+#activeColor {
+  background-color: rgba(47, 46, 65);
 }
