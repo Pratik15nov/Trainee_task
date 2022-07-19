@@ -6,10 +6,10 @@ import { validEmail } from "../../utils/helper";
 import { validName } from "../../utils/helper";
 import { validPhoneno } from "../../utils/helper";
 import { validPaasword } from "../../utils/helper";
-import { sendData } from "../../services/authservices";
+// import { sendData } from "../../services/authservices";
 
 export default function Register() {
-  const [firstname, setFirstname] = useState(""); 
+  const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneno, setPhoneno] = useState("");
@@ -59,18 +59,18 @@ export default function Register() {
       localStorage.setItem("password", JSON.stringify(password));
     }
     e.preventDefault();
- 
-const details = {
-  username:firstname,
-  role:lastname,
-  email:email,
-  phoneNumber: phoneno,
-  password:password
-}
-   allData.push(details);
-   console.log(allData);
-   sendData(allData);
-    
+
+    const details = {
+      username: firstname,
+      role: lastname,
+      email: email,
+      phoneNumber: phoneno,
+      password: password,
+    };
+    allData.push(details);
+    console.log(allData);
+    //  sendData(allData);
+
     // sendData(localStorage);
   };
   // const isButtonSelected = (value) => {
@@ -82,27 +82,27 @@ const details = {
   //   setSelected(e.target.value);
   // };
   return (
-    <div  className="back">
+    <div className="back">
       <div className="container ">
-      <img
-        className="logo"
-        src="/images/frontendlogo.svg"
-        alt="FRONTENDLOGO"
-      />
-      <div className="row">
-        <div className="col-2">
-          <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
-        </div>
-        <form
-          className="form col-1 scaled"
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-          method="post"
-        >
-          <div>
-            <h2>Register</h2>
+        <img
+          className="logo"
+          src="/images/frontendlogo.svg"
+          alt="FRONTENDLOGO"
+        />
+        <div className="row">
+          <div className="col-2">
+            <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
           </div>
+          <form
+            className="form col-1 scaled"
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+            method="post"
+          >
+            <div>
+              <h2>Register</h2>
+            </div>
             <label className="form-label">Username</label>
             <div className="form-floating mb-1">
               <input
@@ -133,7 +133,9 @@ const details = {
                 value={lastname}
                 onChange={(e) => [setLastname(e.target.value), setlnameErr("")]}
               />
-              <label htmlFor="user">enter "user" if you are a user , else enter "wholesaler"</label>
+              <label htmlFor="user">
+                enter "user" if you are a user , else enter "wholesaler"
+              </label>
               {lnameErr && <p className="errorstyle">{lnameErr}</p>}
             </div>
             <label className="form-label">Password</label>
@@ -264,6 +266,6 @@ const details = {
           </form>
         </div>
       </div>
-    </div> 
+    </div>
   );
 }

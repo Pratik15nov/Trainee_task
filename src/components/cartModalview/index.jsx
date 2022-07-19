@@ -16,6 +16,7 @@ const CartModal = (props) => {
       rate: data.rate * num,
       description: data.description,
       quantity: num,
+      category: data.category,
     };
     props.cartFunc(details);
     props.closeHandle();

@@ -1,11 +1,32 @@
-import { React } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./Categories.css";
-import { CategoriesData } from "../../Data/CategoriesData.js";
+import { listBody } from "../../utils/helper";
+import { categoryHndlerData } from "../../service/auth.service";
 import { Autoplay, Pagination, Navigation } from "swiper";
+import { URL } from "../../utils/helper";
 export default function Categories() {
+  const [categoriesData, setcategoriesData] = useState([]);
+  useEffect(() => {
+    getcategoryData();
+  }, []);
+
+  const getcategoryData = async () => {
+    const response = await categoryHndlerData(
+      listBody({ where: { isActive: true }, perPage: 1000 })
+    );
+
+    // console.log(
+    //   response.data?.data?.list.categoryImg.replace(
+    //     /[&\/\\#, +()$~%.'":*?<>{}]/g,
+    //     "/"
+    //   )
+    // );
+    setcategoriesData(response.data?.data?.list);
+  };
+
   return (
     <div>
       <h1 className="header_one">What food you love to order</h1>
@@ -46,14 +67,18 @@ export default function Categories() {
           },
         }}
       >
-        {CategoriesData.map((card, id) => {
+        {categoriesData.map((card) => {
           return (
             <SwiperSlide key={card.id}>
-              <div className="cimg-container" key={id}>
+              <div className="cimg-container">
                 <p className="categories-img">
-                  <img src={card.img} className="cimg" alt="categories" />
+                  <img
+                    src={URL + card.categoryImg.replace(/(^\^)|,/g, "/")}
+                    className="cimg"
+                    alt="categories"
+                  />
                 </p>
-                <p className="categories-text">{card.cname}</p>
+                <p className="categories-text">{card.categoryName}</p>
               </div>
             </SwiperSlide>
           );

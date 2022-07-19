@@ -1,17 +1,20 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Order.css";
 import { useReactToPrint } from "react-to-print";
 export default function Order() {
-  // eslint-disable-next-line
-  const invoiceData = JSON.parse(localStorage.getItem("Data"));
-  console.log(invoiceData);
+  const [cart, setCart] = useState([]);
+  console.log(cart, "CONSOLED");
+
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("Data")));
+  }, []);
   const componentRef = useRef();
   
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
   return (
-    <div className="container-fluid invoice">
+    <div className="container-fluid invoice" ref={componentRef}>
       <div className="row maincard ">
         <div className="col-12">
           <div className="page-title-box row">
@@ -30,7 +33,7 @@ export default function Order() {
         </div>
       </div>
 
-      <div className="row invoicecard " ref={componentRef}>
+      <div className="row invoicecard ">
         <div className="col-12">
           <div className="card">
             <div className="card-body">

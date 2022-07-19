@@ -9,9 +9,7 @@ nav {
   font-family: "Inter", sans-serif;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
   /* position: fixed; */
-
   width: 100%;
   background-color: rgb(196, 255, 222) !important;
   top: 0;
@@ -21,7 +19,6 @@ nav {
 
 nav span {
   color: rgb(33, 114, 37);
-  /* background-color: rgb(255, 255, 255); */
   border-radius: 10px;
 }
 
@@ -59,7 +56,6 @@ nav a:hover {
   background-color: rgb(196, 255, 222);
   border-radius: 10px;
   padding-right: 5px;
-  /* padding-left: 5px; */
   padding-left: 13px;
   font-size: 16px;
   color: rgb(0, 0, 0);
@@ -175,19 +171,6 @@ nav .btn {
     #121212 80%,
     #121212 100%
   );
-  /* background: linear-gradient(
-    to bottom,
-    #b8b8b8,
-    #b8b8b8 20%,
-    #c4ffde 20%,
-    #c4ffde 40%,
-    #b8b8b8 40%,
-    #b8b8b8 60%,
-    #c4ffde 60%,
-    #c4ffde 80%,
-    #b8b8b8 80%,
-    #b8b8b8 100%
-  ); */
 }
 
 #hamburger-menu #sidebar-menu {
@@ -275,5 +258,75 @@ nav .btn {
   }
   .ham_cart {
     margin-top: -11%;
+  }
+}
+.list_categories {
+  position: relative;
+  margin-bottom: 2px;
+}
+.dropdown_list {
+  display: none;
+  position: absolute;
+  width: 9rem;
+  height: auto;
+  margin-left: 12%;
+  background-color: rgb(196, 255, 222);
+  border: 1px solid rgb(225, 225, 225);
+  border-radius: 5%;
+}
+
+.list_categories:hover .dropdown_list {
+  display: block;
+}
+
+.dropdown_list p {
+  color: rgb(0, 0, 0);
+  margin-left: 12%;
+  font-size: 15px;
+}
+.dropdown_list p:hover {
+  color: rgb(2, 178, 144);
+}
+
+/***********/
+
+.cellview_list {
+  position: relative;
+  margin-bottom: 2px;
+}
+.cellview_dropdown {
+  display: none;
+  position: absolute;
+  width: 10rem;
+  height: auto;
+  margin-left: -5%;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(225, 225, 225);
+  border-radius: 5%;
+}
+
+.cellview_list:hover .cellview_dropdown {
+  display: block;
+}
+
+.cellview_dropdown p {
+  color: rgb(0, 0, 0);
+  margin-left: 12%;
+  font-size: 15px;
+}
+.cellview_dropdown p:hover {
+  color: rgb(2, 178, 144);
+}
+.cellview_dropdown p {
+  font-size: 20px;
+  margin-bottom: -19%;
+}
+
+@media only screen and (max-width: 374px) {
+  .cellview_dropdown {
+    width: 8rem;
+  }
+  .cellview_dropdown p {
+    font-size: 19px;
   }
 }

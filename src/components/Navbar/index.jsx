@@ -36,8 +36,30 @@ export default function Navbar() {
       <ul>
         <li className="big-screens">
           <Link to="/">Home</Link>
-          <Link to="/Categories">Categories</Link>
-          <Link to="/Products">Products</Link>
+          {/* */}
+
+          <div className="list_categories">
+            <Link to="/">Categories</Link>
+            <div className="dropdown_list">
+              <Link to="/Products" state={{ data: "dairy" }}>
+                <p> Dairy Items</p>
+              </Link>
+              <Link to="/Products" state={{ data: "cloth" }}>
+                <p> Clothing Wear</p>
+              </Link>
+              <Link to="/Products" state={{ data: "foot" }}>
+                <p>FootWear </p>
+              </Link>
+              <Link to="/Products" state={{ data: "Accessories" }}>
+                <p>Accessories </p>
+              </Link>
+            </div>
+          </div>
+
+          {/* */}
+          <Link to="/Products" state={{ data: "seeall" }}>
+            Products
+          </Link>
           <Link to="/Register">
             <button className="btn register">Register</button>
           </Link>
@@ -67,6 +89,7 @@ export default function Navbar() {
           <i className="fa-solid fa-bars" />
         </li>
       </ul>
+      {/* the below div is invoked when max-width is 767px(for samll devices)*/}
       <div>
         <div className="ham_cart" onClick={() => pushPath()}>
           <span className="count">{count.length}</span>
@@ -104,10 +127,26 @@ export default function Navbar() {
                 <Link to="/"> Home</Link>
               </li>
               <li>
-                <Link to="/Categories"> Categories</Link>
+                <Link to="/Products"> Products</Link>
               </li>
               <li>
-                <Link to="/Products"> Products</Link>
+                <div className="cellview_list">
+                  <Link to="/">Categories</Link>
+                  <div className="cellview_dropdown">
+                    <Link to="/Products" state={{ data: "dairy" }}>
+                      <p> Dairy Items</p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "cloth" }}>
+                      <p> Clothing Wear</p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "foot" }}>
+                      <p>FootWear </p>
+                    </Link>
+                    <Link to="/Products" state={{ data: "Accessories" }}>
+                      <p>Accessories </p>
+                    </Link>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
