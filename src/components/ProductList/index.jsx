@@ -1,10 +1,12 @@
+import React, { useEffect, useState } from "react";
 import "../ProductList/ProductList.css";
 import Products from "../Products";
-import { PopularData } from "../../Data/PopularData.js";
-import { useState } from "react";
 import CartModal from "../cartModalview";
 import SeeMore from "../SeemoreCard";
 import { EventEmitter } from "../../utils/helper";
+import { listBody } from "../../utils/helper";
+import { productHndlerData } from "../../service/auth.service";
+
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
@@ -31,6 +33,18 @@ const ProductList = (props) => {
     EventEmitter.dispatch("DATA", data);
   };
 
+  const [productData, setproductData] = useState([]);
+  useEffect(() => {
+    getproductData();
+  }, []);
+
+  const getproductData = async () => {
+    const response = await productHndlerData(
+      listBody({ where: { isActive: true }, perPage: 1000 })
+    );
+    setproductData(response.data?.data?.list);
+  };
+
   return (
     <div>
       <div>
@@ -39,13 +53,14 @@ const ProductList = (props) => {
           We provide best quality & fresh grocery items near your location
         </p>
         <div>
-          {PopularData.slice(0, 5).map((card) => {
+          {productData.slice(0, 5).map((card) => {
             return (
               <Products
                 parentFunc={parentFunc}
                 takeData={takeData}
                 card={card}
                 key={card.id}
+
               />
             );
           })}

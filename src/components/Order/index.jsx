@@ -9,7 +9,7 @@ export default function Order() {
     setCart(JSON.parse(localStorage.getItem("Data")));
   }, []);
   const componentRef = useRef();
-  
+  const invoiceData = JSON.parse(localStorage.getItem("Data"));
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });

@@ -1,10 +1,12 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const validEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 export const validName = /^[A-Za-z]+$/;
 export const validPhoneno = /^[0-9]{10}$/;
 export const validPaasword =
   /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-export const ENDPOINTURL = "http://localhost:3000/api/v1";
-export const URL = "http://localhost:3000/";
+export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1";
+export const URL = "https://fea-backend.herokuapp.com/";
 
 export const EventEmitter = {
   events: {},
@@ -30,4 +32,16 @@ export const listBody = (data) => {
       page: data?.page ? data.page : 1,
     },
   };
+};
+
+export const suceessUser = (Message) => {
+  toast.success(Message, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  });
 };

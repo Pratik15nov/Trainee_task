@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./Categories.css";
-import { listBody } from "../../utils/helper";
+import { listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import { Autoplay, Pagination, Navigation } from "swiper";
-import { URL } from "../../utils/helper";
+
 export default function Categories() {
   const [categoriesData, setcategoriesData] = useState([]);
   useEffect(() => {
@@ -17,13 +17,6 @@ export default function Categories() {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-
-    // console.log(
-    //   response.data?.data?.list.categoryImg.replace(
-    //     /[&\/\\#, +()$~%.'":*?<>{}]/g,
-    //     "/"
-    //   )
-    // );
     setcategoriesData(response.data?.data?.list);
   };
 

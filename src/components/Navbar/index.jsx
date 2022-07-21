@@ -4,13 +4,18 @@ import "./Navbar.css";
 import { EventEmitter } from "../../utils/helper";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { listBody } from "../../utils/helper";
+import { categoryHndlerData } from "../../service/auth.service";
 
 export default function Navbar() {
   const storageData = JSON.parse(localStorage.getItem("Data"));
+  const [categoriesData, setcategoriesData] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setCount(storageData ? storageData : []);
+    getcategoryData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const pushPath = () => {
@@ -26,6 +31,16 @@ export default function Navbar() {
     setCount(res);
   });
 
+  const getcategoryData = async () => {
+    const response = await categoryHndlerData(
+      listBody({ where: { isActive: true }, perPage: 1000 })
+    );
+    setcategoriesData(response.data?.data?.list);
+  };
+
+  const handleClick = (log) => {
+    EventEmitter.dispatch("cId", log);
+  };
   return (
     <nav className="flex align-center">
       <ul>
@@ -36,36 +51,34 @@ export default function Navbar() {
       <ul>
         <li className="big-screens">
           <Link to="/">Home</Link>
-          {/* */}
 
           <div className="list_categories">
             <Link to="/">Categories</Link>
             <div className="dropdown_list">
-              <Link to="/Products" state={{ data: "dairy" }}>
-                <p> Dairy Items</p>
-              </Link>
-              <Link to="/Products" state={{ data: "cloth" }}>
-                <p> Clothing Wear</p>
-              </Link>
-              <Link to="/Products" state={{ data: "foot" }}>
-                <p>FootWear </p>
-              </Link>
-              <Link to="/Products" state={{ data: "Accessories" }}>
-                <p>Accessories </p>
-              </Link>
+              {categoriesData.map((card) => {
+                return (
+                  <Link
+                    to={`/Products?cid=${card._id}`}
+                    id={card._id}
+                    state={{ data: `${card._id}` }}
+                    onClick={() => handleClick(card._id)}
+                  >
+                    <p className="navlist">{card.categoryName}</p>
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          {/* */}
           <Link to="/Products" state={{ data: "seeall" }}>
             Products
           </Link>
-          <Link to="/Register">
+          {/* <Link to="/Register">
             <button className="btn register">Register</button>
           </Link>
           <Link to="/Login">
             <button className="btn login">Log In</button>
-          </Link>
+          </Link> */}
           <Link to="/Cart">
             <span className="count">{count.length}</span>
             <svg
@@ -84,9 +97,6 @@ export default function Navbar() {
             </svg>{" "}
             Account
           </Link>
-        </li>
-        <li className="small-screens">
-          <i className="fa-solid fa-bars" />
         </li>
       </ul>
       {/* the below div is invoked when max-width is 767px(for samll devices)*/}
@@ -133,18 +143,13 @@ export default function Navbar() {
                 <div className="cellview_list">
                   <Link to="/">Categories</Link>
                   <div className="cellview_dropdown">
-                    <Link to="/Products" state={{ data: "dairy" }}>
-                      <p> Dairy Items</p>
-                    </Link>
-                    <Link to="/Products" state={{ data: "cloth" }}>
-                      <p> Clothing Wear</p>
-                    </Link>
-                    <Link to="/Products" state={{ data: "foot" }}>
-                      <p>FootWear </p>
-                    </Link>
-                    <Link to="/Products" state={{ data: "Accessories" }}>
-                      <p>Accessories </p>
-                    </Link>
+                    {categoriesData.map((card) => {
+                      return (
+                        <Link to={"./"} key={card.id}>
+                          <p className="navlist">{card.categoryName}</p>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </li>

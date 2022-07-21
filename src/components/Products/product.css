@@ -12,6 +12,11 @@
 .cardView:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  padding: 15%;
+}
 .BuyButton {
   background-color: rgb(2, 178, 144);
   color: rgb(240, 248, 255);

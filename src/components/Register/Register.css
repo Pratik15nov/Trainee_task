@@ -1,3 +1,7 @@
+.registercontainer{
+padding: 5%;
+background-color: hsl(289, 13%, 17%);
+}
 .form {
   font-family: "Inter", sans-serif;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,

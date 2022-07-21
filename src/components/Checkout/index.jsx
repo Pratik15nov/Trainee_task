@@ -92,8 +92,8 @@ export default function Checkout() {
   const [cvv, setCvv] = useState("");
   const [pincode, setPincode] = useState("");
   const [promoCode, setPromoCode] = useState("");
-  const [dropcountry, setDropcountry] = useState("");
-  const [dropstate, setDropstate] = useState("");
+  const [dropcountry, setDropcountry] = useState(""); // eslint-disable-next-line
+  const [dropstate, setDropstate] = useState(""); // eslint-disable-next-line
   const [dropcity, setDropcity] = useState("");
   const [emailErr, setEmailErr] = useState(false);
   const [fnameErr, setfnameErr] = useState(false);
@@ -261,7 +261,7 @@ export default function Checkout() {
     csc
       .getCitiesOfState(stateId)
       .map((city) => ({ label: city.name, value: city.id, ...city }));
-
+  // eslint-disable-next-line
   const { values, setFieldValue, setValues } = addressFromik;
   console.log();
   useEffect(() => {}, [values]);

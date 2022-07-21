@@ -3,32 +3,67 @@ import "../Login/Login.css";
 import { validPaasword, validEmail } from "../../utils/helper";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { loginHandlerData } from "../../service/auth.service";
+// import { loginHandlerData } from "../../service/auth.service";
+
 export default function Login() {
-  const [mail, setMail] = useState(" ");
+  const [email, setMail] = useState(" ");
   const [emailErr, setemailErr] = useState(false);
-  const [pwd, setPwd] = useState(" ");
+  const [password, setPwd] = useState(" ");
   const [pwdErr, setpwdErr] = useState(false);
+  const navigate = useNavigate();
 
   const validation = () => {
     let formIsValid = true;
-    if (!validEmail.test(mail)) {
+    if (!validEmail.test(email)) {
       formIsValid = false;
-      setemailErr("INVAILD EMAIL");
+      setemailErr("Your Email is invalid");
     }
-    if (!validPaasword.test(pwd)) {
+
+    if (!validPaasword.test(password)) {
       formIsValid = false;
-      setpwdErr("iNVALID PAWSSWORD");
+      setpwdErr("Your Password is invalid");
+    }
+    if (!password) {
+      formIsValid = false;
+      setpwdErr("Your Password is required");
+    }
+    if (!email) {
+      formIsValid = false;
+      setemailErr("Your Email is required");
     }
     return formIsValid;
   };
-
   const handleSubmit = (e) => {
     if (validation() !== true) {
     } else {
+      postData(e);
     }
     e.preventDefault();
-    console.log("works");
   };
+
+  // const postData = (event) => {
+  //   event.preventDefault();
+  //   axios
+  //     .post("https://fea-backend.herokuapp.com/api/v1/user/signin", {})
+  //     .then(() => {
+  //       navigate(`/`);
+  //     });
+  // };
+
+  const postData = async (event) => {
+    event.preventDefault();
+    const body = {
+      email,
+      password,
+    };
+    const response = await loginHandlerData(body); // eslint-disable-next-line
+    if (response.status == "200") {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="back">
       <div>
@@ -67,7 +102,7 @@ export default function Login() {
                     <input
                       id="emailId"
                       type="email"
-                      class="form-control m-2"
+                      className="form-control m-2"
                       placeholder="Email"
                       name="email"
                       aria-describedby="addon-wrapping"
@@ -81,7 +116,7 @@ export default function Login() {
                   <div className="row">
                     <input
                       type="password"
-                      class="form-control m-2"
+                      className="form-control m-2"
                       placeholder="Password"
                       name="password"
                       aria-describedby="addon-wrapping"
@@ -94,7 +129,7 @@ export default function Login() {
                     <label className="form-check-label"> REMEMBER ME </label>
                   </div>
                   <div className="row">
-                    <button type="submit" class="BTN">
+                    <button type="submit" className="BTN">
                       Login
                     </button>
                   </div>

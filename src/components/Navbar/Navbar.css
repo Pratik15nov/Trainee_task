@@ -267,12 +267,11 @@ nav .btn {
 .dropdown_list {
   display: none;
   position: absolute;
-  width: 9rem;
+  width: 12rem;
   height: auto;
   margin-left: 12%;
   background-color: rgb(196, 255, 222);
   border: 1px solid rgb(225, 225, 225);
-  border-radius: 5%;
 }
 
 .list_categories:hover .dropdown_list {
@@ -329,4 +328,9 @@ nav .btn {
   .cellview_dropdown p {
     font-size: 19px;
   }
+}
+
+.navlist{
+  margin-top: -25px;
+  margin-bottom: 11px;
 }

@@ -11,7 +11,8 @@ import Cart from "./components/Cart";
 import Allproducts from "./components/AllProducts";
 import Checkout from "./components/Checkout";
 import Order from "./components/Order";
-
+import Verify from "./components/Verify";
+import ForgotPassword from "./components/Forgotpassword";
 export default function App(props) {
   return (
     <BrowserRouter>
@@ -54,7 +55,7 @@ export default function App(props) {
             </>
           }
         />
-         <Route
+        <Route
           path="/Checkout"
           element={
             <>
@@ -68,12 +69,14 @@ export default function App(props) {
           element={
             <>
               <Navbar />
-              <Order/>
+              <Order />
             </>
           }
         />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/Verify" element={<Verify />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
