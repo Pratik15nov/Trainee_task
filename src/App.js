@@ -1,5 +1,4 @@
 import React from "react";
-// import { useState } from "react";
 import "./App.css";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -14,95 +13,94 @@ import Checkout from "./components/Checkout";
 import Order from "./components/Order";
 import Verify from "./components/Verify";
 import ForgotPassword from "./components/forgotPassword";
-var isLoggedIn = localStorage.getItem("accessToken");
-console.log(isLoggedIn);
+import ProtectedRoute from "./components/protectedRoutes";
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            isLoggedIn ? (
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route
+            exact
+            path="/"
+            element={
               <>
                 <Navbar />
                 <Dashboard />
                 <Categories />
                 <ProductList />
               </>
-            ) : (
-              <Login />
-            )
+            }
+          />
+        </Route>       
+        <Route
+          path="/cart"
+          element={
+            // isLoggedIn ? (
+            <>
+              <Navbar />
+              <Cart />
+            </>
+            // ) : (
+            //   <Login />
+            // )
           }
         />
         <Route
-          path="/Cart"
+          path="/categories"
           element={
-            isLoggedIn ? (
-              <>
-                <Navbar />
-                <Cart />
-              </>
-            ) : (
-              <Login />
-            )
+            // isLoggedIn ? (
+            <>
+              <Navbar />
+              <Categories />
+            </>
+            // ) : (
+            //   <Login />
+            // )
           }
         />
         <Route
-          path="/Categories"
+          path="/products"
           element={
-            isLoggedIn ? (
-              <>
-                <Navbar />
-                <Categories />
-              </>
-            ) : (
-              <Login />
-            )
+            // isLoggedIn ? (
+            <>
+              <Navbar />
+              <Allproducts />
+            </>
+            // ) : (
+            //   <Login />
+            // )
           }
         />
         <Route
-          path="/Products"
+          path="/checkout"
           element={
-            isLoggedIn ? (
-              <>
-                <Navbar />
-                <Allproducts />
-              </>
-            ) : (
-              <Login />
-            )
+            // isLoggedIn ? (
+            <>
+              <Navbar />
+              <Checkout />
+            </>
+            // ) : (
+            //   <Login />
+            // )
           }
         />
         <Route
-          path="/Checkout"
+          path="/order"
           element={
-            isLoggedIn ? (
-              <>
-                <Navbar />
-                <Checkout />
-              </>
-            ) : (
-              <Login />
-            )
+            // isLoggedIn ? (
+            <>
+              <Navbar />
+              <Order />
+            </>
+            // ) : (
+            //   <Login />
+            // )
           }
         />
-        <Route
-          path="/Order"
-          element={
-            isLoggedIn ? (
-              <>
-                <Navbar />
-                <Order />
-              </>
-            ) : (
-              <Login />
-            )
-          }
-        />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Verify" element={<Verify />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify" element={<Verify />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
