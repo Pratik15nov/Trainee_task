@@ -36,14 +36,14 @@ export const get = async (url) => {
 // };
 
 export const post = async (url, data) => {
-  const response = await axios
-
+  return await axios
     .post(url, data)
     .then((res) => {
+      // console.log( "res",res);
       return res;
     })
     .catch((err) => {
-      console.error(err);
+      // console.error("Error:", err?.response?.data);
+      return err?.response?.data;
     });
-  return response;
 };

@@ -1,4 +1,5 @@
 import React from "react";
+// import { useState } from "react";
 import "./App.css";
 import Register from "./components/Register";
 import Login from "./components/Login";
@@ -12,65 +13,91 @@ import Allproducts from "./components/AllProducts";
 import Checkout from "./components/Checkout";
 import Order from "./components/Order";
 import Verify from "./components/Verify";
-import ForgotPassword from "./components/Forgotpassword";
-export default function App(props) {
+import ForgotPassword from "./components/forgotPassword";
+var isLoggedIn = localStorage.getItem("accessToken");
+console.log(isLoggedIn);
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <>
-              <Navbar />
-              <Dashboard />
-              <Categories />
-              <ProductList />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Dashboard />
+                <Categories />
+                <ProductList />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/Cart"
           element={
-            <>
-              <Navbar />
-              <Cart />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Cart />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/Categories"
           element={
-            <>
-              <Navbar />
-              <Categories />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Categories />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/Products"
           element={
-            <>
-              <Navbar />
-              <Allproducts />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Allproducts />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/Checkout"
           element={
-            <>
-              <Navbar />
-              <Checkout />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Checkout />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/Order"
           element={
-            <>
-              <Navbar />
-              <Order />
-            </>
+            isLoggedIn ? (
+              <>
+                <Navbar />
+                <Order />
+              </>
+            ) : (
+              <Login />
+            )
           }
         />
         <Route path="/Login" element={<Login />} />

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-export const validEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+import "react-toastify/dist/ReactToastify.css";// eslint-disable-next-line
+export const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;// eslint-disable-next-line
 export const validName = /^[A-Za-z]+$/;
 export const validPhoneno = /^[0-9]{10}$/;
 export const validPaasword =

@@ -7,8 +7,8 @@ import { listBody } from "../../utils/helper";
 
 export default function Verify() {
   const location = useLocation();
-  const { search } = location;
-  const [verifyId, setverifyId] = useState();
+  const { search } = location; // eslint-disable-next-line
+  const [verifyId, setverifyId] = useState(); // eslint-disable-next-line
   const [Data, setData] = useState();
   useEffect(() => {
     let verifyId;
@@ -47,7 +47,7 @@ export default function Verify() {
           Verification!!
         </p>
         <Link to="/Login" className="button">
-          Go Login
+        Sign in
         </Link>
       </div>
     </section>

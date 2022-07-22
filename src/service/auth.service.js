@@ -1,4 +1,4 @@
-import { post, get } from "./web.request";
+import { post } from "./web.request";
 import { ENDPOINTURL } from "../utils/helper";
 
 export const categoryHndlerData = (body) => {

@@ -5,17 +5,27 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { loginHandlerData } from "../../service/auth.service";
-// import { loginHandlerData } from "../../service/auth.service";
 
 export default function Login() {
   const [email, setMail] = useState(" ");
   const [emailErr, setemailErr] = useState(false);
   const [password, setPwd] = useState(" ");
   const [pwdErr, setpwdErr] = useState(false);
+  const [msg, setMsg] = useState(null);
+  const [selected, setSelected] = useState(false);
+  // const [authtoken, setauthToken] = useState();
   const navigate = useNavigate();
 
   const validation = () => {
     let formIsValid = true;
+    if (!password) {
+      formIsValid = false;
+      setpwdErr("Your Password is required");
+    }
+    if (!email) {
+      formIsValid = false;
+      setemailErr("Your Email is required");
+    }
     if (!validEmail.test(email)) {
       formIsValid = false;
       setemailErr("Your Email is invalid");
@@ -25,32 +35,17 @@ export default function Login() {
       formIsValid = false;
       setpwdErr("Your Password is invalid");
     }
-    if (!password) {
-      formIsValid = false;
-      setpwdErr("Your Password is required");
-    }
-    if (!email) {
-      formIsValid = false;
-      setemailErr("Your Email is required");
-    }
+
     return formIsValid;
   };
   const handleSubmit = (e) => {
     if (validation() !== true) {
     } else {
       postData(e);
+      setSelected(true);
     }
     e.preventDefault();
   };
-
-  // const postData = (event) => {
-  //   event.preventDefault();
-  //   axios
-  //     .post("https://fea-backend.herokuapp.com/api/v1/user/signin", {})
-  //     .then(() => {
-  //       navigate(`/`);
-  //     });
-  // };
 
   const postData = async (event) => {
     event.preventDefault();
@@ -60,96 +55,111 @@ export default function Login() {
     };
     const response = await loginHandlerData(body); // eslint-disable-next-line
     if (response.status == "200") {
+      localStorage.setItem("accessToken", response.data.data.token);
+      localStorage.setItem("userData", JSON.stringify(response.data.data));
+      setSelected(false);
       navigate("/");
     }
+
+    if (response.message) {
+      setSelected(false);
+    }
+    setMsg(response.message);
   };
+  // console.log(response)
 
   return (
     <div className="back">
-      <div>
-        <div>
-          <img
-            className="image-conatiner"
-            src="/images/frontendlogo.svg"
-            alt="LOGO"
-          />
-        </div>
-
-        <div className="row grid-container ">
-          <div className="col">
+      <div className="registercontainer ">
+        <img
+          className="logo"
+          src="/images/frontendlogo.svg"
+          alt="FRONTENDLOGO"
+        />
+        <div className="row">
+          <div className="col-2">
+            <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
+          </div>
+          <form
+            className="form col-1 scaled "
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+            method="post"
+          >
             <div>
-              <img
-                className="side-image"
-                src="/images/sideimage.svg"
-                alt="side img"
-              />
+              <h2>Sign In</h2>
             </div>
-          </div>
-          <div className="col">
-            <div className="container form-conatiner">
-              <form
-                onSubmit={(e) => {
-                  handleSubmit(e);
-                }}
-              >
-                <div className=" row row-col-1">
-                  <div className="row ">
-                    <span className="credential-head">
-                      <h2>Login </h2>
-                    </span>{" "}
-                  </div>
-                  <div className="row">
-                    <input
-                      id="emailId"
-                      type="email"
-                      className="form-control m-2"
-                      placeholder="Email"
-                      name="email"
-                      aria-describedby="addon-wrapping"
-                      onChange={(e) => [
-                        setMail(e.target.value),
-                        setemailErr(" "),
-                      ]}
-                    />
-                    {emailErr && <p className="validation">{emailErr}</p>}
-                  </div>
-                  <div className="row">
-                    <input
-                      type="password"
-                      className="form-control m-2"
-                      placeholder="Password"
-                      name="password"
-                      aria-describedby="addon-wrapping"
-                      onChange={(e) => [setPwd(e.target.value), setpwdErr(" ")]}
-                    />
-                    {pwdErr && <p className="validation">{pwdErr}</p>}
-                  </div>
-                  <div className=" row  m-2 form-switch m-2 ">
-                    <input className="form-check-input " type="checkbox" />
-                    <label className="form-check-label"> REMEMBER ME </label>
-                  </div>
-                  <div className="row">
-                    <button type="submit" className="BTN">
-                      Login
-                    </button>
-                  </div>
-                  <div className="row">
-                    <p>
-                      <a className="text" href="/">
-                        Forgot password?
-                      </a>
-                    </p>
-                    <p>
-                      New User?
-                      <Link className="text" to="/Register">
-                        Register
-                      </Link>
-                    </p>
-                  </div>
+            <div className="container">
+              <div className="row justify-content-start">
+                <label className="form-label">Email</label>
+                <div className="form-floating mb-1">
+                  <input
+                    id="email"
+                    type="email"
+                    className="form-control "
+                    placeholder="email"
+                    name="email"
+                    aria-describedby="addon-wrapping"
+                    onChange={(e) => [
+                      setMail(e.target.value),
+                      setemailErr(" "),
+                      setMsg(""),
+                    ]}
+                  />
+                  <label className="label2" htmlFor="fristnameErr">
+                    Enter You Email
+                  </label>
+                  {emailErr && <p className="errorstyle">{emailErr}</p>}
                 </div>
-              </form>
+
+                <label className="form-label">Password</label>
+                <div className="form-floating mb-1">
+                  <input
+                    type="password"
+                    className="form-control "
+                    placeholder="Password"
+                    name="password"
+                    aria-describedby="addon-wrapping"
+                    onChange={(e) => [
+                      setPwd(e.target.value),
+                      setpwdErr(" "),
+                      setMsg(""),
+                    ]}
+                  />
+                  <label className="label2" htmlFor="user">
+                    Enter Your Password
+                  </label>
+                  {pwdErr && <p className="errorstyle">{pwdErr}</p>}
+                </div>
+              </div>
+
+              <div className="mb-1"></div>
+              <button type="submit" className="button">
+                {selected ? (
+                  <div className="spinner-border" role="status" />
+                ) : (
+                  "Login"
+                )}
+              </button>
+
+              <div className="bottom">
+                {msg && <p className="errorstyle">{msg}</p>}
+                <p>
+                  New User?
+                  <Link className="text" to="/Register">
+                    Register
+                  </Link>
+                </p>
+                <p>
+                  Are you Forgotton Password ?
+                  <Link className="text" to="/forgotPassword">
+                    Forgot Password
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

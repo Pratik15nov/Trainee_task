@@ -25,6 +25,7 @@ export default function Register() {
   const [lnameErr, setlnameErr] = useState(false);
   const [phonenoErr, setphonenoErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
+  const [msg, setMsg] = useState(null);
 
   // const [fromdata, setformData] = useState([]);
   const [selected, setSelected] = useState(false);
@@ -132,7 +133,12 @@ export default function Register() {
     if (response.status == "200") {
       navigate(`/Verify?cid=${response.data.data._id}`);
       suceessUser("Verification email sent successfully!");
+      setSelected(false);
     }
+    if (response.message) {
+      setSelected(false);
+    }
+    setMsg(response.message);
   };
 
   return (
@@ -152,7 +158,6 @@ export default function Register() {
             onSubmit={(e) => {
               handleSubmit(e);
             }}
-            name=""
             method="post"
           >
             <div>
@@ -174,6 +179,7 @@ export default function Register() {
                       onChange={(e) => [
                         setFirstName(e.target.value),
                         setfnameErr(""),
+                        setMsg(""),
                       ]}
                     />
                     <label htmlFor="fristnameErr">Enter Your Frist Name</label>
@@ -195,6 +201,7 @@ export default function Register() {
                       onChange={(e) => [
                         setLastName(e.target.value),
                         setlnameErr(""),
+                        setMsg(""),
                       ]}
                     />
                     <label htmlFor="user">Enter Your Last Name</label>
@@ -216,6 +223,7 @@ export default function Register() {
                       onChange={(e) => [
                         setEmail(e.target.value),
                         setEmailErr(""),
+                        setMsg(""),
                       ]}
                     />
                     <label htmlFor="emailErr">Enter Your Email Address</label>
@@ -237,6 +245,7 @@ export default function Register() {
                       onChange={(e) => [
                         setphoneNumber(e.target.value),
                         setphonenoErr(""),
+                        setMsg(""),
                       ]}
                     />
                     <label htmlFor="phonenoErr">Enter Your Phone Number</label>
@@ -257,6 +266,7 @@ export default function Register() {
                   onChange={(e) => [
                     setPassword(e.target.value),
                     setPasswordErr(""),
+                    setMsg(""),
                   ]}
                 />
                 <label htmlFor="passwordErr">Enter Your Password</label>
@@ -270,7 +280,7 @@ export default function Register() {
                   "Sign up"
                 )}
               </button>
-
+              {msg && <p className="errorstyle">{msg}</p>}
               <p>
                 Already Register ?
                 <Link className="text" to="/Login">
