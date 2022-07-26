@@ -53,14 +53,13 @@ const ProductList = (props) => {
           We provide best quality & fresh grocery items near your location
         </p>
         <div>
-          {productData.slice(0, 5).map((card) => {
+          {productData.slice(0, 7).map((card) => {
             return (
               <Products
                 parentFunc={parentFunc}
                 takeData={takeData}
                 card={card}
                 key={card.id}
-
               />
             );
           })}

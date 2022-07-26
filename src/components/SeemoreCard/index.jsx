@@ -6,10 +6,8 @@ const SeeMore = () => {
   return (
     <div className="see_more_card">
       <div className="display_container">
-        {" "}
-        <Link to="/Products">
-          {" "}
-          <button className="see_more_button">SEE MORE</button>
+        <Link to="/products">
+          <button className="button">More Products..</button>
         </Link>
       </div>
     </div>

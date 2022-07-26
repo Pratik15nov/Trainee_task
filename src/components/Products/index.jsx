@@ -13,21 +13,26 @@ const Products = (props) => {
         alt={props.card.name}
       />
       <div className="div1">
-        <h4 style={{ textAlign: "center" }}>{props.card.name}</h4>
+        <h4 style={{ textAlign: "center" }} className="text">{props.card.name}</h4>
       </div>
       <div className="div1">
-        <h6 style={{ textAlign: "center" }}>
+        <h6 style={{ textAlign: "center" }} className="text">
           Specification: {props.card.specification}
         </h6>
       </div>
 
       <div className="div3">
         <div className="div4">
-          <b>Price: Rs.{props.card.price}</b>
-          <p>Discount Price: Rs.{props.card.discountPrice}</p>
+          <b className="text">&#x20b9;{props.card.price}</b>
+          <p className="text">
+            M.R.P.:
+            <span>
+              &#x20b9;<del>{props.card.discountPrice + props.card.price}</del>
+            </span>
+          </p>
         </div>
         <div className="div5">
-          <button className="BuyButton" onClick={(e) => passtoParent(e)}>
+          <button className="BuyButton text" onClick={(e) => passtoParent(e)}>
             Buy Now
           </button>
         </div>

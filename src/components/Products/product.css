@@ -8,26 +8,19 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   margin-bottom: 2%;
+  border-top: 4px solid #292a2d;
+    border-radius: 5px;
 }
 .cardView:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .card-img-top {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   padding: 15%;
 }
-.BuyButton {
-  background-color: rgb(2, 178, 144);
-  color: rgb(240, 248, 255);
-  font-size: 16px;
-  border: none;
-  height: 2rem;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 5px;
-  font-family: "Inter", sans-serif;
-}
+
+
 .div3 {
   display: flex;
   justify-content: space-evenly;

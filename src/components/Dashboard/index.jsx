@@ -12,7 +12,7 @@ export default function App() {
       spaceBetween={30}
       centeredSlides={true}
       autoplay={{
-        delay: 1500,
+        delay: 2500,
         disableOnInteraction: false,
       }}
       pagination={{
@@ -23,6 +23,7 @@ export default function App() {
       className="mySwiper"
     >
       <SwiperSlide>
+      
         <img className="banner" alt="bg" src={"/images/banner1.jpg"} />
       </SwiperSlide>
       <SwiperSlide>
@@ -30,6 +31,12 @@ export default function App() {
       </SwiperSlide>
       <SwiperSlide>
         <img className="banner" alt="bg" src={"/images/banner3.jpg"} />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img className="banner" alt="bg" src={"/images/banner4.jpg"} />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img className="banner" alt="bg" src={"/images/banner5.jpg"} />
       </SwiperSlide>
     </Swiper>
   );

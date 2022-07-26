@@ -8,12 +8,14 @@ import { listBody } from "../../utils/helper";
 import { productHndlerData } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Allproducts = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [productData, setproductData] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const { search } = location;
   useEffect(() => {
@@ -24,6 +26,7 @@ const Allproducts = (props) => {
       categoryId = "";
     }
     getproductData(categoryId);
+    setLoading(false);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getproductData = async (log = "") => {
@@ -46,6 +49,7 @@ const Allproducts = (props) => {
     }
     const response = await productHndlerData(body);
     setproductData(response.data?.data?.list);
+    setLoading(false);
   };
   // const fetch = () => {
   //   console.log("location.state", location.state);
@@ -94,29 +98,36 @@ const Allproducts = (props) => {
   };
 
   return (
-    <div className="row no-gutters datas_container">
+    <div className="row no-gutters datas_container text">
       <div className="col-3 filter_div">
         <AllCategories id={getproductData} />
       </div>
       <div className="col-9 data_div">
         <div className="data_container">
-          {productData.length > 0 &&
-            productData?.map((card) => {
+          {productData.length > 0 ? (
+            productData.map((card) => {
               return (
-                <div className="cardView" key={card.id}>
+                <div className="cardView " key={card.id}>
                   <img
                     src={URL + card.img}
                     className="card-img-top"
                     alt={card.name}
                   />
+
                   <div className="div1">
-                    <p className="font_cardView">
-                      <b>{card.name}</b>
+                    <p
+                      className="font_cardView text
+                    "
+                    >
+                      <b className="text">{card.name}</b>
+                      <br />
+                      &#x20b9;{card.price}
                     </p>
                   </div>
                   <div className="third_container">
                     <div className="fourth_container">
-                      <b>Price: Rs.{card.price}</b>
+                      &#x20b9;
+                      <del>{card.discountPrice + card.price}</del>
                     </div>
                     <div className="fifth_conatiner">
                       <button
@@ -129,7 +140,19 @@ const Allproducts = (props) => {
                   </div>
                 </div>
               );
-            })}
+            })
+          ) : (
+            <div className="col-md-12 main pt-5">
+              <img
+                src="/images/noproduct.png"
+                className=" mx-auto d-block"
+                alt="..."
+              />
+              <p className="header_one">No Products Found!</p>
+              {/* <p className="header_two">Please add product to your cart list</p> */}
+            </div>
+          )}
+
           {show && (
             <CartModal
               childata={childata}

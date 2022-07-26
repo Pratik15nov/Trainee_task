@@ -9,18 +9,18 @@
   margin-top: 2%;
   font-size: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 10px;
+  
   margin-bottom: 1%;
 }
 .cardView:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .BuyButton {
-  background-color: rgb(2, 178, 144);
+  background-color: #292a2d;
   color: rgb(240, 248, 255);
   font-size: 16px;
   border: none;
-  height: 3rem;
+  height: 2.5rem;
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;
@@ -99,7 +99,7 @@
   text-decoration: none;
   color: rgb(45, 47, 49);
 }
-.navbar {
+/* .navbar {
   width: auto;
   background: rgb(255, 255, 255);
   margin-left: 5%;
@@ -113,7 +113,7 @@
   cursor: pointer;
   display: block;
   border-radius: 10px;
-}
+} */
 /* .navbar span::after {
   float: right;
   right: 10%;

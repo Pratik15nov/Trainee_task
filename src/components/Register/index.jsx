@@ -131,7 +131,7 @@ export default function Register() {
     };
     const response = await userHandlerData(body); // eslint-disable-next-line
     if (response.status == "200") {
-      navigate(`/Verify?cid=${response.data.data._id}`);
+      navigate(`/verify?cid=${response.data.data._id}`);
       suceessUser("Verification email sent successfully!");
       setSelected(false);
     }
@@ -142,13 +142,11 @@ export default function Register() {
   };
 
   return (
-    <div className="back">
+    <div className="back text">
       <div className="registercontainer ">
-        <img
-          className="logo"
-          src="/images/frontendlogo.svg"
-          alt="FRONTENDLOGO"
-        />
+        <Link className="logo" to="/">
+          <span>e</span>Commerce
+        </Link>
         <div className="row">
           <div className="col-2">
             <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
@@ -160,9 +158,8 @@ export default function Register() {
             }}
             method="post"
           >
-            <div>
-              <h2>Sign Up</h2>
-            </div>
+            <h2 className="text">Sign Up</h2>
+
             <div className="container">
               <div className="row justify-content-start">
                 <div className="col">
@@ -283,7 +280,7 @@ export default function Register() {
               {msg && <p className="errorstyle">{msg}</p>}
               <p>
                 Already Register ?
-                <Link className="text" to="/Login">
+                <Link className="text" to="/login">
                   Login
                 </Link>
               </p>

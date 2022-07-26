@@ -46,8 +46,8 @@ export default function Verify() {
           Hi, Welcome to eCommerece, Verify Your Account Using Email
           Verification!!
         </p>
-        <Link to="/Login" className="button">
-        Sign in
+        <Link to="/login" className="button">
+          Sign in
         </Link>
       </div>
     </section>

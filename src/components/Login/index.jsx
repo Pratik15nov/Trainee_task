@@ -66,16 +66,18 @@ export default function Login() {
     }
     setMsg(response.message);
   };
-  // console.log(response)
 
   return (
-    <div className="back">
+    <div className="back text">
       <div className="registercontainer ">
-        <img
+        {/* <img
           className="logo"
           src="/images/frontendlogo.svg"
           alt="FRONTENDLOGO"
-        />
+        /> */}
+        <Link className="logo" to="/">
+          <span>e</span>Commerce
+        </Link>
         <div className="row">
           <div className="col-2">
             <img className="loginbg" src="/images/loginbg.svg" alt="Register" />
@@ -87,9 +89,8 @@ export default function Login() {
             }}
             method="post"
           >
-            <div>
-              <h2>Sign In</h2>
-            </div>
+            <h2 className="text">Sign In</h2>
+
             <div className="container">
               <div className="row justify-content-start">
                 <label className="form-label">Email</label>
@@ -147,7 +148,7 @@ export default function Login() {
                 {msg && <p className="errorstyle">{msg}</p>}
                 <p>
                   New User?
-                  <Link className="text" to="/Register">
+                  <Link className="text" to="/register">
                     Register
                   </Link>
                 </p>

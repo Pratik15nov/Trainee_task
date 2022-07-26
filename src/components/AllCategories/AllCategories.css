@@ -2,16 +2,15 @@
   text-decoration: none;
   color: rgb(45, 47, 49);
 }
-.navbar {
+.sidenavbar {
   width: auto;
-  background: rgb(255, 255, 255);
   margin-left: 5%;
 }
-.navbar span {
+.sidenavbar span {
   padding: 20px;
   /* background: rgb(7, 104, 84); */
   /* background:rgb(195, 255, 221); */
-  background: rgb(6, 178, 144);
+  background: #cecec9;
   color: rgb(0, 0, 0);
 
   font-size: 1.2em;
@@ -25,16 +24,17 @@
   text-align: center;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  margin-left: 10%;
+
   padding: 5px;
   font-family: "Inter";
+  margin: 3%;
 }
-.navbar span:hover {
+.sidenavbar span:hover {
   /* background: rgb(112, 162, 152);*/
   background: rgb(6, 7, 7);
   color: rgb(255, 255, 255);
 }
-/* .navbar span::after {
+/* .sidenavbar span::after {
     float: right;
     right: 10%;
     content: "+";
@@ -69,7 +69,7 @@
 } */
 /************************/
 /*USE THIS FOR A DROPDON IF HAVE SUBCATEGORIES */
-/* <div className="navbar" onClick={()=>console.log("WORKS")} >
+/* <div className="sidenavbar" onClick={()=>console.log("WORKS")} >
 <label htmlFor="touch" className="label_nav"  >
   <span>Categorey name</span>
 </label>
@@ -103,5 +103,5 @@
 }
 .scroll::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  -webkit-box-shadow: inset 0 0 6px rgb(2, 178, 144);
+  -webkit-box-shadow: inset 0 0 6px #cecec963;
 }

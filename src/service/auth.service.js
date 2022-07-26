@@ -20,3 +20,9 @@ export const verifyHandlerData = (body) => {
 export const loginHandlerData = (body) => {
   return post(`${ENDPOINTURL}/user/signin`, body);
 };
+
+export const forgotpassHandlerData = (body) => {
+  return post(`${ENDPOINTURL}/user/forgotPassword`, body);
+};
+
+

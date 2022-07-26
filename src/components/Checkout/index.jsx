@@ -5,7 +5,7 @@ import { validEmail } from "../../utils/helper";
 import { validName } from "../../utils/helper";
 import { validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
-import { useFormik } from "formik";
+// import { useFormik } from "formik";
 import Select from "react-select";
 import csc from "country-state-city";
 
@@ -34,7 +34,7 @@ export default function Checkout() {
   // };
 
   const orderSubtotal = Object.values(cart).reduce(
-    (r, { rate }) => r + rate,
+    (r, { price }) => r + price,
     0
   );
   const Promocode = [
@@ -237,34 +237,34 @@ export default function Checkout() {
     content: () => componentRef.current,
   });
 
-  const addressFromik = useFormik({
-    initialValues: {
-      country: null,
-      state: null,
-      city: null,
-    },
-  });
+  // const addressFromik = useFormik({
+  //   initialValues: {
+  //     country: null,
+  //     state: null,
+  //     city: null,
+  //   },
+  // });
 
-  const countries = csc.getAllCountries();
+  // const countries = csc.getAllCountries();
 
-  const updatedCountries = countries.map((country) => ({
-    label: country.name,
-    value: country.id,
-    ...country,
-  }));
-  const updatedStates = (countryId) =>
-    csc
-      .getStatesOfCountry(countryId)
-      .map((state) => ({ label: state.name, value: state.id, ...state }));
+  // const updatedCountries = countries.map((country) => ({
+  //   label: country.name,
+  //   value: country.id,
+  //   ...country,
+  // }));
+  // const updatedStates = (countryId) =>
+  //   csc
+  //     .getStatesOfCountry(countryId)
+  //     .map((state) => ({ label: state.name, value: state.id, ...state }));
 
-  const updatedCities = (stateId) =>
-    csc
-      .getCitiesOfState(stateId)
-      .map((city) => ({ label: city.name, value: city.id, ...city }));
-  // eslint-disable-next-line
-  const { values, setFieldValue, setValues } = addressFromik;
-  console.log();
-  useEffect(() => {}, [values]);
+  // const updatedCities = (stateId) =>
+  //   csc
+  //     .getCitiesOfState(stateId)
+  //     .map((city) => ({ label: city.name, value: city.id, ...city }));
+  // // eslint-disable-next-line
+  // const { values, setFieldValue, setValues } = addressFromik;
+  // console.log();
+  // useEffect(() => {}, [values]);
 
   return (
     <>
@@ -392,7 +392,7 @@ export default function Checkout() {
                   />
                   {address2Err && <p className="errorstyle">{address2Err}</p>}
                 </div>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-md-3 mb-3">
                     <label htmlFor="zip">Country</label>
                     <Select
@@ -475,21 +475,8 @@ export default function Checkout() {
                     />
                     {pincodeErr && <p className="errorstyle">{pincodeErr}</p>}
                   </div>
-                </div>
-                <hr className="mb-4" />
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="same-address"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="same-address"
-                  >
-                    Shipping address is the same as my billing address
-                  </label>
-                </div>
+                </div> */}
+
                 <div className="custom-control custom-checkbox">
                   <input
                     type="checkbox"
@@ -500,8 +487,15 @@ export default function Checkout() {
                     Save this information for next time
                   </label>
                 </div>
+
+                <hr className="mb-4" />
                 <div className="row">
-                  <div className="col-sm-10"></div>
+                  <div className="col-sm-3">
+                    <Link className="button" to="/cart">
+                      Go to cart
+                    </Link>
+                  </div>
+                  <div className="col-sm-7"></div>
                   <div className="col-sm-2">
                     <button className="button" onClick={() => setGoSteps(1)}>
                       Next
@@ -686,20 +680,20 @@ export default function Checkout() {
                     <div>
                       <h6 className="my-0">Total Price of Product</h6>
                     </div>
-                    <span className="text-muted">Rs: {orderSubtotal}</span>
+                    <span className="text-muted">&#x20b9; {orderSubtotal}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between bg-light">
                     <div className="text-success">
                       <h6 className="my-0">Discount Price</h6>
                     </div>
-                    <span className="text-success">Rs : {discount}</span>
+                    <span className="text-success">&#x20b9; {discount}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between">
                     <div className="text-success">
                       <h6 className="my-0">After Discount Total Price </h6>
                     </div>
                     <span className="text-success">
-                      Rs : {orderSubtotal - discount}
+                      &#x20b9; {orderSubtotal - discount}
                     </span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
@@ -707,7 +701,7 @@ export default function Checkout() {
                       <h6 className="my-0">Tax (SGST+ CGST)</h6>
                     </div>
                     <span className="text-muted">
-                      Rs: {(orderSubtotal / 100) * 18}
+                      &#x20b9; {(orderSubtotal / 100) * 18}
                     </span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
@@ -715,14 +709,14 @@ export default function Checkout() {
                       <h6 className="my-0">Shipping Charge</h6>
                     </div>
                     <span className="text-muted">
-                      Rs: {orderSubtotal > 500 ? "0" : "40"}
+                      &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
                     </span>
                   </li>
 
                   <li className="list-group-item d-flex justify-content-between bg-light">
                     <span>Total</span>
                     <strong>
-                      Rs:
+                      &#x20b9;
                       {orderSubtotal > 500 ? finalValue : finalValue + 40}
                     </strong>
                   </li>
@@ -730,7 +724,7 @@ export default function Checkout() {
                 <div className="row">
                   <div className="col-sm-4"></div>
                   <div className="col-sm-4">
-                    <Link to="/Order">
+                    <Link to="/order">
                       <button
                         type="submit"
                         className="button"
@@ -886,10 +880,11 @@ export default function Checkout() {
                                           </td>
                                           <td>{data.quantity}</td>
                                           <td>
-                                            Rs: {data.rate / data.quantity}
+                                            &#x20b9;{" "}
+                                            {data.price / data.quantity}
                                           </td>
                                           <td className="text-end">
-                                            Rs : {data.rate}
+                                            &#x20b9; {data.price}
                                           </td>
                                         </tr>
                                       );
@@ -943,7 +938,7 @@ export default function Checkout() {
                                   </span>
                                 </p>
                                 <p>
-                                  <b>Total Rs: </b>
+                                  <b>Total &#x20b9; </b>
                                   <span className="float-end">
                                     {JSON.parse(localStorage.getItem("Total"))}
                                   </span>

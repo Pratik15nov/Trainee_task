@@ -14,94 +14,80 @@ import Order from "./components/Order";
 import Verify from "./components/Verify";
 import ForgotPassword from "./components/forgotPassword";
 import ProtectedRoute from "./components/protectedRoutes";
+import Successmail from "./components/successmail";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route
-            exact
-            path="/"
-            element={
-              <>
-                <Navbar />
-                <Dashboard />
-                <Categories />
-                <ProductList />
-              </>
-            }
-          />
-        </Route>       
+        <Route
+          exact
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Dashboard />
+              <Categories />
+              <ProductList />
+            </>
+          }
+        />
+
         <Route
           path="/cart"
           element={
-            // isLoggedIn ? (
             <>
               <Navbar />
               <Cart />
             </>
-            // ) : (
-            //   <Login />
-            // )
           }
         />
+
         <Route
           path="/categories"
           element={
-            // isLoggedIn ? (
             <>
               <Navbar />
               <Categories />
             </>
-            // ) : (
-            //   <Login />
-            // )
           }
         />
         <Route
           path="/products"
           element={
-            // isLoggedIn ? (
             <>
               <Navbar />
               <Allproducts />
             </>
-            // ) : (
-            //   <Login />
-            // )
           }
         />
-        <Route
-          path="/checkout"
-          element={
-            // isLoggedIn ? (
-            <>
-              <Navbar />
-              <Checkout />
-            </>
-            // ) : (
-            //   <Login />
-            // )
-          }
-        />
-        <Route
-          path="/order"
-          element={
-            // isLoggedIn ? (
-            <>
-              <Navbar />
-              <Order />
-            </>
-            // ) : (
-            //   <Login />
-            // )
-          }
-        />
+        <Route exact path="/checkout" element={<ProtectedRoute />}>
+          <Route
+            path="/checkout"
+            element={
+              <>
+                <Navbar />
+                <Checkout />
+              </>
+            }
+          />
+        </Route>
+        <Route exact path="/order" element={<ProtectedRoute />}>
+          <Route
+            path="/order"
+            element={
+              <>
+                <Navbar />
+                <Order />
+              </>
+            }
+          />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/successmail" element={<Successmail />} />
       </Routes>
     </BrowserRouter>
   );

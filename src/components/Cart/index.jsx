@@ -8,10 +8,10 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("Data")));
-  }, []);
+  });
 
   const orderSubtotal = Object.values(cart).reduce(
-    (r, { rate }) => r + rate,
+    (r, { price }) => r + price,
     0
   );
   const handleDelete = (itemId) => {
@@ -20,6 +20,9 @@ export default function Cart() {
     localStorage.setItem("Data", JSON.stringify(items));
     EventEmitter.dispatch("DELETE", items);
   };
+  const shipCharge = orderSubtotal > 500 ? 0 : 40;
+  const tax = (orderSubtotal / 100) * 18;
+  const Total = orderSubtotal + tax + shipCharge;
 
   return (
     <div className="container">
@@ -48,7 +51,13 @@ export default function Cart() {
                 </button>
               </div>
             </div>
-            <div className="container scroll  mt-5 ">
+            <div
+              className={
+                cart.length > 3
+                  ? "container scroll mt-5  "
+                  : "container  mt-5 "
+              }
+            >
               <div className="d-flex justify-content-center row">
                 {cart.length > 0 ? (
                   cart.map((card, id) => {
@@ -99,28 +108,26 @@ export default function Cart() {
                   <tr>
                     <th className="py-4">Order Subtotal</th>
                     <td className="py-4 text-end text-muted">
-                      Rs : {orderSubtotal}
+                      &#x20b9; {orderSubtotal}
                     </td>
                   </tr>
                   <tr>
                     <th className="py-4">Shipping Charge</th>
                     <td className="py-4 text-end text-muted">
-                      Rs : {orderSubtotal > 500 ? "0" : "40"}
+                      &#x20b9;{shipCharge}
                     </td>
                   </tr>
                   <tr>
                     <th className="py-4">Tax (SGST+ CGST)</th>
                     <td className="py-4 text-end text-muted">
-                      Rs : {(orderSubtotal / 100) * 18}
+                      &#x20b9; {tax.toFixed(2)}
                     </td>
                   </tr>
                   <tr>
                     <th className="pt-4 border-0">Total</th>
-                    <td className="pt-4 border-0 text-end h3 fw-normal">
-                      Rs : 
-                      {orderSubtotal > 500
-                        ? orderSubtotal + (orderSubtotal / 100) * 18
-                        : orderSubtotal + 40 + (orderSubtotal / 100) * 18}
+                    <td className="pt-4 border-0 text-end h5 fw-normal">
+                      &#x20b9;
+                      {Total.toFixed(2)}
                     </td>
                   </tr>
                 </tbody>
@@ -131,7 +138,7 @@ export default function Cart() {
               </p>
               <div className="overflow-hidden p-0 card-footer">
                 <div className="d-grid">
-                  <Link to="/Checkout">
+                  <Link to="/checkout">
                     <button className="button">Proceed to Checkout</button>
                   </Link>
                 </div>

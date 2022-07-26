@@ -28,34 +28,39 @@ const AllCategories = (props) => {
 
   return (
     // <div className="scroll_filter">
-    //   <div className="navbar" onClick={() => props.filterData(PopularData)}>
+    //   <div className="sidenavbar" onClick={() => props.filterData(PopularData)}>
     //     <label htmlFor="touch" className="label_nav">
     //       <span>All Products</span>
     //     </label>
     //   </div>
-    //   <div className="navbar" onClick={() => props.filterData(DairyProducts)}>
+    //   <div className="sidenavbar" onClick={() => props.filterData(DairyProducts)}>
     //     <label htmlFor="touch" className="label_nav">
     //       <span>Dairy Items</span>
     //     </label>
     //   </div>
-    //   <div className="navbar" onClick={() => props.filterData(ClothingWear)}>
+    //   <div className="sidenavbar" onClick={() => props.filterData(ClothingWear)}>
     //     <label htmlFor="touch" className="label_nav">
     //       <span>Clothing wear</span>
     //     </label>
     //   </div>
-    //   <div className="navbar" onClick={() => props.filterData(FootWear)}>
+    //   <div className="sidenavbar" onClick={() => props.filterData(FootWear)}>
     //     <label htmlFor="touch" className="label_nav">
     //       <span>FootWears</span>
     //     </label>
     //   </div>
-    //   <div className="navbar" onClick={() => props.filterData(Accessories)}>
+    //   <div className="sidenavbar" onClick={() => props.filterData(Accessories)}>
     //     <label htmlFor="touch" className="label_nav">
     //       <span>Accessories</span>
     //     </label>
     //   </div>
     // </div>
     <div className="scroll_filter scroll">
-      <div className="navbar" onClick={() => handleClick("")}>
+      <div className="sidenavbar">
+        <label className="label_nav ">
+          <span>Shop by category</span>
+        </label>
+      </div>
+      <div className="sidenavbar" onClick={() => handleClick("")}>
         <label htmlFor="touch" className="label_nav">
           <span>All Products</span>
         </label>
@@ -63,7 +68,7 @@ const AllCategories = (props) => {
       {categoriesData.map((card) => {
         return (
           <div
-            className="navbar"
+            className="sidenavbar"
             id={card._id}
             onClick={() => handleClick(card._id)}
           >
