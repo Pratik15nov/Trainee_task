@@ -58,6 +58,7 @@ export default function Login() {
       localStorage.setItem("accessToken", response.data.data.token);
       localStorage.setItem("userData", JSON.stringify(response.data.data));
       setSelected(false);
+
       navigate("/");
     }
 

@@ -14,15 +14,17 @@ const Cartproduct = (props) => {
           />
         </div>
         <div className="col-md-6 mt-3">
-          <h5>{props.card.name}</h5>
-          <div className="mt-1 mb-1 spec-1">
-            <p>Product Quantity : {props.card.quantity}</p>
-            <p>Specification: {props.card.specification}</p>
-          </div>
+          <h5>Product Name: {props.card.name}</h5>
+
+          <p>Product Quantity : {props.card.quantity}</p>
+          <p>Specification: {props.card.specification}</p>
         </div>
         <div className="align-items-center align-content-center col-md-3 border-left mt-1">
-          <div className="d-flex flex-row align-items-center mt-2">
+          <div className="d-flex flex-row align-items-center mt-2 text">
             <h4 className="mr-1">&#x20b9; {props.card.price}</h4>
+            <p className="mr-1">
+              &#x20b9;<del>{props.card.price}</del>
+            </p>
           </div>
           <div className="d-flex flex-column mt-3 ">
             <button

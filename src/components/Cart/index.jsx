@@ -38,7 +38,7 @@ export default function Cart() {
             <div className="cart-body" />
             <div className="main-content">
               <h4 className="main-heading main">Shopping Cart</h4>
-              <div>
+              <div className="text">
                 <p>You have {cart.length} items in your cart.</p>{" "}
               </div>
               <div style={{ display: orderSubtotal > 0 ? "block" : "none" }}>
@@ -96,7 +96,7 @@ export default function Cart() {
         >
           <div className="mb-5 card">
             <div className="card-header">
-              <h6 className="mb-0">Order Summary</h6>
+              <h6 className="mb-0 text">Order Summary</h6>
             </div>
             <div className="py-4 card-body">
               <p className="text-muted text-sm">

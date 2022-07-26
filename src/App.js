@@ -15,6 +15,7 @@ import Verify from "./components/Verify";
 import ForgotPassword from "./components/forgotPassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
+import User from "./components/User";
 
 export default function App() {
   return (
@@ -79,6 +80,17 @@ export default function App() {
               <>
                 <Navbar />
                 <Order />
+              </>
+            }
+          />
+        </Route>
+        <Route exact path="/user" element={<ProtectedRoute />}>
+          <Route
+            path="/user"
+            element={
+              <>
+                <Navbar />
+                <User />
               </>
             }
           />

@@ -9,8 +9,11 @@
   margin-top: 2%;
   font-size: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  
   margin-bottom: 1%;
+}
+.card-img-top {
+  width: 175;
+  height: 175;
 }
 .cardView:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -174,4 +177,26 @@
 .font_cardView {
   text-align: center;
   font-size: 20px;
+}
+.skeimg {
+  width: 178px;
+  height: 178px;
+  margin: 12px;
+  border-radius: 5px;
+}
+.skeHeading {
+  margin: 7px;
+  margin-left: 45px;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+.skesubHeading {
+  margin-left: 60px;
+  border-radius: 5px;
+}
+.skeprice {
+  border-radius: 5px;
+}
+.skebutton {
+  border-radius: 5px;
 }

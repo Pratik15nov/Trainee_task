@@ -83,15 +83,16 @@ export default function Navbar() {
             </Link>
           </li>
           <li class="nav-item dropdown">
-            <a
+            <Link
               class="nav-link dropdown-toggle"
               id="dropdown01"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              to="/"
             >
               Categories
-            </a>
+            </Link>
             <li class="dropdown-menu" aria-labelledby="dropdown01">
               {categoriesData.map((card) => {
                 return (
@@ -131,7 +132,7 @@ export default function Navbar() {
           <li className="nav-item ">
             <Link
               className="nav-link"
-              to="/"
+              to="/user"
               style={{ display: token ? "block" : "none" }}
             >
               <svg
