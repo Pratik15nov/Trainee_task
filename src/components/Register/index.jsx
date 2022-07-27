@@ -144,9 +144,6 @@ export default function Register() {
   return (
     <div className="back text">
       <div className="registercontainer ">
-        <Link className="logo" to="/">
-          <span>e</span>Commerce
-        </Link>
         <div className="row">
           <div className="col-2">
             <img className="loginbg" src="/images/loginbg.svg" alt="Register" />

@@ -11,7 +11,7 @@ const CartModal = (props) => {
   };
   const addFunc = () => {
     const details = {
-      id: data.id,
+      id: data._id,
       name: data.name,
       img: data.img,
       price: data.price * num,
@@ -67,7 +67,7 @@ const CartModal = (props) => {
             <div className="priceModal">&#x20b9;{data.price * num}</div>
             <div className="descriptionModal">
               M.R.P.:&#x20b9;
-              <del>{data.discountPrice * num + data.price * num }</del>
+              <del>{data.discountPrice * num + data.price * num}</del>
             </div>
             <div className="descriptionModal">
               <b>Specification : </b>
@@ -75,12 +75,13 @@ const CartModal = (props) => {
             </div>
 
             <div className="counterModal d-flex justify-content-center">
-              <button className="counterbuttonModal" onClick={(e) => incNum(e)}>
-                +
-              </button>
-              <b className="counterNum">{num}</b>
               <button className="counterbuttonModal" onClick={(e) => decNum(e)}>
                 -
+              </button>
+              <b className="counterNum">{num}</b>
+
+              <button className="counterbuttonModal" onClick={(e) => incNum(e)}>
+                +
               </button>
             </div>
             <div className="addcartToModal d-flex justify-content-center">

@@ -71,14 +71,6 @@ export default function Login() {
   return (
     <div className="back text">
       <div className="registercontainer ">
-        {/* <img
-          className="logo"
-          src="/images/frontendlogo.svg"
-          alt="FRONTENDLOGO"
-        /> */}
-        <Link className="logo" to="/">
-          <span>e</span>Commerce
-        </Link>
         <div className="row">
           <div className="col-2">
             <img className="loginbg" src="/images/loginbg.svg" alt="Register" />

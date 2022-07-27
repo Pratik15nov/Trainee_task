@@ -21,10 +21,8 @@ const Cartproduct = (props) => {
         </div>
         <div className="align-items-center align-content-center col-md-3 border-left mt-1">
           <div className="d-flex flex-row align-items-center mt-2 text">
-            <h4 className="mr-1">&#x20b9; {props.card.price}</h4>
-            <p className="mr-1">
-              &#x20b9;<del>{props.card.price}</del>
-            </p>
+            <h4 className="mr-1 text">&#x20b9; {props.card.price}/-</h4>
+            
           </div>
           <div className="d-flex flex-column mt-3 ">
             <button

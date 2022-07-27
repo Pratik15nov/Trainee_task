@@ -81,6 +81,7 @@ const Allproducts = (props) => {
         (oldinfo) => oldinfo.id !== cartinfo.id
       ) || [];
     data.push(cartinfo);
+    console.log(cartinfo);
     localStorage.setItem("Data", JSON.stringify(data));
     EventEmitter.dispatch("DATA", data);
   };
@@ -159,7 +160,7 @@ const Allproducts = (props) => {
                       className="skeHeading"
                       animation="wave"
                     />
-                    
+
                     <Skeleton
                       variant="rectangular"
                       width={75}
@@ -170,22 +171,22 @@ const Allproducts = (props) => {
                   </p>
                   <div className="third_container">
                     <div className="fourth_container">
-                    <Skeleton
-                      variant="rectangular"
-                      width={55}
-                      height={20}
-                      className="skeprice"
-                      animation="wave"
-                    />
+                      <Skeleton
+                        variant="rectangular"
+                        width={55}
+                        height={20}
+                        className="skeprice"
+                        animation="wave"
+                      />
                     </div>
                     <div className="fifth_conatiner">
-                    <Skeleton
-                      variant="rectangular"
-                      width={85}
-                      height={35}
-                      className="skebutton"
-                      animation="wave"
-                    />
+                      <Skeleton
+                        variant="rectangular"
+                        width={85}
+                        height={35}
+                        className="skebutton"
+                        animation="wave"
+                      />
                     </div>
                   </div>
                 </div>

@@ -7,8 +7,9 @@ import { EventEmitter } from "../../utils/helper";
 export default function Cart() {
   const [cart, setCart] = useState([]);
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("Data")));
-  });
+    // cardData();
+    setCart(JSON.parse(localStorage.getItem("Data")) || []);
+  }, []);
 
   const orderSubtotal = Object.values(cart).reduce(
     (r, { price }) => r + price,
@@ -45,22 +46,20 @@ export default function Cart() {
                 <button
                   className="dbutton"
                   type="button"
-                  onClick={() => setCart([])}
+                  // onClick={() => setCart(localStorage.setItem("Data", JSON.stringify());)}
                 >
-                  Clear all
+                  Remove All Products
                 </button>
               </div>
             </div>
             <div
               className={
-                cart.length > 3
-                  ? "container scroll mt-5  "
-                  : "container  mt-5 "
+                cart.length > 3 ? "container scroll mt-5  " : "container  mt-5 "
               }
             >
               <div className="d-flex justify-content-center row">
                 {cart.length > 0 ? (
-                  cart.map((card, id) => {
+                  cart.map((card) => {
                     return (
                       <Cartproduct
                         card={card}
@@ -96,7 +95,7 @@ export default function Cart() {
         >
           <div className="mb-5 card">
             <div className="card-header">
-              <h6 className="mb-0 text">Order Summary</h6>
+              <h6 className="mb-0">Order Summary</h6>
             </div>
             <div className="py-4 card-body">
               <p className="text-muted text-sm">

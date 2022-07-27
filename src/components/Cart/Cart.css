@@ -29,7 +29,7 @@
 }
 .scroll {
   overflow-y: scroll;
-  height: 440px;
+  
   width: 100%;
   text-align: justify;
 }
@@ -48,7 +48,6 @@
   margin-right: 40%;
   margin-left: 40%;
   width: 20%;
-  
 }
 .dbutton {
   font-family: "Inter", sans-serif;
