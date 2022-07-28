@@ -25,4 +25,6 @@ export const forgotpassHandlerData = (body) => {
   return post(`${ENDPOINTURL}/user/forgotPassword`, body);
 };
 
-
+export const headerimgHandle = (body) => {
+  return post(`${ENDPOINTURL}/header/list`, body);
+};
