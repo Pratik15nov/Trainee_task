@@ -1,35 +1,46 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import { EventEmitter } from "../../utils/helper";
+// import { EventEmitter } from "../../utils/helper";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listBody } from "../../utils/helper";
-import { categoryHndlerData } from "../../service/auth.service";
+import { categoryHndlerData, cartHndlerData } from "../../service/auth.service";
 
 export default function Navbar() {
-  const storageData = JSON.parse(localStorage.getItem("Data"));
+
   const [categoriesData, setcategoriesData] = useState([]);
   const [token, setToken] = useState();
   const [userData, setuserData] = useState([]);
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCount(storageData ? storageData : []);
+    // setCount(storageData ? storageData : []);
     getcategoryData();
     setToken(localStorage.getItem("accessToken"));
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    getcartproductData(userData.id);
+  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [count, setCount] = useState([]);
+  // const [count, setCount] = useState([]);
+  
+  // EventEmitter.subscribe("DATA", (res) => {
+  //   setCount(res);
+  // });
 
-  EventEmitter.subscribe("DATA", (res) => {
-    setCount(res);
-  });
-
-  EventEmitter.subscribe("DELETE", (res) => {
-    setCount(res);
-  });
+  // EventEmitter.subscribe("DELETE", (res) => {
+  //   setCount(res);
+  // });
+  const getcartproductData = async (log = "") => {
+    const response = await cartHndlerData(
+      listBody({
+        where: { userId: log },
+      })
+    );
+    setCart(response.data?.data?.list[0].cartdetail);
+    // console.log(response.data?.data?.list[0].cartdetail)
+  };
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
@@ -38,9 +49,6 @@ export default function Navbar() {
     setcategoriesData(response.data?.data?.list);
   };
 
-  const handleClick = (log) => {
-    EventEmitter.dispatch("cId", log);
-  };
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userData");
@@ -81,16 +89,16 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="nav-item dropdown">
-            <Link
+            <div
               className="nav-link dropdown-toggle"
               id="dropdown01"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              to="/"
+              
             >
               Categories
-            </Link>
+            </div>
             <li className="dropdown-menu" aria-labelledby="dropdown01">
               {categoriesData.map((card) => {
                 return (
@@ -98,7 +106,7 @@ export default function Navbar() {
                     to={`/products?cid=${card._id}`}
                     id={card._id}
                     state={{ data: `${card._id}` }}
-                    onClick={() => handleClick(card._id)}
+                    // onClick={() => handleClick(card._id)}
                     className="dropdown-item"
                   >
                     {card.categoryName}
@@ -108,7 +116,7 @@ export default function Navbar() {
             </li>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/cart">
+            <Link className="nav-link" to={`/cart?uid=${userData.id}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -120,7 +128,7 @@ export default function Navbar() {
                 <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
                 <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
               </svg>
-              <span className="cart__count">{count.length}</span>
+              <span className="cart__count">{cart.length}</span>
             </Link>
           </li>
 

@@ -5,21 +5,18 @@ import { useState } from "react";
 import { URL } from "../../utils/helper";
 const CartModal = (props) => {
   const data = props.childata;
+  const userData = props.userData;
   const [num, setNum] = useState(1);
   const goBack = () => {
     props.closeHandle();
   };
   const addFunc = () => {
-    const details = {
-      id: data._id,
-      name: data.name,
-      img: data.img,
-      price: data.price * num,
-      specification: data.specification,
+    const body = {
+      userId: userData.id,
+      productId: data._id,
       quantity: num,
-      categoryId: data.categoryId,
     };
-    props.cartFunc(details);
+    props.cartFunc(body);
     props.closeHandle();
   };
   const incNum = (e) => {

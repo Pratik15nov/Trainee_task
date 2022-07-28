@@ -2,25 +2,74 @@ import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
-import { EventEmitter } from "../../utils/helper";
+// import { EventEmitter } from "../../utils/helper";
+import {
+  cartHndlerData,
+  cartproductdeleteHndlerData,
+  cartdeleteHndlerData,
+} from "../../service/auth.service";
+import { delBody, listBody } from "../../utils/helper";
+import { useLocation } from "react-router-dom";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-  useEffect(() => {
-    // cardData();
-    setCart(JSON.parse(localStorage.getItem("Data")) || []);
-  }, []);
+  const location = useLocation();
+  const [uid, setuid] = useState();
+  const { search } = location;
 
-  const orderSubtotal = Object.values(cart).reduce(
+  useEffect(() => {
+    let userId;
+    if (search.split("=").length > 0) {
+      userId = search.split("=")[1];
+    } else {
+      userId = "";
+    }
+    getcartproductData(userId);
+    setuid(userId);
+    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
+  }, [search]);
+  const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
     0
   );
-  const handleDelete = (itemId) => {
-    const items = cart.filter((item) => item.id !== itemId);
-    setCart(items);
-    localStorage.setItem("Data", JSON.stringify(items));
-    EventEmitter.dispatch("DELETE", items);
+
+  // const handleDelete = (itemId) => {
+  //   const items = cart.filter((item) => item.id !== itemId);
+  //   setCart(items);
+  //   EventEmitter.dispatch("DELETE", items);
+  // };
+
+  const handleDelete = async (itemId) => {// eslint-disable-next-line
+    const response = await cartproductdeleteHndlerData(
+      delBody({
+        userId: String(uid),
+        productId: String(itemId),
+      })
+    );
+    getcartproductData(uid);
+    // EventEmitter.dispatch("DELETE", cart);
   };
+
+  const claerAll = async () => {// eslint-disable-next-line
+    const response = await cartdeleteHndlerData(
+      delBody({
+        userId: String(uid),
+      })
+    );
+    getcartproductData(uid);
+  };
+
+  const getcartproductData = async (log = "") => {
+    const response = await cartHndlerData(
+      listBody({
+        where: { userId: log },
+      })
+    );
+    setCart(response.data?.data?.list[0].cartdetail);
+    // console.log(response.data?.data?.list[0].cartdetail)
+  };
+
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
   const tax = (orderSubtotal / 100) * 18;
   const Total = orderSubtotal + tax + shipCharge;
@@ -43,11 +92,7 @@ export default function Cart() {
                 <p>You have {cart.length} items in your cart.</p>{" "}
               </div>
               <div style={{ display: orderSubtotal > 0 ? "block" : "none" }}>
-                <button
-                  className="dbutton"
-                  type="button"
-                  // onClick={() => setCart(localStorage.setItem("Data", JSON.stringify());)}
-                >
+                <button className="dbutton" type="button" onClick={claerAll}>
                   Remove All Products
                 </button>
               </div>

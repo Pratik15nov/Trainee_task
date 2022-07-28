@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import "../AllProducts/Allproducts.css";
 // import { PopularData } from "../../Data/PopularData";
 import CartModal from "../cartModalview";
-import { EventEmitter } from "../../utils/helper";
+// import { EventEmitter } from "../../utils/helper";
 import AllCategories from "../AllCategories";
 import { listBody } from "../../utils/helper";
-import { productHndlerData } from "../../service/auth.service";
+import {
+  productHndlerData,
+  addcartHndlerData,
+} from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
@@ -18,6 +21,8 @@ const Allproducts = (props) => {
   const [dataNotFound, setDataNotFound] = useState(false);
   const location = useLocation();
   const { search } = location;
+  const [userData, setuserData] = useState([]);
+  // const [selected, setSelected] = useState(false);
   useEffect(() => {
     let categoryId;
     if (search.split("=").length > 0) {
@@ -28,6 +33,7 @@ const Allproducts = (props) => {
     getproductData(categoryId);
     setDataNotFound(false);
     setLoading(true);
+    setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getproductData = async (log = "") => {
@@ -63,7 +69,6 @@ const Allproducts = (props) => {
     // } else {
     //   setDataNotFound(true);
     // }
-    console.log(response.data?.data?.success);
   };
 
   const parentFunc = (card) => {
@@ -74,16 +79,19 @@ const Allproducts = (props) => {
     setShow(false);
     setChildata([]);
   };
-  const cartFunc = (cartinfo) => {
+  const cartFunc = async (cartdata) => {
     setChildata([]);
-    const data =
-      JSON.parse(localStorage.getItem("Data"))?.filter(
-        (oldinfo) => oldinfo.id !== cartinfo.id
-      ) || [];
-    data.push(cartinfo);
-    console.log(cartinfo);
-    localStorage.setItem("Data", JSON.stringify(data));
-    EventEmitter.dispatch("DATA", data);
+
+    const body = {
+      userId: cartdata.userId,
+      productId: cartdata.productId,
+      quantity: cartdata.quantity,
+    };
+    // localStorage.setItem("Data", JSON.stringify(cartdata));
+    // eslint-disable-next-line
+    const response = await addcartHndlerData(body); // eslint-disable-next-line
+    // EventEmitter.dispatch("DATA", body.quantity.length);
+    console.log(cartdata)
   };
 
   return (
@@ -198,6 +206,7 @@ const Allproducts = (props) => {
               childata={childata}
               cartFunc={cartFunc}
               closeHandle={closeHandle}
+              userData={userData}
             />
           )}
         </div>

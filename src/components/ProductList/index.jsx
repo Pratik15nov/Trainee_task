@@ -5,11 +5,15 @@ import CartModal from "../cartModalview";
 import SeeMore from "../SeemoreCard";
 import { EventEmitter } from "../../utils/helper";
 import { listBody } from "../../utils/helper";
-import { productHndlerData } from "../../service/auth.service";
+import {
+  productHndlerData,
+  addcartHndlerData,
+} from "../../service/auth.service";
 
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
+  const [userData, setuserData] = useState([]);
 
   const parentFunc = () => {
     setShow(true);
@@ -21,26 +25,29 @@ const ProductList = (props) => {
   const takeData = (info) => {
     setChildata(info);
   };
-  const cartFunc = (cartinfo) => {
+  const cartFunc = async (cartdata) => {
     setChildata([]);
-    const data =
-      JSON.parse(localStorage.getItem("Data"))?.filter(
-        (oldinfo) => oldinfo.id !== cartinfo.id
-      ) || [];
-    data.push(cartinfo);
 
-    localStorage.setItem("Data", JSON.stringify(data));
-    EventEmitter.dispatch("DATA", data);
+    const body = {
+      userId: cartdata.userId,
+      productId: cartdata.productId,
+      quantity: cartdata.quantity,
+    };
+    // localStorage.setItem("Data", JSON.stringify(cartdata));
+// eslint-disable-next-line
+    const response = await addcartHndlerData(body); 
+    EventEmitter.dispatch("DATA", body.quantity.length);
   };
 
   const [productData, setproductData] = useState([]);
   useEffect(() => {
     getproductData();
+    setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, []);
 
   const getproductData = async () => {
     const response = await productHndlerData(
-      listBody({ where: { isActive: true }, perPage: 1000 })
+      listBody({ where: { isActive: true } })
     );
     setproductData(response.data?.data?.list);
   };
@@ -73,6 +80,7 @@ const ProductList = (props) => {
           childata={childata}
           cartFunc={cartFunc}
           closeHandle={closeHandle}
+          userData={userData}
         />
       )}
     </div>

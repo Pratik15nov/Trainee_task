@@ -6,8 +6,8 @@ import { validName } from "../../utils/helper";
 import { validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
-import Select from "react-select";
-import csc from "country-state-city";
+// import Select from "react-select";
+// import csc from "country-state-city";
 
 import { useReactToPrint } from "react-to-print";
 export default function Checkout() {
@@ -20,10 +20,10 @@ export default function Checkout() {
     setCart(JSON.parse(localStorage.getItem("Data")));
   }, []);
 
-  const conHandler = (event) => {
-    console.log(event.name);
-    setDropcountry(event.name);
-  };
+  // const conHandler = (event) => {
+  //   console.log(event.name);
+  //   setDropcountry(event.name);
+  // };
   // const stateHandler = (event) => {
   //   console.log(event.name);
   //   setDropstate(event.name);
@@ -89,9 +89,9 @@ export default function Checkout() {
   const [cardname, setCardname] = useState("");
   const [cardnumber, setCardnumber] = useState("");
   const [expdate, setExpdate] = useState("");
-  const [cvv, setCvv] = useState("");
+  const [cvv, setCvv] = useState("");// eslint-disable-next-line
   const [pincode, setPincode] = useState("");
-  const [promoCode, setPromoCode] = useState("");
+  const [promoCode, setPromoCode] = useState("");// eslint-disable-next-line
   const [dropcountry, setDropcountry] = useState(""); // eslint-disable-next-line
   const [dropstate, setDropstate] = useState(""); // eslint-disable-next-line
   const [dropcity, setDropcity] = useState("");
@@ -100,16 +100,16 @@ export default function Checkout() {
   const [lnameErr, setlnameErr] = useState(false);
   const [phonenoErr, setphonenoErr] = useState(false);
   const [addressErr, setAddressErr] = useState(false);
-  const [address2Err, setAddress2Err] = useState(false);
+  const [address2Err, setAddress2Err] = useState(false);// eslint-disable-next-line
   const [pincodeErr, setPincodeErr] = useState(false);
   const [cardnameErr, setCardnameErr] = useState(false);
   const [cardnumberErr, setCardnumberErr] = useState(false);
   const [expdateErr, setExpdateErr] = useState(false);
   const [cvvErr, setCvvErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
-  const [promocodeSuc, setPromocodeSuc] = useState(false);
-  const [dropcountryErr, setDropcountryErr] = useState(false);
-  const [dropstateErr, setDropstateErr] = useState(false);
+  const [promocodeSuc, setPromocodeSuc] = useState(false);// eslint-disable-next-line
+  const [dropcountryErr, setDropcountryErr] = useState(false);// eslint-disable-next-line
+  const [dropstateErr, setDropstateErr] = useState(false);// eslint-disable-next-line
   const [dropcityErr, setDropcityErr] = useState(false);
   const allData = [];
   const Navigate = useNavigate();

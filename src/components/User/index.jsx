@@ -13,11 +13,9 @@ export default function User() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
-  const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState(false);
   const [fnameErr, setfnameErr] = useState(false);
   const [lnameErr, setlnameErr] = useState(false);
-  const [passwordErr, setPasswordErr] = useState(false);
   const [phonenoErr, setphonenoErr] = useState(false);
   const [msg, setMsg] = useState(false);
   const [selected, setSelected] = useState(false);
@@ -33,7 +31,7 @@ export default function User() {
     } else {
       userId = "";
     }
-    getuserData(userId);
+    getuserData(userId);// eslint-disable-next-line 
   }, []);
 
   const getuserData = async (userId) => {
@@ -95,7 +93,6 @@ export default function User() {
       lastName,
       email,
       phoneNumber,
-      password,
     };
     const response = await userupdateHandlerData(uid, body); // eslint-disable-next-line
     if (response.status == "200") {

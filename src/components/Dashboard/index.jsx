@@ -23,7 +23,6 @@ export default function App() {
       className="mySwiper"
     >
       <SwiperSlide>
-      
         <img className="banner" alt="bg" src={"/images/banner1.jpg"} />
       </SwiperSlide>
       <SwiperSlide>

@@ -1,4 +1,4 @@
-import { get, post, patch } from "./web.request";
+import { get, post, patch, remove } from "./web.request";
 import { ENDPOINTURL } from "../utils/helper";
 
 export const categoryHndlerData = (body) => {
@@ -35,4 +35,20 @@ export const userHndlerData = (id) => {
 
 export const userupdateHandlerData = (id, body) => {
   return patch(`${ENDPOINTURL}/user/${id}`, body);
+};
+
+export const addcartHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart`, body);
+};
+
+export const cartHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart/list`, body);
+};
+
+export const cartproductdeleteHndlerData = (body) => {
+  return remove(`${ENDPOINTURL}/cart`, body);
+};
+
+export const cartdeleteHndlerData = (body) => {
+  return remove(`${ENDPOINTURL}/cart/clearAll`, body);
 };
