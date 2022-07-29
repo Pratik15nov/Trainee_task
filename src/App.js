@@ -12,7 +12,7 @@ import Allproducts from "./components/AllProducts";
 import Checkout from "./components/Checkout";
 import Order from "./components/Order";
 import Verify from "./components/Verify";
-import ForgotPassword from "./components/forgotPassword";
+import ForgotPassword from "./components/ForgotPassword";
 import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
