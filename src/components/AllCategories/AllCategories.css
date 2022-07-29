@@ -14,7 +14,7 @@
   color: rgb(0, 0, 0);
 
   font-size: 1.2em;
-  
+
   cursor: pointer;
   display: block;
   border-radius: 10px;
@@ -98,10 +98,18 @@
   width: 5px;
 }
 .scroll::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
 .scroll::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  -webkit-box-shadow: inset 0 0 6px #cecec963;
+  box-shadow: inset 0 0 6px #cecec963;
+}
+.skeleton {
+  border-radius: 12px;
+  margin: 4% 0 0 7%;
+  width: 90%;
+}
+.skeleton_box{
+  margin-top: 8%;
 }
