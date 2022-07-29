@@ -9,11 +9,14 @@ import {
   productHndlerData,
   addcartHndlerData,
 } from "../../service/auth.service";
+import Cardskeleton from "../Products/Cardskeleton";
+import Box from "@mui/material/Box";
 
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [userData, setuserData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const parentFunc = () => {
     setShow(true);
@@ -34,8 +37,8 @@ const ProductList = (props) => {
       quantity: cartdata.quantity,
     };
     // localStorage.setItem("Data", JSON.stringify(cartdata));
-// eslint-disable-next-line
-    const response = await addcartHndlerData(body); 
+    // eslint-disable-next-line
+    const response = await addcartHndlerData(body);
     EventEmitter.dispatch("DATA", body.quantity.length);
   };
 
@@ -50,6 +53,7 @@ const ProductList = (props) => {
       listBody({ where: { isActive: true } })
     );
     setproductData(response.data?.data?.list);
+    setLoading(false);
   };
 
   return (
@@ -60,17 +64,30 @@ const ProductList = (props) => {
           We provide best quality & fresh grocery items near your location
         </p>
         <div>
-          {productData.slice(0, 7).map((card) => {
-            return (
-              <Products
-                parentFunc={parentFunc}
-                takeData={takeData}
-                card={card}
-                key={card.id}
-              />
-            );
-          })}
+          {productData.length > 0 &&
+            productData.slice(0, 7).map((card) => {
+              return (
+                <Products
+                  parentFunc={parentFunc}
+                  takeData={takeData}
+                  card={card}
+                  key={card.id}
+                />
+              );
+            })}
         </div>
+
+        {loading && (
+          <Box>
+            <Cardskeleton />
+            <Cardskeleton />
+            <Cardskeleton />
+            <Cardskeleton />
+            <Cardskeleton />
+            <Cardskeleton />
+            <Cardskeleton />
+          </Box>
+        )}
         <div>
           <SeeMore />
         </div>

@@ -10,12 +10,15 @@ import {
 } from "../../service/auth.service";
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Cartskeleton from "./Cartskeleton";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let userId;
@@ -24,8 +27,10 @@ export default function Cart() {
     } else {
       userId = "";
     }
+
     getcartproductData(userId);
     setuid(userId);
+
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -40,18 +45,21 @@ export default function Cart() {
   //   EventEmitter.dispatch("DELETE", items);
   // };
 
-  const handleDelete = async (itemId) => {// eslint-disable-next-line
+  const handleDelete = async (itemId) => {
+    // eslint-disable-next-line
     const response = await cartproductdeleteHndlerData(
       delBody({
         userId: String(uid),
         productId: String(itemId),
       })
     );
+
     getcartproductData(uid);
     // EventEmitter.dispatch("DELETE", cart);
   };
 
-  const claerAll = async () => {// eslint-disable-next-line
+  const claerAll = async () => {
+    // eslint-disable-next-line
     const response = await cartdeleteHndlerData(
       delBody({
         userId: String(uid),
@@ -67,6 +75,10 @@ export default function Cart() {
       })
     );
     setCart(response.data?.data?.list[0].cartdetail);
+    if (Cart.length > 0) {
+      setLoading(false);
+    }
+
     // console.log(response.data?.data?.list[0].cartdetail)
   };
 
@@ -75,11 +87,12 @@ export default function Cart() {
   const Total = orderSubtotal + tax + shipCharge;
 
   return (
+    <>
     <div className="container">
       <div className="mb-5 row">
         <div
           className={
-            orderSubtotal > 0
+            cart.length > 0
               ? "pe-xl-3 col-lg-8 card "
               : "pe-xl-3 col-lg-12 card"
           }
@@ -103,7 +116,7 @@ export default function Cart() {
               }
             >
               <div className="d-flex justify-content-center row">
-                {cart.length > 0 ? (
+                {cart.length > 0 &&
                   cart.map((card) => {
                     return (
                       <Cartproduct
@@ -112,8 +125,9 @@ export default function Cart() {
                         onDelete={handleDelete}
                       />
                     );
-                  })
-                ) : (
+                  })}
+
+                {cart.length === 0 && (
                   <div className="col-md-10 main pt-2">
                     <img
                       src="/images/empty-cart.webp"
@@ -192,5 +206,8 @@ export default function Cart() {
         </div>
       </div>
     </div>
+
+    <Cartskeleton/>
+    </>
   );
 }

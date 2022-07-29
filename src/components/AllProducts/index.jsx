@@ -11,7 +11,8 @@ import {
 } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
-import Skeleton from "@mui/material/Skeleton";
+import AllproductSkeleton from "./AllproductSkeleton";
+import Box from "@mui/material/Box";
 
 const Allproducts = (props) => {
   const [show, setShow] = useState(false);
@@ -32,11 +33,11 @@ const Allproducts = (props) => {
     }
     getproductData(categoryId);
     setDataNotFound(false);
-    setLoading(true);
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getproductData = async (log = "") => {
+    setproductData([]);
     let body;
     if (log.length === 0) {
       body = listBody({
@@ -91,7 +92,7 @@ const Allproducts = (props) => {
     // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     // EventEmitter.dispatch("DATA", body.quantity.length);
-    console.log(cartdata)
+    console.log(cartdata);
   };
 
   return (
@@ -102,7 +103,6 @@ const Allproducts = (props) => {
       <div className="col-9 data_div">
         <div className="data_container">
           {productData.length > 0 &&
-            !loading &&
             productData.map((card) => {
               return (
                 <div className="cardView " key={card.id}>
@@ -136,6 +136,7 @@ const Allproducts = (props) => {
                 </div>
               );
             })}
+
           {dataNotFound && (
             <div className="col-md-12 main pt-5">
               <img
@@ -147,59 +148,18 @@ const Allproducts = (props) => {
               {/* <p className="header_two">Please add product to your cart list</p> */}
             </div>
           )}
-          {productData.length > 0 &&
-            loading &&
-            productData.map((card) => {
-              return (
-                <div className="cardView " key={card.id}>
-                  <Skeleton
-                    variant="rectangular"
-                    width={175}
-                    height={175}
-                    className="skeimg"
-                    animation="wave"
-                  />
-
-                  <p className="">
-                    <Skeleton
-                      variant="rectangular"
-                      width={100}
-                      height={28}
-                      className="skeHeading"
-                      animation="wave"
-                    />
-
-                    <Skeleton
-                      variant="rectangular"
-                      width={75}
-                      height={20}
-                      className="skesubHeading"
-                      animation="wave"
-                    />
-                  </p>
-                  <div className="third_container">
-                    <div className="fourth_container">
-                      <Skeleton
-                        variant="rectangular"
-                        width={55}
-                        height={20}
-                        className="skeprice"
-                        animation="wave"
-                      />
-                    </div>
-                    <div className="fifth_conatiner">
-                      <Skeleton
-                        variant="rectangular"
-                        width={85}
-                        height={35}
-                        className="skebutton"
-                        animation="wave"
-                      />
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          {!dataNotFound && loading && (
+            <Box>
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+              <AllproductSkeleton />
+            </Box>
+          )}
 
           {show && (
             <CartModal
