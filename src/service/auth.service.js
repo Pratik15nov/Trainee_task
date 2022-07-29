@@ -25,6 +25,9 @@ export const forgotpassHandlerData = (body) => {
   return post(`${ENDPOINTURL}/user/forgotPassword`, body);
 };
 
+export const headerimgHandle = (body) => {
+  return post(`${ENDPOINTURL}/header/list`, body);
+}
 export const compassHandlerData = (body, id) => {
   return post(`${ENDPOINTURL}/user/verifyAndChangePassword/${id}`, body);
 };
