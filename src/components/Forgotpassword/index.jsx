@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Register/Register.css";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import { validEmail } from "../../utils/helper";
 import { forgotpassHandlerData } from "../../service/auth.service";
 
 // import { sendData } from "../../services/authservices";
 
-export default function Register() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState(false);
   const [msg, setMsg] = useState(null);
 
   // const [fromdata, setformData] = useState([]);
   const [selected, setSelected] = useState(false);
-  const navigate = useNavigate();
 
   const validate = () => {
     let formIsValid = true;
@@ -31,39 +28,6 @@ export default function Register() {
 
     return formIsValid;
   };
-  // const handleSubmit = (e) => {
-  //   if (validate() !== true) {
-  //   } else {
-  //     alert(firstname);
-  //     localStorage.setItem("username", JSON.stringify(firstname));
-  //     localStorage.setItem("role", JSON.stringify(lastname));
-  //     localStorage.setItem("email", JSON.stringify(email));
-  //     localStorage.setItem("mobileNumber", JSON.stringify(phoneno));
-  //     localStorage.setItem("password", JSON.stringify(password));
-  //   }
-  //   e.preventDefault();
-
-  //   const details = {
-  //     username: firstname,
-  //     role: lastname,
-  //     email: email,
-  //     phoneNumber: phoneno,
-  //     password: password,
-  //   };
-  //   allData.push(details);
-  //   console.log(allData);
-  //   //  sendData(allData);
-
-  //   // sendData(localStorage);
-  // };
-  // const isButtonSelected = (value) => {
-  //   if (selected === value) {
-  //     return true;
-  //   }
-  // };
-  // const onChange = (e) => {
-  //   setSelected(e.target.value);
-  // };
 
   const handleSubmit = (e) => {
     if (validate() !== true) {
@@ -81,8 +45,6 @@ export default function Register() {
     };
     const response = await forgotpassHandlerData(body); // eslint-disable-next-line
     if (response.status == "400") {
-      navigate(`/forgotPasword?uid=${response}`);
-
       setSelected(false);
     }
     if (response.message) {
@@ -95,9 +57,6 @@ export default function Register() {
   return (
     <div className="back text">
       <div className="registercontainer ">
-        <Link className="logo" to="/">
-          <span>e</span>Commerce
-        </Link>
         <div className="row">
           <div className="col-2">
             <img className="loginbg" src="/images/loginbg.svg" alt="Register" />

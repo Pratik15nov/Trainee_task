@@ -23,8 +23,18 @@
   padding-top: 3px;
   padding-bottom: 3px;
   border-radius: 15px;
-  
 }
-.count:hover{
+.count:hover {
   background-color: aquamarine;
+}
+.cart__count {
+  
+  
+  display: inline-block;
+  padding: 0px 7px;
+  color: rgb(0, 0, 0);
+  background-color: rgb(247, 247, 247);
+  border-radius: 100%;
+  padding: -3px;
+  
 }

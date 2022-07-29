@@ -11,7 +11,7 @@ export const get = async (url) => {
   return response;
 };
 
-// export const softDelete = async (url, data) => {
+// export const remove  = async (url, data) => {
 //   const response = await axios
 //     .delete(url, data)
 //     .then((res) => {
@@ -22,18 +22,29 @@ export const get = async (url) => {
 //     });
 //   return response;
 // };
+export const remove = async (url, data) => {
+  const response = await axios
+    .delete(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  return response;
+};
 
-// export const patch = async (url, data) => {
-//   const response = await axios
-//     .put(url, data)
-//     .then((res) => {
-//       return res;
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//     });
-//   return response;
-// };
+export const patch = async (url, data) => {
+  const response = await axios
+    .patch(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  return response;
+};
 
 export const post = async (url, data) => {
   return await axios

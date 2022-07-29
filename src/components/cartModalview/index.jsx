@@ -5,21 +5,18 @@ import { useState } from "react";
 import { URL } from "../../utils/helper";
 const CartModal = (props) => {
   const data = props.childata;
+  const userData = props.userData;
   const [num, setNum] = useState(1);
   const goBack = () => {
     props.closeHandle();
   };
   const addFunc = () => {
-    const details = {
-      id: data.id,
-      name: data.name,
-      img: data.img,
-      price: data.price * num,
-      specification: data.specification,
+    const body = {
+      userId: userData.id,
+      productId: data._id,
       quantity: num,
-      categoryId: data.categoryId,
     };
-    props.cartFunc(details);
+    props.cartFunc(body);
     props.closeHandle();
   };
   const incNum = (e) => {
@@ -67,7 +64,7 @@ const CartModal = (props) => {
             <div className="priceModal">&#x20b9;{data.price * num}</div>
             <div className="descriptionModal">
               M.R.P.:&#x20b9;
-              <del>{data.discountPrice * num + data.price * num }</del>
+              <del>{data.discountPrice * num + data.price * num}</del>
             </div>
             <div className="descriptionModal">
               <b>Specification : </b>
@@ -75,12 +72,13 @@ const CartModal = (props) => {
             </div>
 
             <div className="counterModal d-flex justify-content-center">
-              <button className="counterbuttonModal" onClick={(e) => incNum(e)}>
-                +
-              </button>
-              <b className="counterNum">{num}</b>
               <button className="counterbuttonModal" onClick={(e) => decNum(e)}>
                 -
+              </button>
+              <b className="counterNum">{num}</b>
+
+              <button className="counterbuttonModal" onClick={(e) => incNum(e)}>
+                +
               </button>
             </div>
             <div className="addcartToModal d-flex justify-content-center">

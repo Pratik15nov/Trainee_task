@@ -1,4 +1,4 @@
-import { post } from "./web.request";
+import { get, post, patch, remove } from "./web.request";
 import { ENDPOINTURL } from "../utils/helper";
 
 export const categoryHndlerData = (body) => {
@@ -27,4 +27,31 @@ export const forgotpassHandlerData = (body) => {
 
 export const headerimgHandle = (body) => {
   return post(`${ENDPOINTURL}/header/list`, body);
+}
+export const compassHandlerData = (body, id) => {
+  return post(`${ENDPOINTURL}/user/verifyAndChangePassword/${id}`, body);
+};
+
+export const userHndlerData = (id) => {
+  return get(`${ENDPOINTURL}/user/${id}`);
+};
+
+export const userupdateHandlerData = (id, body) => {
+  return patch(`${ENDPOINTURL}/user/${id}`, body);
+};
+
+export const addcartHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart`, body);
+};
+
+export const cartHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart/list`, body);
+};
+
+export const cartproductdeleteHndlerData = (body) => {
+  return remove(`${ENDPOINTURL}/cart`, body);
+};
+
+export const cartdeleteHndlerData = (body) => {
+  return remove(`${ENDPOINTURL}/cart/clearAll`, body);
 };

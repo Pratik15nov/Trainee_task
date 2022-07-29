@@ -28,7 +28,7 @@ export const listBody = (data) => {
     pagination: {
       sortBy: data?.sortBy ? data.sortBy : "createdAt",
       descending: true,
-      rowsPerPage: data?.perPage ? data.perPage : 5,
+      rowsPerPage: data?.perPage ? data.perPage : 10000,
       page: data?.page ? data.page : 1,
     },
   };
@@ -45,3 +45,10 @@ export const suceessUser = (Message) => {
     progress: undefined,
   });
 };
+
+
+export const delBody = (data) => {
+  return{
+    data
+  }
+}
