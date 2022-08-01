@@ -30,7 +30,7 @@ export default function Verify() {
         perPage: 1000,
       })
     );
-    setData(response.data.list[0].firstName);
+    setData(response[0].firstName);
     console.log(response.data);
   };
   // console.log(Data)

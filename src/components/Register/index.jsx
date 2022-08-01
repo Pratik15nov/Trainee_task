@@ -77,40 +77,7 @@ export default function Register() {
 
     return formIsValid;
   };
-  // const handleSubmit = (e) => {
-  //   if (validate() !== true) {
-  //   } else {
-  //     alert(firstname);
-  //     localStorage.setItem("username", JSON.stringify(firstname));
-  //     localStorage.setItem("role", JSON.stringify(lastname));
-  //     localStorage.setItem("email", JSON.stringify(email));
-  //     localStorage.setItem("mobileNumber", JSON.stringify(phoneno));
-  //     localStorage.setItem("password", JSON.stringify(password));
-  //   }
-  //   e.preventDefault();
-
-  //   const details = {
-  //     username: firstname,
-  //     role: lastname,
-  //     email: email,
-  //     phoneNumber: phoneno,
-  //     password: password,
-  //   };
-  //   allData.push(details);
-  //   console.log(allData);
-  //   //  sendData(allData);
-
-  //   // sendData(localStorage);
-  // };
-  // const isButtonSelected = (value) => {
-  //   if (selected === value) {
-  //     return true;
-  //   }
-  // };
-  // const onChange = (e) => {
-  //   setSelected(e.target.value);
-  // };
-
+ 
   const handleSubmit = (e) => {
     if (validate() !== true) {
     } else {
@@ -130,15 +97,15 @@ export default function Register() {
       phoneNumber,
     };
     const response = await userHandlerData(body); // eslint-disable-next-line
-    if (response.status == "200") {
-      navigate(`/verify?cid=${response.data.data._id}`);
+    if (response.success) {
+      navigate(`/verify?cid=${response?.data._id}`);
       suceessUser("Verification email sent successfully!");
       setSelected(false);
-    }
-    if (response.message) {
+    } else {
       setSelected(false);
+      setMsg(response.message);
     }
-    setMsg(response.message);
+    
   };
 
   return (

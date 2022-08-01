@@ -11,7 +11,7 @@ import { URL } from "../../utils/helper";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function App() {
+export default function Dashboard() {
   const [imgdata, setimgData] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function App() {
     const response = await headerimgHandle(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setimgData(response.data?.data?.list);
+    setimgData(response);
   };
 
   return (
@@ -43,7 +43,7 @@ export default function App() {
         {imgdata.length > 0 &&
           imgdata.map((data) => (
             <SwiperSlide>
-              <Link to={`/products?cid=${data.categoryId._id}`}>
+              <Link to={data.categoryId?._id ? `/products?cid=${data.categoryId._id}` : '/products'}>
                 <img className="banner" alt="bg" src={URL + data.Img} />
               </Link>
             </SwiperSlide>

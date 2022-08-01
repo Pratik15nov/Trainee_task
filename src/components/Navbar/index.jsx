@@ -38,15 +38,14 @@ export default function Navbar() {
         where: { userId: log },
       })
     );
-    setCart(response.data?.data?.list[0].cartdetail);
-    // console.log(response.data?.data?.list[0].cartdetail)
+      setCart(response);
   };
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setcategoriesData(response.data?.data?.list);
+    setcategoriesData(response);
   };
 
   const logout = () => {
@@ -100,9 +99,10 @@ export default function Navbar() {
               Categories
             </div>
             <li className="dropdown-menu" aria-labelledby="dropdown01">
-              {categoriesData.map((card) => {
+              {categoriesData?.map((card, index) => {
                 return (
                   <Link
+                    key={`category_${index}`}
                     to={`/products?cid=${card._id}`}
                     id={card._id}
                     state={{ data: `${card._id}` }}
@@ -193,7 +193,7 @@ export default function Navbar() {
             style={{ display: token ? "none" : "block" }}
           >
             <Link className="nav-link" to="/login">
-              Log In
+              Log-In
             </Link>
           </li>
         </ul>

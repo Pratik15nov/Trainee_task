@@ -57,8 +57,8 @@ const Allproducts = (props) => {
     }
     setLoading(true);
     const response = await productHndlerData(body);
-    setproductData(response.data?.data?.list);
-    if (response.data?.data?.list.length > 0) {
+    setproductData(response);
+    if (response.length > 0) {
       setDataNotFound(false);
       setLoading(false);
     } else {

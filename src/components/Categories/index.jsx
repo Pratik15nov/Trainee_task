@@ -19,7 +19,7 @@ export default function Categories() {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setcategoriesData(response.data?.data?.list);
+    setcategoriesData(response);
   };
 
   return (
@@ -72,8 +72,7 @@ export default function Categories() {
               },
             }}
           >
-            {categoriesData.length > 0 &&
-              categoriesData.map((card) => {
+            {categoriesData?.map((card) => {
                 return (
                   <SwiperSlide key={card.id}>
                     <div className="cimg-container">
