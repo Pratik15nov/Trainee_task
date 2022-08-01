@@ -79,9 +79,6 @@ export default function Cart() {
       setCart([]);
       
     }
-   
-
-    
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
