@@ -74,6 +74,10 @@ export default function Cart() {
         where: { userId: log },
       })
     );
+
+    if (response[0]?.cartdetail.length === 0 ) {
+      setCart([])
+    }
     setCart(response[0]?.cartdetail);
     if (response.length > 0) {
       setLoading(false);
