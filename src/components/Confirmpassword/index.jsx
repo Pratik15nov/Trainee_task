@@ -7,11 +7,7 @@ import { compassHandlerData } from "../../service/auth.service";
 
 // import { sendData } from "../../services/authservices";
 
-<<<<<<< HEAD
-export default function Confirmpassword() {
-=======
 export default function ConfirmPassword() {
->>>>>>> b06c44ba9358bb6f77c516a52e7b106c6612afe2
   const [password, setPassword] = useState("");
   const [passwordErr, setPasswordErr] = useState(false);
   const [compassword, setcomPassword] = useState("");

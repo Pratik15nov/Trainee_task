@@ -12,11 +12,7 @@ import Allproducts from "./components/AllProducts";
 import Checkout from "./components/Checkout";
 import Order from "./components/Order";
 import Verify from "./components/Verify";
-<<<<<<< HEAD
 import ForgotPassword from "./components/ForgotPassword";
-=======
-import ForgotPassword from "./components/Forgotpassword";
->>>>>>> b06c44ba9358bb6f77c516a52e7b106c6612afe2
 import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
