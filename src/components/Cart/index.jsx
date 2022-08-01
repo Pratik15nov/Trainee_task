@@ -211,7 +211,7 @@ export default function Cart() {
                     className=" mx-auto d-block"
                     alt="..."
                   />
-                  <p className="header_one">Your cart is empty.</p>
+                  <p className="header_one">Your cart is empty!!</p>
                   <p className="header_two">
                     Please add product to your cart list
                   </p>
