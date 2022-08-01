@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Register/Register.css";
 import { validEmail } from "../../utils/helper";
@@ -6,7 +7,7 @@ import { forgotpassHandlerData } from "../../service/auth.service";
 
 // import { sendData } from "../../services/authservices";
 
-export default function ForgotPassword() {
+function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState(false);
   const [msg, setMsg] = useState(null);
@@ -50,7 +51,6 @@ export default function ForgotPassword() {
     if (response.message) {
       setSelected(false);
     }
-    console.log(response);
     setMsg(response.message);
   };
 
@@ -110,3 +110,5 @@ export default function ForgotPassword() {
     </div>
   );
 }
+
+export default ForgotPassword;

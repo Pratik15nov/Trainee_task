@@ -16,7 +16,7 @@ const AllCategories = (props) => {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setcategoriesData(response.data?.data?.list);
+    setcategoriesData(response);
   };
 
   const handleClick = (id) => {

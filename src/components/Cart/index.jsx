@@ -10,7 +10,6 @@ import {
 } from "../../service/auth.service";
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
-// import Box from "@mui/material/Box";
 import Cartskeleton from "./Cartskeleton";
 
 export default function Cart() {
@@ -30,6 +29,7 @@ export default function Cart() {
 
     getcartproductData(userId);
     setuid(userId);
+    setLoading(true);
 
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
@@ -74,10 +74,12 @@ export default function Cart() {
         where: { userId: log },
       })
     );
-    setCart(response.data?.data?.list[0].cartdetail);
-    if (response.data?.data?.list) {
+    setCart(response[0]?.cartdetail);
+    if (response.length > 0) {
       setLoading(false);
     }
+
+    // console.log(response.data?.data?.list[0].cartdetail)
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -196,12 +198,13 @@ export default function Cart() {
             </div>
           </div>
         )}
-        <div className="mb-5 row">
-          <div className="pe-xl-3 col-lg-12 card">
-            <div className="cart mb-3">
-              <div className="cart-body" />
-              <div className="main-content"></div>
-              {cart.length === 0 && (
+        {cart.length === 0 && !loading && (
+          <div className="mb-5 row">
+            <div className="pe-xl-3 col-lg-12 card">
+              <div className="cart mb-3">
+                <div className="cart-body" />
+                <div className="main-content"></div>
+
                 <div className="col-md-12 main pt-2">
                   <img
                     src="/images/empty-cart.webp"
@@ -216,10 +219,10 @@ export default function Cart() {
                     <button className="carthome button">Go to Home</button>
                   </Link>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {loading && <Cartskeleton />}

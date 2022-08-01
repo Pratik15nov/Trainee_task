@@ -52,7 +52,7 @@ const ProductList = (props) => {
     const response = await productHndlerData(
       listBody({ where: { isActive: true } })
     );
-    setproductData(response.data?.data?.list);
+    setproductData(response);
     setLoading(false);
   };
 
@@ -65,14 +65,17 @@ const ProductList = (props) => {
         </p>
         <div>
           {productData.length > 0 &&
-            productData.slice(0, 7).map((card) => {
+            productData.slice(0, 7).map((card, index) => {
               return (
+                <div key={`products_${index}`}>
                 <Products
+                  index={index}
                   parentFunc={parentFunc}
                   takeData={takeData}
                   card={card}
                   key={card.id}
                 />
+                </div>
               );
             })}
         </div>
