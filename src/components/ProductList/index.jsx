@@ -59,22 +59,23 @@ const ProductList = (props) => {
   return (
     <div>
       <div>
-        <h1 className="header_one">Popular product that we sold</h1>
+        <h1 className="header_one">The One-stop Shopping Destination</h1>
         <p className="header_two">
-          We provide best quality & fresh grocery items near your location
+          E-commerce is revolutionizing the
+          way we all shop in India.
         </p>
         <div>
           {productData.length > 0 &&
             productData.slice(0, 7).map((card, index) => {
               return (
                 <div key={`products_${index}`}>
-                <Products
-                  index={index}
-                  parentFunc={parentFunc}
-                  takeData={takeData}
-                  card={card}
-                  key={card.id}
-                />
+                  <Products
+                    index={index}
+                    parentFunc={parentFunc}
+                    takeData={takeData}
+                    card={card}
+                    key={card.id}
+                  />
                 </div>
               );
             })}

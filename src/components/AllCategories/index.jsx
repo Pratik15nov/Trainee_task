@@ -40,11 +40,12 @@ const AllCategories = (props) => {
         </div>
       )}
       {categoriesData.length > 0 &&
-        categoriesData.map((card) => {
+        categoriesData.map((card, index) => {
           return (
             <div
               className="sidenavbar"
               id={card._id}
+              key={`categories_${index}}`}
               onClick={() => handleClick(card._id)}
             >
               <label htmlFor="touch" className="label_nav">

@@ -26,11 +26,9 @@ export default function Cart() {
     } else {
       userId = "";
     }
-
     getcartproductData(userId);
     setuid(userId);
     setLoading(true);
-
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -74,16 +72,13 @@ export default function Cart() {
         where: { userId: log },
       })
     );
-
-    if (response[0]?.cartdetail.length === 0 ) {
-      setCart([])
-    }
-    setCart(response[0]?.cartdetail);
     if (response.length > 0) {
       setLoading(false);
+      setCart(response[0]?.cartdetail);
+    } else {
+      setCart([]);
+      
     }
-
-    // console.log(response.data?.data?.list[0].cartdetail)
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -215,7 +210,7 @@ export default function Cart() {
                     className=" mx-auto d-block"
                     alt="..."
                   />
-                  <p className="header_one">Your cart is empty.</p>
+                  <p className="header_one">Your cart is empty!!</p>
                   <p className="header_two">
                     Please add product to your cart list
                   </p>
