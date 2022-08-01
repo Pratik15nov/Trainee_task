@@ -34,10 +34,8 @@ export default function Categories() {
       )}
       {categoriesData.length > 0 && (
         <div>
-          <h1 className="header_one">What food you love to order</h1>
-          <p className="header_two">
-            Here order your favorite foods from different categories
-          </p>
+          <h1 className="header_one">Shop by Category</h1>
+          <p className="header_two">Top Rated And Premium Quality</p>
 
           <Swiper
             slidesPerView={4}
@@ -73,29 +71,29 @@ export default function Categories() {
             }}
           >
             {categoriesData?.map((card) => {
-                return (
-                  <SwiperSlide key={card.id}>
-                    <div className="cimg-container">
-                      <p className="categories-img">
-                        <img
-                          src={URL + card.categoryImg.replace(/(^\^)|,/g, "/")}
-                          className="cimg"
-                          alt="categories"
-                        />
-                      </p>
-                      <p className="categories-text">{card.categoryName}</p>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
+              return (
+                <SwiperSlide key={card.id}>
+                  <div className="cimg-container">
+                    <p className="categories-img">
+                      <img
+                        src={URL + card.categoryImg.replace(/(^\^)|,/g, "/")}
+                        className="cimg"
+                        alt="categories"
+                      />
+                    </p>
+                    <p className="categories-text">{card.categoryName}</p>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
-          <div>
+          {/* <div>
             <img
               src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
               className="img-fluid"
               alt="bg"
             />
-          </div>
+          </div> */}
         </div>
       )}
     </div>
