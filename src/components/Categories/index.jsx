@@ -30,10 +30,11 @@ export default function Categories() {
           width={2000}
           height={500}
           animation="wave"
+          
         />
       )}
       {categoriesData.length > 0 && (
-        <div>
+        <div >
           <h1 className="header_one">Shop by Category</h1>
           <p className="header_two">Top Rated And Premium Quality</p>
 
@@ -70,9 +71,9 @@ export default function Categories() {
               },
             }}
           >
-            {categoriesData?.map((card) => {
+            {categoriesData?.map((card,index) => {
               return (
-                <SwiperSlide key={card.id}>
+                <SwiperSlide key={`categories_${index}}`}>
                   <div className="cimg-container">
                     <p className="categories-img">
                       <img

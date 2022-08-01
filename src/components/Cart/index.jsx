@@ -26,11 +26,9 @@ export default function Cart() {
     } else {
       userId = "";
     }
-
     getcartproductData(userId);
     setuid(userId);
     setLoading(true);
-
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -74,12 +72,16 @@ export default function Cart() {
         where: { userId: log },
       })
     );
-    setCart(response[0]?.cartdetail);
     if (response.length > 0) {
       setLoading(false);
+      setCart(response[0]?.cartdetail);
+    } else {
+      setCart([]);
+      
     }
+   
 
-    // console.log(response.data?.data?.list[0].cartdetail)
+    
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;

@@ -41,8 +41,8 @@ export default function Dashboard() {
         className="mySwiper"
       >
         {imgdata.length > 0 &&
-          imgdata.map((data) => (
-            <SwiperSlide>
+          imgdata.map((data,index) => (
+            <SwiperSlide key={`products_${index}}`}>
               <Link to={data.categoryId?._id ? `/products?cid=${data.categoryId._id}` : '/products'}>
                 <img className="banner" alt="bg" src={URL + data.Img} />
               </Link>
