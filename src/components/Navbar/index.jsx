@@ -8,7 +8,6 @@ import { listBody } from "../../utils/helper";
 import { categoryHndlerData, cartHndlerData } from "../../service/auth.service";
 
 export default function Navbar() {
-
   const [categoriesData, setcategoriesData] = useState([]);
   const [token, setToken] = useState();
   const [userData, setuserData] = useState([]);
@@ -24,7 +23,7 @@ export default function Navbar() {
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const [count, setCount] = useState([]);
-  
+
   // EventEmitter.subscribe("DATA", (res) => {
   //   setCount(res);
   // });
@@ -38,7 +37,7 @@ export default function Navbar() {
         where: { userId: log },
       })
     );
-      setCart(response);
+    setCart(response);
   };
 
   const getcategoryData = async () => {
@@ -57,7 +56,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top text">
       <Link className="logo" to="/">
-        <span>e</span>Commerce
+        FrontendArmy<span>Shop</span>
       </Link>
       <button
         className="navbar-toggler"
@@ -94,11 +93,11 @@ export default function Navbar() {
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              
             >
               Categories
             </div>
-            <li className="dropdown-menu" aria-labelledby="dropdown01">
+
+            <ul className="dropdown-menu" aria-labelledby="dropdown01">
               {categoriesData?.map((card, index) => {
                 return (
                   <Link
@@ -113,7 +112,7 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-            </li>
+            </ul>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to={`/cart?uid=${userData.id}`}>

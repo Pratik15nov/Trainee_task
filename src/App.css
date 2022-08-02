@@ -113,6 +113,7 @@
 }
 .logo span {
   color: rgb(213, 179, 243);
+  font-size: 14px;
 }
 .logo:hover {
   color: aquamarine;
