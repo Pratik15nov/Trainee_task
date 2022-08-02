@@ -26,11 +26,13 @@ export default function Cart() {
     } else {
       userId = "";
     }
+
     getcartproductData(userId);
     setuid(userId);
-    setLoading(true);
+
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
+
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
   const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
@@ -72,11 +74,12 @@ export default function Cart() {
         where: { userId: log },
       })
     );
+    setLoading(false);
+
+    console.log(response);
     if (response.length > 0) {
-      setLoading(false);
       setCart(response[0]?.cartdetail);
     } else {
-      setCart([]);
     }
   };
 
@@ -196,7 +199,7 @@ export default function Cart() {
             </div>
           </div>
         )}
-        {cart.length === 0  && (
+        {cart.length === 0 && !loading && (
           <div className="mb-5 row">
             <div className="pe-xl-3 col-lg-12 card">
               <div className="cart mb-3">
@@ -223,7 +226,7 @@ export default function Cart() {
         )}
       </div>
 
-      {loading && !cart.length === 0 && <Cartskeleton />}
+      {loading && <Cartskeleton />}
     </>
   );
 }

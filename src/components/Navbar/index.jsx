@@ -96,7 +96,8 @@ export default function Navbar() {
             >
               Categories
             </div>
-            <li className="dropdown-menu" aria-labelledby="dropdown01">
+
+            <ul className="dropdown-menu" aria-labelledby="dropdown01">
               {categoriesData?.map((card, index) => {
                 return (
                   <Link
@@ -111,7 +112,7 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-            </li>
+            </ul>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to={`/cart?uid=${userData.id}`}>
