@@ -196,7 +196,7 @@ export default function Cart() {
             </div>
           </div>
         )}
-        {cart.length === 0 && loading && (
+        {cart.length === 0  && (
           <div className="mb-5 row">
             <div className="pe-xl-3 col-lg-12 card">
               <div className="cart mb-3">
