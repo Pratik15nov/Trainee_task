@@ -29,7 +29,10 @@ export default function Cart() {
 
     getcartproductData(userId);
     setuid(userId);
+
+    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
+
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
   const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
@@ -64,11 +67,12 @@ export default function Cart() {
         where: { userId: log },
       })
     );
+    setLoading(false);
+
+    console.log(response);
     if (response.length > 0) {
-      setLoading(false);
       setCart(response[0]?.cartdetail);
     } else {
-      setCart([]);
     }
   };
 
