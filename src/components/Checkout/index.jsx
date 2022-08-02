@@ -8,17 +8,40 @@ import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
 // import csc from "country-state-city";
-
 import { useReactToPrint } from "react-to-print";
+import { listBody } from "../../utils/helper";
+import { useLocation } from "react-router-dom";
+import {
+  cartHndlerData,
+  addressHndlerData,
+  userHndlerData,
+  promocodeHndlerData,
+} from "../../service/auth.service";
+// import StripeCheckoutButton from "../StripeCheckoutComponent";
+
 export default function Checkout() {
   /// Cart Summery>>
 
   const [cart, setCart] = useState([]);
+  const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
+  const location = useLocation();
+  const [userId, setuid] = useState();
+  const { search } = location;
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("Data")));
-  }, []);
+    let userId;
+    if (search.split("=").length > 0) {
+      userId = search.split("=")[1];
+    } else {
+      userId = "";
+    }
+
+    getcartproductData(userId);
+    setuid(userId);
+    getuserData(userId);
+    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
+  }, [search]);
 
   // const conHandler = (event) => {
   //   console.log(event.name);
@@ -33,10 +56,28 @@ export default function Checkout() {
   //   setDropcity(event.name);
   // };
 
-  const orderSubtotal = Object.values(cart).reduce(
+  const getcartproductData = async (log = "") => {
+    const response = await cartHndlerData(
+      listBody({
+        where: { userId: log },
+      })
+    );
+    if (response.length > 0) {
+      setCart(response[0]?.cartdetail);
+    }
+  };
+
+  const getuserData = async (userId) => {
+    const response = await userHndlerData(userId);
+    setuserData(response.data?.data);
+    setuid(response.data?.data._id);
+  };
+  const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
     0
   );
+
   const Promocode = [
     {
       code: "50OFF",
@@ -67,7 +108,7 @@ export default function Checkout() {
         return;
       }
       if (!validName.test(promoCode)) {
-        setPromocoderr("Your Promo code is invalid !");
+        setPromocoderr("Your Promocode is invalid !");
         setDiscountPercent(0);
         setPromocodeSuc();
       }
@@ -80,148 +121,78 @@ export default function Checkout() {
 
   // Submit Data To Localstroage>>
 
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [phoneno, setPhoneno] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [address2, setAddress2] = useState("");
+  // const [firstname, setFirstname] = useState("");
+  // const [lastname, setLastname] = useState("");
+  // const [phoneno, setPhoneno] = useState("");
+  // const [email, setEmail] = useState("");
+  const [address_1, setAddress] = useState("");
+  const [address_2, setAddress2] = useState("");
   const [cardname, setCardname] = useState("");
   const [cardnumber, setCardnumber] = useState("");
   const [expdate, setExpdate] = useState("");
-  const [cvv, setCvv] = useState("");// eslint-disable-next-line
-  const [pincode, setPincode] = useState("");
-  const [promoCode, setPromoCode] = useState("");// eslint-disable-next-line
-  const [dropcountry, setDropcountry] = useState(""); // eslint-disable-next-line
-  const [dropstate, setDropstate] = useState(""); // eslint-disable-next-line
-  const [dropcity, setDropcity] = useState("");
-  const [emailErr, setEmailErr] = useState(false);
-  const [fnameErr, setfnameErr] = useState(false);
-  const [lnameErr, setlnameErr] = useState(false);
-  const [phonenoErr, setphonenoErr] = useState(false);
+  const [cvv, setCvv] = useState(""); // eslint-disable-next-line
+  const [pincode, setPincode] = useState();
+  const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
+  const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
+  const [type, setType] = useState("HOME"); // eslint-disable-next-line
+
+  // const [emailErr, setEmailErr] = useState(false);
+  // const [fnameErr, setfnameErr] = useState(false);
+  // const [lnameErr, setlnameErr] = useState(false);
+  // const [phonenoErr, setphonenoErr] = useState(false);
   const [addressErr, setAddressErr] = useState(false);
-  const [address2Err, setAddress2Err] = useState(false);// eslint-disable-next-line
+  const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
   const [pincodeErr, setPincodeErr] = useState(false);
   const [cardnameErr, setCardnameErr] = useState(false);
   const [cardnumberErr, setCardnumberErr] = useState(false);
   const [expdateErr, setExpdateErr] = useState(false);
   const [cvvErr, setCvvErr] = useState(false);
+  const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
-  const [promocodeSuc, setPromocodeSuc] = useState(false);// eslint-disable-next-line
-  const [dropcountryErr, setDropcountryErr] = useState(false);// eslint-disable-next-line
-  const [dropstateErr, setDropstateErr] = useState(false);// eslint-disable-next-line
-  const [dropcityErr, setDropcityErr] = useState(false);
+  const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
+
   const allData = [];
   const Navigate = useNavigate();
-  const validate = () => {
+
+  const validate1 = () => {
     let formIsValid = true;
-    if (!validEmail.test(email)) {
-      formIsValid = false;
-      setEmailErr("Your Email is invalid");
-    }
-    if (!validName.test(firstname)) {
-      formIsValid = false;
-      setfnameErr("Your First Name is invalid");
-    }
-    if (!validName.test(lastname)) {
-      formIsValid = false;
-      setlnameErr("Your Last Name is invalid");
-    }
-    if (!validPhoneno.test(phoneno)) {
-      formIsValid = false;
-      setphonenoErr("Your Phone No is invalid");
-    }
-    if (!validName.test(address)) {
+    if (!validName.test(address_1)) {
       formIsValid = false;
       setAddressErr("Your Address is invalid");
     }
-    if (!validName.test(address2)) {
+    if (!validName.test(address_2)) {
       formIsValid = false;
       setAddress2Err("Your Address is invalid");
     }
-    if (!validName.test(cardname)) {
-      formIsValid = false;
-      setCardnameErr("Your Card Name is invalid");
-    }
-    if (!validPhoneno.test(cardnumber)) {
-      formIsValid = false;
-      setCardnumberErr("Your Card Number is invalid");
-    }
-    if (!validPhoneno.test(expdate)) {
-      formIsValid = false;
-      setExpdateErr("Your Exp Date is invalid");
-    }
-    if (!validPhoneno.test(cvv)) {
-      formIsValid = false;
-      setCvvErr("Your CVV is invalid");
-    }
-    if (!validName.test(dropcountry)) {
-      formIsValid = false;
-      setDropcountryErr("Select Country");
-    }
-    if (!validName.test(dropstate)) {
-      formIsValid = false;
-      setDropstateErr("Select State");
-    }
-    if (!validName.test(dropcity)) {
-      formIsValid = false;
-      setDropcityErr("Select City");
-    }
-    if (!validPhoneno.test(pincode)) {
-      formIsValid = false;
-      setPincodeErr("Your Pincode is invalid");
-    }
+    // if (!validPhoneno.test(pincode)) {
+    //   formIsValid = false;
+    //   setPincodeErr("Your Pincode is invalid");
+    // }
+
     return formIsValid;
   };
 
-  const handleSubmit = (e) => {
-    if (validate() !== true) {
+  const addresshandleSubmit = (e) => {
+    if (validate1() !== true) {
     } else {
-      localStorage.setItem("First Name", JSON.stringify(firstname));
-      localStorage.setItem("Last Name", JSON.stringify(lastname));
-      localStorage.setItem("Email", JSON.stringify(email));
-      localStorage.setItem("Phone No", JSON.stringify(phoneno));
-      localStorage.setItem("Address", JSON.stringify(address));
-      localStorage.setItem("Address2", JSON.stringify(address2));
-      localStorage.setItem("Pincode", JSON.stringify(pincode));
-      localStorage.setItem("Card Name", JSON.stringify(cardname));
-      localStorage.setItem("Card Number", JSON.stringify(cardnumber));
-      localStorage.setItem("Card ExpDate", JSON.stringify(expdate));
-      localStorage.setItem("Card CVV", JSON.stringify(cvv));
-      localStorage.setItem("Order Total", JSON.stringify(orderSubtotal));
-      localStorage.setItem("Tax", JSON.stringify((orderSubtotal / 100) * 18));
-      localStorage.setItem("Promocde", JSON.stringify(promoCode));
-      localStorage.setItem("OrderDate", JSON.stringify(orderDate));
-      localStorage.setItem("Country", JSON.stringify(dropcountry));
-      localStorage.setItem("State", JSON.stringify(dropstate));
-      localStorage.setItem("City", JSON.stringify(dropcity));
-      localStorage.setItem(
-        "Shipping Charge",
-        JSON.stringify(orderSubtotal > 500 ? "0" : "40")
-      );
-      localStorage.setItem("Discount", JSON.stringify(discount));
-      localStorage.setItem(
-        "Total",
-        JSON.stringify(orderSubtotal > 500 ? finalValue : finalValue + 40)
-      );
-      Navigate("/Order");
+      postAddData(e);
     }
     e.preventDefault();
-    const details = {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phoneno: phoneno,
-      address: address,
-      address2: address2,
-      pincode: pincode,
-      cardname: cardname,
-      cardnumber: cardnumber,
-      expdate: expdate,
-      cvv: cvv,
+  };
+  const postAddData = async (event) => {
+    event.preventDefault();
+    const body = {
+      userId,
+      address_1,
+      address_2,
+      landmark,
+      pincode,
+      type,
     };
-    allData.push(details);
-    // console.log(allData);
+    const response = await addressHndlerData(body); // eslint-disable-next-line
+    if (response) {
+      setGoSteps(1);
+    }
   };
 
   const current = new Date();
@@ -273,14 +244,20 @@ export default function Checkout() {
           <div className="col-lg-12 Checkcard">
             <Stepper activeStep={goSteps} className="subt">
               <Step onClick={() => setGoSteps(0)} label="Delivery Address" />
-              <Step onClick={() => setGoSteps(1)} label="Payment Option" />
-              <Step onClick={() => setGoSteps(2)} label="Complete Order" />
+              <Step onClick={() => setGoSteps(1)} label="Complete Order" />
+              <Step onClick={() => setGoSteps(2)} label="Payment Option" />
               <Step onClick={() => setGoSteps(3)} label="Order Invoice" />
             </Stepper>
             {goSteps === 0 && (
-              <form className="customcard">
+              <form
+                className="customcard"
+                method="post"
+                onSubmit={(e) => {
+                  addresshandleSubmit(e);
+                }}
+              >
                 <h4 className="main-heading main">Enter Shipping Address</h4>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="firstName">First name</label>
                     <input
@@ -290,7 +267,7 @@ export default function Checkout() {
                       placeholder="Enter First name"
                       name="firstName"
                       maxLength={15}
-                      value={firstname}
+                      value={userData.firstName}
                       onChange={(e) => [
                         setFirstname(e.target.value),
                         setfnameErr(""),
@@ -308,7 +285,7 @@ export default function Checkout() {
                       placeholder="Enter Last name"
                       name="lastName"
                       maxLength={15}
-                      value={lastname}
+                      value={userData.lastName}
                       onChange={(e) => [
                         setLastname(e.target.value),
                         setlnameErr(""),
@@ -317,45 +294,45 @@ export default function Checkout() {
                     {lnameErr && <p className="errorstyle">{lnameErr}</p>}
                   </div>
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="email">
-                    Email <span className="text-muted">(Optional)</span>
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter Email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => [
-                      setEmail(e.target.value),
-                      setEmailErr(""),
-                    ]}
-                  />
-                  {emailErr && <p className="errorstyle">{emailErr}</p>}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email">
-                    Phone No <span className="text-muted"></span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter Phone No"
-                    name="e"
-                    maxLength={10}
-                    value={phoneno}
-                    onChange={(e) => [
-                      setPhoneno(e.target.value),
-                      setphonenoErr(""),
-                    ]}
-                  />
-                  {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
-                </div>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter Email"
+                      name="email"
+                      value={userData.email}
+                      onChange={(e) => [
+                        setEmail(e.target.value),
+                        setEmailErr(""),
+                      ]}
+                    />
+                    {emailErr && <p className="errorstyle">{emailErr}</p>}
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="text">
+                      Phone No <span className="text-muted"></span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter Phone No"
+                      name="e"
+                      maxLength={10}
+                      value={userData.phoneNumber}
+                      onChange={(e) => [
+                        setPhoneno(e.target.value),
+                        setphonenoErr(""),
+                      ]}
+                    />
+                    {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
+                  </div>
+                </div> */}
 
-                <div className="mb-3">
+                <div className="col-md-8 mb-3">
                   <label htmlFor="address">Address</label>
                   <input
                     type="text"
@@ -364,7 +341,7 @@ export default function Checkout() {
                     placeholder="Enter Address"
                     name="Address"
                     maxLength={15}
-                    value={address}
+                    value={address_1}
                     onChange={(e) => [
                       setAddress(e.target.value),
                       setAddressErr(""),
@@ -373,7 +350,7 @@ export default function Checkout() {
                   {addressErr && <p className="errorstyle">{addressErr}</p>}
                 </div>
 
-                <div className="mb-3">
+                <div className="col-md-8 mb-3">
                   <label htmlFor="address2">
                     Address 2 <span className="text-muted">(Optional)</span>
                   </label>
@@ -384,7 +361,7 @@ export default function Checkout() {
                     placeholder="Enter Address 2"
                     name="Address2"
                     maxLength={15}
-                    value={address2}
+                    value={address_2}
                     onChange={(e) => [
                       setAddress2(e.target.value),
                       setAddress2Err(""),
@@ -392,71 +369,23 @@ export default function Checkout() {
                   />
                   {address2Err && <p className="errorstyle">{address2Err}</p>}
                 </div>
-                {/* <div className="row">
+                <div className="row">
                   <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Country</label>
-                    <Select
-                      id="country"
-                      name="country"
-                      label="country"
-                      options={updatedCountries}
-                      value={values.country}
-                      // onChange={stateHandler}
-                      // onChange={value => {
-                      //   setFieldValue("country", value);
-                      //   setFieldValue("state", null);Q
-                      //   setFieldValue("city", null);
-                      // }}
-                      onChange={(value) => [
-                        setValues(
-                          { country: value, state: null, city: null },
-                          false
-                        ),
-                        setDropcountryErr(""),
-                        conHandler(),
+                    <label htmlFor="zip">Landmark</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="landmark"
+                      placeholder="Enter Landmark"
+                      name="landmark"
+                      maxLength={10}
+                      value={landmark}
+                      onChange={(e) => [
+                        setLandmark(e.target.value),
+                        setLandmarkErr(""),
                       ]}
                     />
-                    {dropcountryErr && (
-                      <p className="errorstyle">{dropcountryErr}</p>
-                    )}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">State</label>
-                    <Select
-                      id="state"
-                      name="state"
-                      options={updatedStates(
-                        values.country ? values.country.value : null
-                      )}
-                      value={values.state}
-                      // onChange={stateHandler(e)}
-                      // onChange={(value) => [
-                      //   setValues({ state: value, city: null }, false),
-                      //   setDropstateErr(""),
-                      //   stateHandler(),
-                      // ]}
-                    />
-                    {dropstateErr && (
-                      <p className="errorstyle">{dropstateErr}</p>
-                    )}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">City</label>
-                    <Select
-                      id="city"
-                      name="city"
-                      options={updatedCities(
-                        values.state ? values.state.value : null
-                      )}
-                      value={values.city}
-                      // onChange={(value) => setFieldValue("city", value)}
-                      // onChange={(value) => [
-                      //   setFieldValue("city", value),
-                      //   setDropcityErr(""),
-                      //   cityHandler(),
-                      // ]}
-                    />
-                    {dropcityErr && <p className="errorstyle">{dropcityErr}</p>}
+                    {landmarkErr && <p className="errorstyle">{landmarkErr}</p>}
                   </div>
                   <div className="col-md-3 mb-3">
                     <label htmlFor="zip">Pincode</label>
@@ -464,18 +393,33 @@ export default function Checkout() {
                       type="text"
                       className="form-control"
                       id="pincode"
-                      placeholder="123456"
+                      placeholder="Enter Pincode"
                       name="pincode"
-                      maxLength={10}
+                      maxLength={6}
                       value={pincode}
                       onChange={(e) => [
-                        setPincode(e.target.value),
+                        setPincode(parseInt(e.target.value)),
                         setPincodeErr(""),
                       ]}
                     />
                     {pincodeErr && <p className="errorstyle">{pincodeErr}</p>}
                   </div>
-                </div> */}
+                  <div className="col-md-3 mb-3">
+                    <label htmlFor="zip">Select type of Address</label>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                      value={type}
+                      onChange={(e) => [setType(e.target.value)]}
+                    >
+                      <option value="HOME" selected>
+                        Home
+                      </option>
+                      <option value="WORK">Work</option>
+                      <option value="OTHER">Other</option>
+                    </select>
+                  </div>
+                </div>
 
                 <div className="custom-control custom-checkbox">
                   <input
@@ -491,20 +435,137 @@ export default function Checkout() {
                 <hr className="mb-4" />
                 <div className="row">
                   <div className="col-sm-3">
-                    <Link className="button" to="/cart">
+                    {/* <Link className="button" to="/cart">
                       Go to cart
-                    </Link>
+                    </Link> */}
                   </div>
                   <div className="col-sm-7"></div>
                   <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(1)}>
+                    <button className="button" type="submit">
                       Next
                     </button>
                   </div>
                 </div>
               </form>
             )}
+
             {goSteps === 1 && (
+              <div className="col customcard ">
+                <h4 className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="text-muted">Your Cart Summary</span>
+                </h4>
+                <div className="input-group"></div>
+                <div className="row">
+                  <div className="col-sm-6"></div>
+                  <div className="col-sm-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Have Promo code ?"
+                      onChange={(e) => [
+                        onEnterPromoCode(e),
+                        setPromocoderr(""),
+                      ]}
+                    />
+                  </div>
+                  <div className="col-sm-3">
+                    <button
+                      className="button applynow"
+                      onClick={checkPromoCode}
+                    >
+                      Apply Now
+                    </button>
+                    <br />
+                    {promocodeErr && (
+                      <p className="errorstyle">{promocodeErr}</p>
+                    )}
+                    {promocodeSuc && <p className="Sstyle">{promocodeSuc}</p>}
+                  </div>
+                </div>
+
+                <br />
+                <ul className="list-group mb-3">
+                  <li className="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                      <h6 className="my-0">Total Price of Product</h6>
+                    </div>
+                    <span className="text-muted">&#x20b9; {orderSubtotal}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between bg-light">
+                    <div className="text-success">
+                      <h6 className="my-0">Discount Price</h6>
+                    </div>
+                    <span className="text-success">&#x20b9; {discount}</span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    <div className="text-success">
+                      <h6 className="my-0">After Discount Total Price </h6>
+                    </div>
+                    <span className="text-success">
+                      &#x20b9; {orderSubtotal - discount}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                      <h6 className="my-0">Tax (SGST+ CGST)</h6>
+                    </div>
+                    <span className="text-muted">
+                      &#x20b9; {(orderSubtotal / 100) * 18}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                      <h6 className="my-0">Shipping Charge</h6>
+                    </div>
+                    <span className="text-muted">
+                      &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
+                    </span>
+                  </li>
+
+                  <li className="list-group-item d-flex justify-content-between bg-light">
+                    <span>Total</span>
+                    <strong>
+                      &#x20b9;
+                      {orderSubtotal > 500 ? finalValue : finalValue + 40}
+                    </strong>
+                  </li>
+                </ul>
+                <div className="row">
+                  <div className="col-sm-4"></div>
+                  <div className="col-sm-4">
+                    {/* <Link to="/order">
+                      <button
+                        type="submit"
+                        className="button"
+                        onClick={handleSubmit}
+                      >
+                        Place Order
+                      </button>
+                    </Link> */}
+                  </div>
+                  <div className="col-sm-4"></div>
+                </div>
+
+                <hr className="mb-4" />
+                <div className="row">
+                  <div className="col-sm-2">
+                    <button className="button" onClick={() => setGoSteps(0)}>
+                      Back
+                    </button>
+                  </div>
+                  <div className="col-sm-7"></div>
+                  <div className="col-sm-3">
+                    <button className="button" onClick={() => setGoSteps(2)}>
+                      Pay Now
+                    </button>
+                    {/* <StripeCheckoutButton
+                      price={orderSubtotal > 500 ? finalValue : finalValue + 40}
+                    /> */}
+                  </div>
+                </div>
+              </div>
+            )}
+            {goSteps === 2 && (
               <form className="customcard">
                 <h4 className="mb-3 ">Payment</h4>
                 <div className="d-block my-3">
@@ -630,132 +691,22 @@ export default function Checkout() {
                 <hr className="mb-4" />
                 <div className="row">
                   <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(0)}>
+                    <button className="button" onClick={() => setGoSteps(1)}>
                       Back
                     </button>
                   </div>
                   <div className="col-sm-8"></div>
                   <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(2)}>
+                    <button className="button" onClick={() => setGoSteps(3)}>
                       Next
                     </button>
                   </div>
                 </div>
               </form>
             )}
-            {goSteps === 2 && (
-              <div className="col customcard ">
-                <h4 className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-muted">Your Cart Summary</span>
-                </h4>
-                <div className="input-group"></div>
-                <div className="row">
-                  <div className="col-sm-6"></div>
-                  <div className="col-sm-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Have Promo code ?"
-                      onChange={(e) => [
-                        onEnterPromoCode(e),
-                        setPromocoderr(""),
-                      ]}
-                    />
-                  </div>
-                  <div className="col-sm-3">
-                    <button
-                      className="button applynow"
-                      onClick={checkPromoCode}
-                    >
-                      Apply Now
-                    </button>
-                  </div>
-                </div>
-                {promocodeErr && <p className="errorstyle">{promocodeErr}</p>}
-                {promocodeSuc && <p className="Sstyle">{promocodeSuc}</p>}
-
-                <br />
-                <ul className="list-group mb-3">
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Total Price of Product</h6>
-                    </div>
-                    <span className="text-muted">&#x20b9; {orderSubtotal}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <div className="text-success">
-                      <h6 className="my-0">Discount Price</h6>
-                    </div>
-                    <span className="text-success">&#x20b9; {discount}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between">
-                    <div className="text-success">
-                      <h6 className="my-0">After Discount Total Price </h6>
-                    </div>
-                    <span className="text-success">
-                      &#x20b9; {orderSubtotal - discount}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Tax (SGST+ CGST)</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {(orderSubtotal / 100) * 18}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Shipping Charge</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
-                    </span>
-                  </li>
-
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <span>Total</span>
-                    <strong>
-                      &#x20b9;
-                      {orderSubtotal > 500 ? finalValue : finalValue + 40}
-                    </strong>
-                  </li>
-                </ul>
-                <div className="row">
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-4">
-                    <Link to="/order">
-                      <button
-                        type="submit"
-                        className="button"
-                        onClick={handleSubmit}
-                      >
-                        Place Order
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="col-sm-4"></div>
-                </div>
-
-                <hr className="mb-4" />
-                <div className="row">
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(1)}>
-                      Back
-                    </button>
-                  </div>
-                  <div className="col-sm-7"></div>
-                  <div className="col-sm-3">
-                    <button className="button" onClick={() => setGoSteps(3)}>
-                      Got to Order Detail
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
             {goSteps === 3 && (
               <div className="col customcard">
-                <div className="container-fluid invoice">
+                {/* <div className="container-fluid invoice">
                   <div className="row maincard ">
                     <div className="col-12">
                       <div className="page-title-box row">
@@ -951,7 +902,7 @@ export default function Checkout() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>

@@ -17,6 +17,7 @@ import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
 import User from "./components/User";
+import StripeCheckoutComponent from "./components/StripeCheckoutComponent"
 
 export default function App() {
   return (
@@ -116,6 +117,10 @@ export default function App() {
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/confirmpassword" element={<Confirmpassword />} />
         <Route path="/successmail" element={<Successmail />} />
+        <Route
+          path="/StripeCheckoutComponent"
+          element={<StripeCheckoutComponent />}
+        />
       </Routes>
     </BrowserRouter>
   );

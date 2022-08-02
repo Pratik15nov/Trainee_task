@@ -76,7 +76,7 @@ export default function Cart() {
     );
     setLoading(false);
 
-    console.log(response);
+    
     if (response.length > 0) {
       setCart(response[0]?.cartdetail);
     } else {
@@ -189,7 +189,7 @@ export default function Cart() {
                   </p>
                   <div className="overflow-hidden p-0 card-footer">
                     <div className="d-grid">
-                      <Link to="/checkout">
+                      <Link to={`/checkout?cid=${uid}`}>
                         <button className="button">Proceed to Checkout</button>
                       </Link>
                     </div>
