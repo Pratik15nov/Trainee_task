@@ -14,10 +14,10 @@ import Cartskeleton from "./Cartskeleton";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let userId;
@@ -26,22 +26,15 @@ export default function Cart() {
     } else {
       userId = "";
     }
+
     getcartproductData(userId);
     setuid(userId);
-    setLoading(true);
-    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
   const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
     0
   );
-
-  // const handleDelete = (itemId) => {
-  //   const items = cart.filter((item) => item.id !== itemId);
-  //   setCart(items);
-  //   EventEmitter.dispatch("DELETE", items);
-  // };
 
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
@@ -53,7 +46,6 @@ export default function Cart() {
     );
 
     getcartproductData(uid);
-    // EventEmitter.dispatch("DELETE", cart);
   };
 
   const claerAll = async () => {
@@ -196,7 +188,7 @@ export default function Cart() {
             </div>
           </div>
         )}
-        {cart.length === 0 && loading && (
+        {cart.length === 0 && !loading && (
           <div className="mb-5 row">
             <div className="pe-xl-3 col-lg-12 card">
               <div className="cart mb-3">
@@ -223,7 +215,7 @@ export default function Cart() {
         )}
       </div>
 
-      {loading && !cart.length === 0 && <Cartskeleton />}
+      {loading && <Cartskeleton />}
     </>
   );
 }
