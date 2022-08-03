@@ -18,6 +18,7 @@ export default function Cart() {
   const [uid, setuid] = useState();
   const { search } = location;
   const [loading, setLoading] = useState(true);
+  const [checkedList, setcheckedList] = useState([]);
 
   useEffect(() => {
     let userId;
@@ -76,11 +77,26 @@ export default function Cart() {
     );
     setLoading(false);
 
-    
     if (response.length > 0) {
       setCart(response[0]?.cartdetail);
     } else {
     }
+  };
+
+  const handlecheckbox = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setcheckedList([...checkedList, value]);
+    } else {
+      setcheckedList(checkedList.filter((e) => e !== value));
+    }
+  };
+  console.log(checkedList);
+
+  const alldelete = async () => {
+    console.log(checkedList);
+    // if(checkedList.length!==0){
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -99,7 +115,7 @@ export default function Cart() {
                   : "pe-xl-3 col-lg-12 card"
               }
             >
-              <div className="cart mb-3">
+              <div className="cart mb-1">
                 <div className="cart-body" />
                 <div className="main-content">
                   <h4 className="main-heading main">Shopping Cart</h4>
@@ -114,18 +130,25 @@ export default function Cart() {
                       type="button"
                       onClick={claerAll}
                     >
-                      Remove All Products
+                      Empty Cart
+                    </button>
+                    <button
+                      className="dbutton"
+                      type="button"
+                      onClick={claerAll}
+                    >
+                      {checkedList.length}
                     </button>
                   </div>
                 </div>
                 <div
                   className={
-                    cart.length > 3
-                      ? "container scroll mt-5  "
-                      : "container  mt-5 "
+                    cart.length > 2
+                      ? "container cartscroll cartheight   "
+                      : "container cartheight"
                   }
                 >
-                  <div className="d-flex justify-content-center row">
+                  <div className="d-flex justify-content-center row cartheight">
                     {cart.length > 0 &&
                       cart.map((card) => {
                         return (
@@ -133,6 +156,7 @@ export default function Cart() {
                             card={card}
                             key={card.id}
                             onDelete={handleDelete}
+                            handlecheckbox={handlecheckbox}
                           />
                         );
                       })}

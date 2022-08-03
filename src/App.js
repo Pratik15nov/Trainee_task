@@ -17,7 +17,7 @@ import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
 import User from "./components/User";
-import StripeCheckoutComponent from "./components/StripeCheckoutComponent"
+import StripeCheckoutComponent from "./components/StripeCheckoutComponent";
 
 export default function App() {
   return (

@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./Checkout.css";
-import { Link, useNavigate } from "react-router-dom";
-import { validEmail } from "../../utils/helper";
+import { useNavigate } from "react-router-dom";
 import { validName } from "../../utils/helper";
-import { validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
@@ -13,21 +11,63 @@ import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import {
   cartHndlerData,
-  addressHndlerData,
+  addaddressHndlerData,
   userHndlerData,
   promocodeHndlerData,
+  addressHndlerData,
 } from "../../service/auth.service";
 // import StripeCheckoutButton from "../StripeCheckoutComponent";
 
 export default function Checkout() {
   /// Cart Summery>>
-
   const [cart, setCart] = useState([]);
   const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
+  const [addData, setaddData] = useState([]);
+
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const [address_1, setAddress] = useState("");
+  const [address_2, setAddress2] = useState("");
+  const [cardname, setCardname] = useState("");
+  const [cardnumber, setCardnumber] = useState("");
+  const [expdate, setExpdate] = useState("");
+  const [cvv, setCvv] = useState(""); // eslint-disable-next-line
+  const [pincode, setPincode] = useState();
+  const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
+  const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
+  const [type, setType] = useState("HOME"); // eslint-disable-next-line
+  const [addressErr, setAddressErr] = useState(false);
+  const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
+  const [pincodeErr, setPincodeErr] = useState(false);
+  const [cardnameErr, setCardnameErr] = useState(false);
+  const [cardnumberErr, setCardnumberErr] = useState(false);
+  const [expdateErr, setExpdateErr] = useState(false);
+  const [cvvErr, setCvvErr] = useState(false);
+  const [landmarkErr, setLandmarkErr] = useState(false);
+  const [promocodeErr, setPromocoderr] = useState(false);
+  const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
+
+  const [adddiv, setAdddiv] = useState(false);
+
   const location = useLocation();
   const [userId, setuid] = useState();
   const { search } = location;
+
+  const Promocode = [
+    {
+      code: "50OFF",
+      discount: "50%",
+    },
+    {
+      code: "25OFF",
+      discount: "25%",
+    },
+    {
+      code: "10OFF",
+      discount: "10%",
+    },
+  ];
 
   useEffect(() => {
     let userId;
@@ -36,10 +76,10 @@ export default function Checkout() {
     } else {
       userId = "";
     }
-
     getcartproductData(userId);
     setuid(userId);
     getuserData(userId);
+    getaddData(userId);
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
@@ -78,27 +118,6 @@ export default function Checkout() {
     0
   );
 
-  const Promocode = [
-    {
-      code: "50OFF",
-      discount: "50%",
-    },
-    {
-      code: "25OFF",
-      discount: "25%",
-    },
-    {
-      code: "10OFF",
-      discount: "10%",
-    },
-  ];
-
-  const [discountPercent, setDiscountPercent] = useState(0);
-  const discount = (orderSubtotal * discountPercent) / 100;
-  const onEnterPromoCode = (event) => {
-    setPromoCode(event.target.value);
-    setPromocodeSuc();
-  };
   const checkPromoCode = () => {
     for (var i = 0; i < Promocode.length; i++) {
       if (promoCode === Promocode[i].code) {
@@ -114,56 +133,27 @@ export default function Checkout() {
       }
     }
   };
+
+  const onEnterPromoCode = (event) => {
+    setPromoCode(event.target.value);
+    setPromocodeSuc();
+  };
+
   const finalValue =
     orderSubtotal +
     (orderSubtotal / 100) * 18 -
     (orderSubtotal * discountPercent) / 100;
 
-  // Submit Data To Localstroage>>
-
-  // const [firstname, setFirstname] = useState("");
-  // const [lastname, setLastname] = useState("");
-  // const [phoneno, setPhoneno] = useState("");
-  // const [email, setEmail] = useState("");
-  const [address_1, setAddress] = useState("");
-  const [address_2, setAddress2] = useState("");
-  const [cardname, setCardname] = useState("");
-  const [cardnumber, setCardnumber] = useState("");
-  const [expdate, setExpdate] = useState("");
-  const [cvv, setCvv] = useState(""); // eslint-disable-next-line
-  const [pincode, setPincode] = useState();
-  const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
-  const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
-  const [type, setType] = useState("HOME"); // eslint-disable-next-line
-
-  // const [emailErr, setEmailErr] = useState(false);
-  // const [fnameErr, setfnameErr] = useState(false);
-  // const [lnameErr, setlnameErr] = useState(false);
-  // const [phonenoErr, setphonenoErr] = useState(false);
-  const [addressErr, setAddressErr] = useState(false);
-  const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
-  const [pincodeErr, setPincodeErr] = useState(false);
-  const [cardnameErr, setCardnameErr] = useState(false);
-  const [cardnumberErr, setCardnumberErr] = useState(false);
-  const [expdateErr, setExpdateErr] = useState(false);
-  const [cvvErr, setCvvErr] = useState(false);
-  const [landmarkErr, setLandmarkErr] = useState(false);
-  const [promocodeErr, setPromocoderr] = useState(false);
-  const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
-
-  const allData = [];
-  const Navigate = useNavigate();
-
   const validate1 = () => {
     let formIsValid = true;
-    if (!validName.test(address_1)) {
-      formIsValid = false;
-      setAddressErr("Your Address is invalid");
-    }
-    if (!validName.test(address_2)) {
-      formIsValid = false;
-      setAddress2Err("Your Address is invalid");
-    }
+    // if (!validName.test(address_1)) {
+    //   formIsValid = false;
+    //   setAddressErr("Your Address is invalid");
+    // }
+    // if (!validName.test(address_2)) {
+    //   formIsValid = false;
+    //   setAddress2Err("Your Address is invalid");
+    // }
     // if (!validPhoneno.test(pincode)) {
     //   formIsValid = false;
     //   setPincodeErr("Your Pincode is invalid");
@@ -176,9 +166,11 @@ export default function Checkout() {
     if (validate1() !== true) {
     } else {
       postAddData(e);
+      setGoSteps(0);
     }
     e.preventDefault();
   };
+
   const postAddData = async (event) => {
     event.preventDefault();
     const body = {
@@ -189,24 +181,38 @@ export default function Checkout() {
       pincode,
       type,
     };
-    const response = await addressHndlerData(body); // eslint-disable-next-line
+    const response = await addaddressHndlerData(body); // eslint-disable-next-line
     if (response) {
-      setGoSteps(1);
+      getaddData();
     }
   };
 
-  const current = new Date();
-  const orderDate = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
+  const getaddData = async (log = "") => {
+    const response = await addressHndlerData(
+      listBody({
+        where: { userId: log },
+      })
+    );
 
-  const invoiceData = JSON.parse(localStorage.getItem("Data"));
-  // console.log(invoiceData);
-  const componentRef = useRef();
+    if (response.length > 0) {
+      setaddData(response);
+    }
+  };
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  const discount = (orderSubtotal * discountPercent) / 100;
+
+  // const current = new Date();
+  // const orderDate = `${current.getDate()}/${
+  //   current.getMonth() + 1
+  // }/${current.getFullYear()}`;
+
+  // const invoiceData = JSON.parse(localStorage.getItem("Data"));
+  // // console.log(invoiceData);
+  // const componentRef = useRef();
+
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  // });
 
   // const addressFromik = useFormik({
   //   initialValues: {
@@ -249,204 +255,182 @@ export default function Checkout() {
               <Step onClick={() => setGoSteps(3)} label="Order Invoice" />
             </Stepper>
             {goSteps === 0 && (
-              <form
-                className="customcard"
-                method="post"
-                onSubmit={(e) => {
-                  addresshandleSubmit(e);
-                }}
-              >
-                <h4 className="main-heading main">Enter Shipping Address</h4>
-                {/* <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="firstName">First name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder="Enter First name"
-                      name="firstName"
-                      maxLength={15}
-                      value={userData.firstName}
-                      onChange={(e) => [
-                        setFirstname(e.target.value),
-                        setfnameErr(""),
-                      ]}
-                    />
-
-                    {fnameErr && <p className="errorstyle">{fnameErr}</p>}
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="lastName">Last name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder="Enter Last name"
-                      name="lastName"
-                      maxLength={15}
-                      value={userData.lastName}
-                      onChange={(e) => [
-                        setLastname(e.target.value),
-                        setlnameErr(""),
-                      ]}
-                    />
-                    {lnameErr && <p className="errorstyle">{lnameErr}</p>}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="Enter Email"
-                      name="email"
-                      value={userData.email}
-                      onChange={(e) => [
-                        setEmail(e.target.value),
-                        setEmailErr(""),
-                      ]}
-                    />
-                    {emailErr && <p className="errorstyle">{emailErr}</p>}
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="text">
-                      Phone No <span className="text-muted"></span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="email"
-                      placeholder="Enter Phone No"
-                      name="e"
-                      maxLength={10}
-                      value={userData.phoneNumber}
-                      onChange={(e) => [
-                        setPhoneno(e.target.value),
-                        setphonenoErr(""),
-                      ]}
-                    />
-                    {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
-                  </div>
-                </div> */}
-
-                <div className="col-md-8 mb-3">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    placeholder="Enter Address"
-                    name="Address"
-                    maxLength={15}
-                    value={address_1}
-                    onChange={(e) => [
-                      setAddress(e.target.value),
-                      setAddressErr(""),
-                    ]}
-                  />
-                  {addressErr && <p className="errorstyle">{addressErr}</p>}
-                </div>
-
-                <div className="col-md-8 mb-3">
-                  <label htmlFor="address2">
-                    Address 2 <span className="text-muted">(Optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address2"
-                    placeholder="Enter Address 2"
-                    name="Address2"
-                    maxLength={15}
-                    value={address_2}
-                    onChange={(e) => [
-                      setAddress2(e.target.value),
-                      setAddress2Err(""),
-                    ]}
-                  />
-                  {address2Err && <p className="errorstyle">{address2Err}</p>}
-                </div>
-                <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Landmark</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="landmark"
-                      placeholder="Enter Landmark"
-                      name="landmark"
-                      maxLength={10}
-                      value={landmark}
-                      onChange={(e) => [
-                        setLandmark(e.target.value),
-                        setLandmarkErr(""),
-                      ]}
-                    />
-                    {landmarkErr && <p className="errorstyle">{landmarkErr}</p>}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Pincode</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="pincode"
-                      placeholder="Enter Pincode"
-                      name="pincode"
-                      maxLength={6}
-                      value={pincode}
-                      onChange={(e) => [
-                        setPincode(parseInt(e.target.value)),
-                        setPincodeErr(""),
-                      ]}
-                    />
-                    {pincodeErr && <p className="errorstyle">{pincodeErr}</p>}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Select type of Address</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      value={type}
-                      onChange={(e) => [setType(e.target.value)]}
+              <>
+                {!adddiv && (
+                  <div className="row customcard">
+                    <h4 className="main-heading main">Delivery Address</h4>
+                    {addData.length > 0 &&
+                      addData.map((data) => {
+                        return (
+                          <div className="col-md-5 mb-3 addcard">
+                            <h5>{data.type}</h5>
+                            <p>
+                              {data.address_1}
+                              {data.address_2}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    <button
+                      className="col-md-5 mb-3 addcardbutton"
+                      onClick={() => setAdddiv(true)}
                     >
-                      <option value="HOME" selected>
-                        Home
-                      </option>
-                      <option value="WORK">Work</option>
-                      <option value="OTHER">Other</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="save-info"
-                  />
-                  <label className="custom-control-label" htmlFor="save-info">
-                    Save this information for next time
-                  </label>
-                </div>
-
-                <hr className="mb-4" />
-                <div className="row">
-                  <div className="col-sm-3">
-                    {/* <Link className="button" to="/cart">
+                      + Add Delivery Address
+                    </button>
+                    <div className="row">
+                      <div className="col-sm-3">
+                        {/* <Link className="button" to="/cart">
                       Go to cart
                     </Link> */}
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-2">
+                        <button
+                          className="button"
+                          type="submit"
+                          onClick={() => setGoSteps(1)}
+                        >
+                          Next Step
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-sm-7"></div>
-                  <div className="col-sm-2">
-                    <button className="button" type="submit">
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </form>
+                )}
+                {adddiv && (
+                  <form
+                    className="customcard"
+                    method="post"
+                    onSubmit={(e) => {
+                      addresshandleSubmit(e);
+                    }}
+                  >
+                    <h4 className="main-heading main">
+                      Enter Delivery Address
+                    </h4>
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address">Address</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address"
+                        placeholder="Enter Address"
+                        name="Address"
+                        value={address_1}
+                        onChange={(e) => [
+                          setAddress(e.target.value),
+                          setAddressErr(""),
+                        ]}
+                      />
+                      {addressErr && <p className="errorstyle">{addressErr}</p>}
+                    </div>
+
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address2">
+                        Address 2 <span className="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address2"
+                        placeholder="Enter Address 2"
+                        name="Address2"
+                        value={address_2}
+                        onChange={(e) => [
+                          setAddress2(e.target.value),
+                          setAddress2Err(""),
+                        ]}
+                      />
+                      {address2Err && (
+                        <p className="errorstyle">{address2Err}</p>
+                      )}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Landmark</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="landmark"
+                          placeholder="Enter Landmark"
+                          name="landmark"
+                          maxLength={10}
+                          value={landmark}
+                          onChange={(e) => [
+                            setLandmark(e.target.value),
+                            setLandmarkErr(""),
+                          ]}
+                        />
+                        {landmarkErr && (
+                          <p className="errorstyle">{landmarkErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Pincode</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="pincode"
+                          placeholder="Enter Pincode"
+                          name="pincode"
+                          maxLength={6}
+                          value={pincode}
+                          onChange={(e) => [
+                            setPincode(parseInt(e.target.value)),
+                            setPincodeErr(""),
+                          ]}
+                        />
+                        {pincodeErr && (
+                          <p className="errorstyle">{pincodeErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Select type of Address</label>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          value={type}
+                          onChange={(e) => [setType(e.target.value)]}
+                        >
+                          <option value="HOME" selected>
+                            Home
+                          </option>
+                          <option value="WORK">Work</option>
+                          <option value="OTHER">Other</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        className="custom-control-input"
+                        id="save-info"
+                      />
+                      <label
+                        className="custom-control-label"
+                        htmlFor="save-info"
+                      >
+                        Save this information for next time
+                      </label>
+                    </div>
+
+                    <hr className="mb-4" />
+                    <div className="row">
+                      <div className="col-sm-3">
+                        {/* <Link className="button" to="/cart">
+                      Go to cart
+                    </Link> */}
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-2">
+                        <button className="button" type="submit">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </>
             )}
 
             {goSteps === 1 && (

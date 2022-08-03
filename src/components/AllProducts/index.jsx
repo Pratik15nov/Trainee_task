@@ -92,7 +92,7 @@ const Allproducts = (props) => {
     // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     // EventEmitter.dispatch("DATA", body.quantity.length);
-    console.log(cartdata);
+    
   };
 
   return (

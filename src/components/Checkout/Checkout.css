@@ -38,3 +38,18 @@
     margin-bottom:2%;
 } */
 
+.addcard {
+  padding: 21px;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
+  margin: 15px;
+}
+
+.addcardbutton {
+  padding: 21px;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
+  margin: 15px;
+  border: none;
+  background-color: white;
+}
