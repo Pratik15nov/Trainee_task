@@ -96,6 +96,7 @@ export default function Cart() {
 
   const alldelete = async () => {
     console.log(checkedList);
+    setcheckedList([])
 
     const response = await cartseldeleteHndlerData({
       userId: uid,
@@ -104,7 +105,9 @@ export default function Cart() {
     console.log(response);
     if (response) {
       getcartproductData(uid);
+      
     }
+
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -166,6 +169,7 @@ export default function Cart() {
                             key={card.id}
                             onDelete={handleDelete}
                             handlecheckbox={handlecheckbox}
+                            
                           />
                         );
                       })}
