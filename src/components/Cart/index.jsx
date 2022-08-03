@@ -7,6 +7,7 @@ import {
   cartHndlerData,
   cartproductdeleteHndlerData,
   cartdeleteHndlerData,
+  cartseldeleteHndlerData,
 } from "../../service/auth.service";
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -92,11 +93,18 @@ export default function Cart() {
       setcheckedList(checkedList.filter((e) => e !== value));
     }
   };
-  console.log(checkedList);
 
   const alldelete = async () => {
     console.log(checkedList);
-    // if(checkedList.length!==0){
+
+    const response = await cartseldeleteHndlerData({
+      userId: uid,
+      cartdetail: checkedList,
+    });
+    console.log(response);
+    if (response) {
+      getcartproductData(uid);
+    }
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -135,9 +143,10 @@ export default function Cart() {
                     <button
                       className="dbutton"
                       type="button"
-                      onClick={claerAll}
+                      onClick={alldelete}
                     >
                       {checkedList.length}
+                      DELETE
                     </button>
                   </div>
                 </div>

@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";// eslint-disable-next-line
 export const validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;// eslint-disable-next-line
 export const validName = /^[A-Za-z]+$/;
-export const validPhoneno = /^[0-9]{10}$/;
+export const validPhoneno = /^[0-9]{6,10}$/;
 export const validPaasword =
   /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 export const ENDPOINTURL = "https://fea-backend.herokuapp.com/api/v1";

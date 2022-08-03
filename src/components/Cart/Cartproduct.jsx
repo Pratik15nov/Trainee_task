@@ -34,23 +34,23 @@ const Cartproduct = (props) => {
                     &#x20b9; {props.card.productId.price * props.card.quantity}
                     /-
                   </h5>
-                  <h6>&#x20b9;
+                  <h6>
+                    &#x20b9;
                     <del>
                       {props.card.productId.discountPrice +
                         props.card.productId.price}
                       /-
-                    </del></h6>
-                  
+                    </del>
+                  </h6>
                 </div>
                 <div className="col-md-1 mt-3">
-                <button
+                  <button
                     className="dbutton"
                     type="button"
                     onClick={() => props.onDelete(props.card.productId._id)}
                   >
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
-
                 </div>
               </div>
             </div>

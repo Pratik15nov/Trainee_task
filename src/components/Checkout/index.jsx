@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Checkout.css";
 import { useNavigate } from "react-router-dom";
-import { validName } from "../../utils/helper";
+import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
@@ -47,7 +47,7 @@ export default function Checkout() {
   const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
-
+  const [addressId, setaddressId] = useState([]);
   const [adddiv, setAdddiv] = useState(false);
 
   const location = useLocation();
@@ -80,6 +80,7 @@ export default function Checkout() {
     setuid(userId);
     getuserData(userId);
     getaddData(userId);
+
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
@@ -146,18 +147,15 @@ export default function Checkout() {
 
   const validate1 = () => {
     let formIsValid = true;
-    // if (!validName.test(address_1)) {
-    //   formIsValid = false;
-    //   setAddressErr("Your Address is invalid");
-    // }
-    // if (!validName.test(address_2)) {
-    //   formIsValid = false;
-    //   setAddress2Err("Your Address is invalid");
-    // }
-    // if (!validPhoneno.test(pincode)) {
-    //   formIsValid = false;
-    //   setPincodeErr("Your Pincode is invalid");
-    // }
+    if (!validName.test(address_1)) {
+      formIsValid = false;
+      setAddressErr("Your Address is invalid");
+    }
+
+    if (!validPhoneno.test(pincode)) {
+      formIsValid = false;
+      setPincodeErr("Your Pincode is invalid");
+    }
 
     return formIsValid;
   };
@@ -166,7 +164,8 @@ export default function Checkout() {
     if (validate1() !== true) {
     } else {
       postAddData(e);
-      setGoSteps(0);
+      setAdddiv(false);
+      getaddData();
     }
     e.preventDefault();
   };
@@ -199,6 +198,22 @@ export default function Checkout() {
     }
   };
 
+  const handlecheckbox = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setaddressId(value);
+    }
+  };
+  console.log(addressId);
+
+  const addcheckhandle = (e) => {
+    if (addressId.length > 0) {
+      setGoSteps(1);
+    } else {
+      alert("Select One Address");
+    }
+  };
   const discount = (orderSubtotal * discountPercent) / 100;
 
   // const current = new Date();
@@ -242,7 +257,7 @@ export default function Checkout() {
   // const { values, setFieldValue, setValues } = addressFromik;
   // console.log();
   // useEffect(() => {}, [values]);
-
+  console.log(addData);
   return (
     <>
       <div className="container">
@@ -257,44 +272,60 @@ export default function Checkout() {
             {goSteps === 0 && (
               <>
                 {!adddiv && (
-                  <div className="row customcard">
-                    <h4 className="main-heading main">Delivery Address</h4>
-                    {addData.length > 0 &&
-                      addData.map((data) => {
-                        return (
-                          <div className="col-md-5 mb-3 addcard">
-                            <h5>{data.type}</h5>
-                            <p>
-                              {data.address_1}
-                              {data.address_2}
-                            </p>
-                          </div>
-                        );
-                      })}
-                    <button
-                      className="col-md-5 mb-3 addcardbutton"
-                      onClick={() => setAdddiv(true)}
-                    >
-                      + Add Delivery Address
-                    </button>
-                    <div className="row">
-                      <div className="col-sm-3">
-                        {/* <Link className="button" to="/cart">
+                  <>
+                    <div className="row customcard">
+                      <h4 className="main-heading main">Delivery Address</h4>
+                      {addData.length > 0 &&
+                        addData.map((data, index) => {
+                          return (
+                            <label class="checkbox-wrapper  col-md-6 mb-3  form-check">
+                              <input
+                                type="radio"
+                                className="checkbox-input-adds form-check-input"
+                                id={`${("flexRadioDefault", index + 1)}`}
+                                value={data._id}
+                                name="optradio"
+                                // checked={checked === option.value}
+                                onChange={(e) => handlecheckbox(e)}
+                              />
+                              <span class="checkbox-adds">
+                                <span class="checkbox-icon">
+                                  <h5>{data.type}</h5>
+                                  <p>
+                                    {data.address_1}
+                                    {data.address_2}
+                                  </p>
+                                </span>
+                              </span>
+                            </label>
+                          );
+                        })}
+                      <button
+                        className="col-md-6  addcardbutton"
+                        onClick={() => setAdddiv(true)}
+                      >
+                        + Add Delivery Address
+                      </button>
+
+                      <div className="row mt-5">
+                        <div className="col-sm-3">
+                          {/* <Link className="button" to="/cart">
                       Go to cart
                     </Link> */}
-                      </div>
-                      <div className="col-sm-7"></div>
-                      <div className="col-sm-2">
-                        <button
-                          className="button"
-                          type="submit"
-                          onClick={() => setGoSteps(1)}
-                        >
-                          Next Step
-                        </button>
+                        </div>
+                        <div className="col-sm-7"></div>
+                        <div className="col-sm-2">
+                          <button
+                            className="button"
+                            type="submit"
+                            onClick={() => addcheckhandle()}
+                          >
+                            Next Step
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
                 {adddiv && (
                   <form
@@ -417,9 +448,12 @@ export default function Checkout() {
                     <hr className="mb-4" />
                     <div className="row">
                       <div className="col-sm-3">
-                        {/* <Link className="button" to="/cart">
-                      Go to cart
-                    </Link> */}
+                        <button
+                          className="button"
+                          onClick={() => setAdddiv(false)}
+                        >
+                          Back
+                        </button>
                       </div>
                       <div className="col-sm-7"></div>
                       <div className="col-sm-2">
