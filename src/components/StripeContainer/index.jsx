@@ -9,25 +9,26 @@ const stripePromise = loadStripe(
   "pk_test_51LSJbrSHKwWbek0RdMI41YlCVTN8q8I1nfAQChA0PB7aM0tDeHKPrLqsyODOCRnQUSSFIhEl46I0DXbkd5ohYGNH001OzGcrNP"
 );
 
-export default function StripeContainer() {
+export default function StripeContainer(props) {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
     getClientSecret();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getClientSecret = async () => {
-    const response = await stripeDataHandler();
-  console.log("RESPONSE",response)
-    if (response) {
-      setClientSecret(response);
+    const body = {
+      amount: props.price * 100,
+    };
+    const response = await stripeDataHandler(body);
+
+    if (response.data) {
+      setClientSecret(response.data);
     } else {
-      console.log("API CALL ERROR");
+      console.log("API CALL ERROR WHILE GETTING CLIENT SECRECT");
     }
-    
   };
 
-console.log("CLIENTSECRET",clientSecret)
   const appearance = {
     theme: "stripe",
   };

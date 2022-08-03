@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./Order.css";
 import { useReactToPrint } from "react-to-print";
 export default function Order() {
-  const [cart, setCart] = useState([]);
-  console.log(cart, "CONSOLED");
+  // const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("Data")));
+    
   }, []);
   const componentRef = useRef();
   const invoiceData = JSON.parse(localStorage.getItem("Data"));
@@ -67,7 +66,11 @@ export default function Order() {
                 <div className="col-sm-4 offset-sm-2">
                   <div className="mt-3 float-sm-end">
                     <p className="font-13">
-                      <strong>Order Date:{JSON.parse(localStorage.getItem("OrderDate"))} </strong> &nbsp;&nbsp;&nbsp;
+                      <strong>
+                        Order Date:
+                        {JSON.parse(localStorage.getItem("OrderDate"))}{" "}
+                      </strong>{" "}
+                      &nbsp;&nbsp;&nbsp;
                     </p>
                     <p className="font-13">
                       <strong>Order Status: </strong>
@@ -119,7 +122,7 @@ export default function Order() {
                                 <b>{data.name}</b> <br />
                               </td>
                               <td>{data.quantity}</td>
-                              <td>Rs: {data.rate/data.quantity}</td>
+                              <td>Rs: {data.rate / data.quantity}</td>
                               <td className="text-end">Rs : {data.rate}</td>
                             </tr>
                           );

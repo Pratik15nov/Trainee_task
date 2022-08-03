@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import "./stripeCheckoutform.css";
 
-export default function StripeCheckoutForm() {
+export default function StripeCheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -29,7 +29,7 @@ export default function StripeCheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          setMessage("Payment succeeded!");
+          setMessage("Payment succeeded!") && props.passOn();
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -42,7 +42,7 @@ export default function StripeCheckoutForm() {
           break;
       }
     });
-  }, [stripe]);
+  }, [stripe]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +60,7 @@ export default function StripeCheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000",
+      
       },
     });
 
@@ -78,6 +79,7 @@ export default function StripeCheckoutForm() {
   };
 
   return (
+
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
@@ -88,5 +90,6 @@ export default function StripeCheckoutForm() {
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
+
   );
 }

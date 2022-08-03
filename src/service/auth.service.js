@@ -56,14 +56,18 @@ export const cartdeleteHndlerData = (body) => {
   return remove(`${ENDPOINTURL}/cart/clearAll`, body);
 };
 
-export const addressHndlerData = (body) => {
+export const addaddressHndlerData = (body) => {
   return post(`${ENDPOINTURL}/address`, body);
+};
+
+export const addressHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/address/list`, body);
 };
 
 export const promocodeHndlerData = (body) => {
   return post(`${ENDPOINTURL}/promocode/list`, body);
 };
 
-export const stripeDataHandler = () => {
-  return get(`${ENDPOINTURL}/stripe/create-payment-intent`);
+export const stripeDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/stripe/create-payment-intent`,body);
 };
