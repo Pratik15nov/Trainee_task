@@ -3,7 +3,14 @@ export const get = async (url) => {
   const response = await axios
     .get(url)
     .then((res) => {
-      return res;
+      if(res.status === 200) {
+        if(res.data?.success) {
+          return res.data?.data;
+        }
+      } else {
+        return null;
+      }
+      // return res;
     })
     .catch((err) => {
       console.error(err);
