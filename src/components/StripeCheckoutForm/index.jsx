@@ -5,6 +5,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import "./stripeCheckoutform.css";
+import GooglePayButton from "@google-pay/button-react";
 
 export default function StripeCheckoutForm(props) {
   const stripe = useStripe();
@@ -60,7 +61,6 @@ export default function StripeCheckoutForm(props) {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000",
-      
       },
     });
 
@@ -79,7 +79,6 @@ export default function StripeCheckoutForm(props) {
   };
 
   return (
-
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
@@ -89,7 +88,49 @@ export default function StripeCheckoutForm(props) {
       </button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
-    </form>
+      <div className="GPAY_BUTTON">
+        <GooglePayButton
+          environment="TEST"
+          paymentRequest={{
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [
+              {
+                type: "CARD",
+                parameters: {
+                  allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                  allowedCardNetworks: ["MASTERCARD", "VISA"],
+                },
+                tokenizationSpecification: {
+                  type: "PAYMENT_GATEWAY",
+                  parameters: {
+                    gateway: "example",
+                    gatewayMerchantId: "exampleGatewayMerchantId",
+                  },
+                },
+              },
+            ],
+            merchantInfo: {
+              merchantId: "12345678901234567890",
+              merchantName: "Demo Merchant",
+            },
+            transactionInfo: {
+              totalPriceStatus: "FINAL",
+              totalPriceLabel: "Total",
+              totalPrice: "100.00",
+              currencyCode: "INR",
+              countryCode: "IN",
+            },
+          }}
+          onLoadPaymentData={(paymentRequest) => {
+            console.log("load payment data", paymentRequest);
+          }}
+          existingPaymentMethodRequired="false"
+          buttonColor="black"
+          buttonType="buy"
 
+        />
+      </div>
+    </form>
   );
 }

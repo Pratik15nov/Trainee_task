@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@google-pay/button-react": "^3.0.0",
     "@mui/material": "latest",
     "@popperjs/core": "^2.11.5",
     "@stripe/react-stripe-js": "^1.10.0",

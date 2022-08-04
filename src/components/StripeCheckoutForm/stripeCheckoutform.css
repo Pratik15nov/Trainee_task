@@ -115,6 +115,10 @@
     -webkit-animation: loading 2s infinite ease;
     animation: loading 2s infinite ease;
   }
+  .GPAY_BUTTON{
+    text-align: center;
+    margin-top: 20px;
+  }
   
   @keyframes loading {
     0% {

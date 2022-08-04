@@ -5,6 +5,7 @@ import StripeCheckoutForm from "../StripeCheckoutForm";
 import "../StripeCheckoutForm/stripeCheckoutform.css";
 import { stripeDataHandler } from "../../service/auth.service";
 
+
 const stripePromise = loadStripe(
   "pk_test_51LSJbrSHKwWbek0RdMI41YlCVTN8q8I1nfAQChA0PB7aM0tDeHKPrLqsyODOCRnQUSSFIhEl46I0DXbkd5ohYGNH001OzGcrNP"
 );
@@ -44,6 +45,9 @@ export default function StripeContainer(props) {
           <StripeCheckoutForm />
         </Elements>
       )}
+
+      
+
     </div>
   );
 }
