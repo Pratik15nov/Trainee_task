@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Checkout.css";
 import { useNavigate } from "react-router-dom";
 import { validName, validPhoneno } from "../../utils/helper";
+import { Link } from "react-router-dom";
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
@@ -15,6 +16,8 @@ import {
   userHndlerData,
   promocodeHndlerData,
   addressHndlerData,
+  addressDelHndler,
+  editaddressHndler,
 } from "../../service/auth.service";
 // import StripeCheckoutButton from "../StripeCheckoutComponent";
 
@@ -37,6 +40,8 @@ export default function Checkout() {
   const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
   const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
   const [type, setType] = useState("HOME"); // eslint-disable-next-line
+  const [label, setLabel] = useState(""); // eslint-disable-next-line
+  const [labelErr, setLabelErr] = useState(false); // eslint-disable-next-line
   const [addressErr, setAddressErr] = useState(false);
   const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
   const [pincodeErr, setPincodeErr] = useState(false);
@@ -49,7 +54,10 @@ export default function Checkout() {
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
   const [addressId, setaddressId] = useState([]);
   const [adddiv, setAdddiv] = useState(false);
+  const [addeditdiv, setAddeditdiv] = useState(false);
 
+  const [editadd, seteditadd] = useState([]);
+  const [editId, seteditId] = useState();
   const location = useLocation();
   const [userId, setuid] = useState();
   const { search } = location;
@@ -103,7 +111,7 @@ export default function Checkout() {
         where: { userId: log },
       })
     );
-    if (response.length > 0) {
+    if (response?.length > 0) {
       setCart(response[0]?.cartdetail);
     }
   };
@@ -157,11 +165,16 @@ export default function Checkout() {
       setPincodeErr("Your Pincode is invalid");
     }
 
+    if (!validName.test(label)) {
+      formIsValid = false;
+      setLabelErr("Your Label is invalid");
+    }
+
     return formIsValid;
   };
 
   const addresshandleSubmit = (e) => {
-    if (validate1() !== true) {
+    if (!validate1()) {
     } else {
       postAddData(e);
       setAdddiv(false);
@@ -176,24 +189,25 @@ export default function Checkout() {
       userId,
       address_1,
       address_2,
+      label,
       landmark,
       pincode,
       type,
     };
     const response = await addaddressHndlerData(body); // eslint-disable-next-line
     if (response) {
-      getaddData();
+      getaddData(userId);
     }
   };
 
   const getaddData = async (log = "") => {
     const response = await addressHndlerData(
       listBody({
-        where: { userId: log },
+        where: { userId: log, isActive: true },
       })
     );
 
-    if (response.length > 0) {
+    if (response?.length > 0) {
       setaddData(response);
     }
   };
@@ -205,13 +219,51 @@ export default function Checkout() {
       setaddressId(value);
     }
   };
-  console.log(addressId);
 
   const addcheckhandle = (e) => {
     if (addressId.length > 0) {
       setGoSteps(1);
     } else {
       alert("Select One Address");
+    }
+  };
+
+  const addDelhandler = async (itemId) => {
+    const response = await addressDelHndler(itemId);
+
+    if (response) {
+      getaddData(userId);
+    }
+  };
+  const addressedit = async (id) => {
+    setAddeditdiv(true);
+    const response = await addressHndlerData(
+      listBody({
+        where: { isActive: true, _id: id },
+      })
+    );
+
+    if (response?.length > 0) {
+      seteditadd(response[0]);
+      seteditId(response[0]?._id);
+    }
+  };
+
+  const editaddressHndler = async (event) => {
+    event.preventDefault();
+    const body = {
+      address_1,
+      address_2,
+      label,
+      landmark,
+      pincode,
+      type,
+    };
+    const response = await editaddressHndler(editId, body);
+    console.log(response);
+    if (response) {
+      setAddeditdiv(false);
+      getaddData(userId);
     }
   };
   const discount = (orderSubtotal * discountPercent) / 100;
@@ -257,7 +309,7 @@ export default function Checkout() {
   // const { values, setFieldValue, setValues } = addressFromik;
   // console.log();
   // useEffect(() => {}, [values]);
-  console.log(addData);
+
   return (
     <>
       <div className="container">
@@ -271,14 +323,14 @@ export default function Checkout() {
             </Stepper>
             {goSteps === 0 && (
               <>
-                {!adddiv && (
+                {!adddiv && !addeditdiv && (
                   <>
                     <div className="row customcard">
                       <h4 className="main-heading main">Delivery Address</h4>
                       {addData.length > 0 &&
                         addData.map((data, index) => {
                           return (
-                            <label class="checkbox-wrapper  col-md-6 mb-3  form-check">
+                            <label className="col-md-5 mb-3  form-check">
                               <input
                                 type="radio"
                                 className="checkbox-input-adds form-check-input"
@@ -288,10 +340,20 @@ export default function Checkout() {
                                 // checked={checked === option.value}
                                 onChange={(e) => handlecheckbox(e)}
                               />
-                              <span class="checkbox-adds">
-                                <span class="checkbox-icon">
-                                  <h5>{data.type}</h5>
-                                  <p>
+                              <span className="checkbox-adds">
+                                <span className="checkbox-icon">
+                                  <h5 className="cardhending">
+                                    {data.type}
+                                    <i
+                                      className="fa-solid fa-trash-can delicon"
+                                      onClick={() => addDelhandler(data._id)}
+                                    ></i>
+                                    <i
+                                      className="fa-solid fa-pen-to-square editicon"
+                                      onClick={() => addressedit(data._id)}
+                                    ></i>
+                                  </h5>
+                                  <p className="cardcon">
                                     {data.address_1}
                                     {data.address_2}
                                   </p>
@@ -309,9 +371,9 @@ export default function Checkout() {
 
                       <div className="row mt-5">
                         <div className="col-sm-3">
-                          {/* <Link className="button" to="/cart">
-                      Go to cart
-                    </Link> */}
+                          <Link className="button" to={`/cart?uid=${userId}`}>
+                            Go to cart
+                          </Link>
                         </div>
                         <div className="col-sm-7"></div>
                         <div className="col-sm-2">
@@ -375,6 +437,24 @@ export default function Checkout() {
                         <p className="errorstyle">{address2Err}</p>
                       )}
                     </div>
+                    <div className="col-md-4 mb-3">
+                      <label htmlFor="address2">
+                        Label <span className="text-muted"></span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="label"
+                        placeholder="Enter Recevier Name"
+                        name="label"
+                        value={label}
+                        onChange={(e) => [
+                          setLabel(e.target.value),
+                          setLabelErr(""),
+                        ]}
+                      />
+                      {labelErr && <p className="errorstyle">{labelErr}</p>}
+                    </div>
                     <div className="row">
                       <div className="col-md-3 mb-3">
                         <label htmlFor="zip">Landmark</label>
@@ -431,18 +511,146 @@ export default function Checkout() {
                       </div>
                     </div>
 
-                    <div className="custom-control custom-checkbox">
+                    <hr className="mb-4" />
+                    <div className="row">
+                      <div className="col-sm-3">
+                        <button
+                          className="button"
+                          onClick={() => setAdddiv(false)}
+                        >
+                          Back
+                        </button>
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-2">
+                        <button className="button" type="submit">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                )}
+
+                {addeditdiv && (
+                  <form
+                    className="customcard"
+                    method="post"
+                    onSubmit={(e) => {
+                      editaddressHndler(e);
+                    }}
+                  >
+                    <h4 className="main-heading main">
+                      Update Delivery Address
+                    </h4>
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address">Address</label>
                       <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="save-info"
+                        type="text"
+                        className="form-control"
+                        id="address"
+                        placeholder={`${editadd.address_1}`}
+                        name="Address"
+                        value={address_1}
+                        onChange={(e) => [
+                          setAddress(e.target.value),
+                          setAddressErr(""),
+                        ]}
                       />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="save-info"
-                      >
-                        Save this information for next time
+                      {addressErr && <p className="errorstyle">{addressErr}</p>}
+                    </div>
+
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address2">
+                        Address 2 <span className="text-muted">(Optional)</span>
                       </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address2"
+                        placeholder={`${editadd.address_2}`}
+                        name="Address2"
+                        value={address_2}
+                        onChange={(e) => [
+                          setAddress2(e.target.value),
+                          setAddress2Err(""),
+                        ]}
+                      />
+                      {address2Err && (
+                        <p className="errorstyle">{address2Err}</p>
+                      )}
+                    </div>
+                    <div className="col-md-4 mb-3">
+                      <label htmlFor="address2">
+                        Label <span className="text-muted"></span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="label"
+                        placeholder={`${editadd.label}`}
+                        name="label"
+                        value={label}
+                        onChange={(e) => [
+                          setLabel(e.target.value),
+                          setLabelErr(""),
+                        ]}
+                      />
+                      {labelErr && <p className="errorstyle">{labelErr}</p>}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Landmark</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="landmark"
+                          placeholder={`${editadd.landmark}`}
+                          name="landmark"
+                          maxLength={10}
+                          value={landmark}
+                          onChange={(e) => [
+                            setLandmark(e.target.value),
+                            setLandmarkErr(""),
+                          ]}
+                        />
+                        {landmarkErr && (
+                          <p className="errorstyle">{landmarkErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Pincode</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="pincode"
+                          placeholder={`${editadd.pincode}`}
+                          name="pincode"
+                          maxLength={6}
+                          value={pincode}
+                          onChange={(e) => [
+                            setPincode(parseInt(e.target.value)),
+                            setPincodeErr(""),
+                          ]}
+                        />
+                        {pincodeErr && (
+                          <p className="errorstyle">{pincodeErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Select type of Address</label>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          value={type}
+                          onChange={(e) => [setType(e.target.value)]}
+                        >
+                          <option value="HOME" selected>
+                            Home
+                          </option>
+                          <option value="WORK">Work</option>
+                          <option value="OTHER">Other</option>
+                        </select>
+                      </div>
                     </div>
 
                     <hr className="mb-4" />
@@ -450,7 +658,7 @@ export default function Checkout() {
                       <div className="col-sm-3">
                         <button
                           className="button"
-                          onClick={() => setAdddiv(false)}
+                          onClick={() => setAddeditdiv(false)}
                         >
                           Back
                         </button>

@@ -68,6 +68,14 @@ export const addressHndlerData = (body) => {
   return post(`${ENDPOINTURL}/address/list`, body);
 };
 
+export const addressDelHndler = (id) => {
+  return remove(`${ENDPOINTURL}/address/${id}`);
+};
+
+export const editaddressHndler = (id, body) => {
+  return patch(`${ENDPOINTURL}/address/${id}`, body);
+};
+
 export const promocodeHndlerData = (body) => {
   return post(`${ENDPOINTURL}/promocode/list`, body);
 };
