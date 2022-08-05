@@ -249,8 +249,8 @@ export default function Checkout() {
     }
   };
 
-  const editaddressHndler = async (event) => {
-    event.preventDefault();
+  const editaddressHndler = async () => {
+    
     const body = {
       address_1,
       address_2,
@@ -523,7 +523,7 @@ export default function Checkout() {
                       </div>
                       <div className="col-sm-7"></div>
                       <div className="col-sm-2">
-                        <button className="button" type="submit">
+                        <button className="button" onClick={() =>editaddressHndler }>
                           Save
                         </button>
                       </div>
