@@ -117,7 +117,7 @@ export default function StripeCheckoutForm(props) {
             transactionInfo: {
               totalPriceStatus: "FINAL",
               totalPriceLabel: "Total",
-              totalPrice: "100.00",
+              totalPrice: `${props.price}`,
               currencyCode: "INR",
               countryCode: "IN",
             },
@@ -128,7 +128,6 @@ export default function StripeCheckoutForm(props) {
           existingPaymentMethodRequired="false"
           buttonColor="black"
           buttonType="buy"
-
         />
       </div>
     </form>

@@ -4,8 +4,8 @@ import { URL } from "../../utils/helper";
 
 const Cartproduct = (props) => {
   return (
-    <>
-      <label class="checkbox-wrapper cartrow">
+    
+      <label className="checkbox-wrapper cartrow">
         <input
           type="checkbox"
           className="checkbox-input"
@@ -13,8 +13,8 @@ const Cartproduct = (props) => {
           checked={props.checkedList.includes(props.card.productId._id)}
           onChange={(e) => props.handlecheckbox(e)}
         />
-        <span class="checkbox-tile">
-          <span class="checkbox-icon">
+        <span className="checkbox-tile">
+          <span className="checkbox-icon">
             <div className="col-md-12 main pt-2" key={props.card.id}>
               <div className="row cartrow">
                 <div className="col-md-4 ">
@@ -57,7 +57,7 @@ const Cartproduct = (props) => {
           </span>
         </span>
       </label>
-    </>
+    
   );
 };
 export default Cartproduct;

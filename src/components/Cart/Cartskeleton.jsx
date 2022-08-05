@@ -14,7 +14,7 @@ const Cartskeleton = (props) => {
                   variant="rectangular"
                   width={190}
                   height={33}
-                  className="s1"
+                  
                   animation="wave"
                 />
                 <div className="text">

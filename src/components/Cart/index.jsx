@@ -192,7 +192,7 @@ export default function Cart() {
                         return (
                           <Cartproduct
                             card={card}
-                            key={card.id}
+                            key={`cartproduct_${card.id}}`}
                             checkedList={checkedList}
                             onDelete={handleDelete}
                             handlecheckbox={handlecheckbox}

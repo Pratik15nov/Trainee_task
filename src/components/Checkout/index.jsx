@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
+// import { CSSProperties } from "react";
+// import PropagateLoader from "react-spinners/PropagateLoader";
+
 import "./Checkout.css";
-import { useNavigate } from "react-router-dom";
 import { validName, validPhoneno } from "../../utils/helper";
-import { Link } from "react-router-dom";
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
 // import csc from "country-state-city";
 import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import {
   cartHndlerData,
   addaddressHndlerData,
@@ -17,10 +20,12 @@ import {
   razorpayDataHandler,
   addressHndlerData,
   addressDelHndler,
-  editaddressHndler,
+  editaddressHndlerData,
 } from "../../service/auth.service";
 
 import StripeContainer from "../StripeContainer";
+import Addskeleton from "./Addskeleton";
+import { Box } from "@mui/system";
 
 const loadScript = (src) => {
   return new Promise((resolve) => {
@@ -44,15 +49,9 @@ export default function Checkout() {
   const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
   const [addData, setaddData] = useState([]);
-
   const [discountPercent, setDiscountPercent] = useState(0);
-
   const [address_1, setAddress] = useState("");
   const [address_2, setAddress2] = useState("");
-  const [cardname, setCardname] = useState("");
-  const [cardnumber, setCardnumber] = useState("");
-  const [expdate, setExpdate] = useState("");
-  const [cvv, setCvv] = useState(""); // eslint-disable-next-line
   const [pincode, setPincode] = useState();
   const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
   const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
@@ -62,23 +61,21 @@ export default function Checkout() {
   const [addressErr, setAddressErr] = useState(false);
   const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
   const [pincodeErr, setPincodeErr] = useState(false);
-  const [cardnameErr, setCardnameErr] = useState(false);
-  const [cardnumberErr, setCardnumberErr] = useState(false);
-  const [expdateErr, setExpdateErr] = useState(false);
-  const [cvvErr, setCvvErr] = useState(false);
   const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
-  const [addressId, setaddressId] = useState([]);
+  const [addressId, setaddressId] = useState();
   const [adddiv, setAdddiv] = useState(false);
   const [addeditdiv, setAddeditdiv] = useState(false);
-
+  const [localuserData, setlocaluserData] = useState(false);
   const [editadd, seteditadd] = useState([]);
   const [editId, seteditId] = useState();
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const [userId, setuid] = useState();
-  const { search } = location;
 
+  // const [userId, setmainuid] = useState(localuserData.id);
+  const { search } = location;
+  const userId = localuserData.id;
   const Promocode = [
     {
       code: "50OFF",
@@ -102,10 +99,10 @@ export default function Checkout() {
       userId = "";
     }
     getcartproductData(userId);
-    setuid(userId);
     getuserData(userId);
     getaddData(userId);
-
+    setlocaluserData(JSON.parse(localStorage.getItem("userData")));
+    // setmainuid(userId);
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
@@ -134,10 +131,13 @@ export default function Checkout() {
   };
 
   const getuserData = async (userId) => {
+    // eslint-disable-next-line
     const response = await userHndlerData(userId);
     setuserData(response);
-    setuid(response.data?.data._id);
+
+
   };
+
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
   const orderSubtotal = Object.values(updatedData).reduce(
     (r, { price }) => r + price,
@@ -218,7 +218,26 @@ export default function Checkout() {
     }
   };
 
+  const editaddressHndler = async (event) => {
+    event.preventDefault();
+    const body = {
+      address_1,
+      address_2,
+      label,
+      landmark,
+      pincode,
+      type,
+    };
+    const response = await editaddressHndlerData(editId, body);
+
+    if (response) {
+      setAddeditdiv(false);
+      getaddData(userId);
+    }
+  };
+
   const getaddData = async (log = "") => {
+    setLoading(true);
     const response = await addressHndlerData(
       listBody({
         where: { userId: log, isActive: true },
@@ -227,6 +246,7 @@ export default function Checkout() {
 
     if (response?.length > 0) {
       setaddData(response);
+      setLoading(false);
     }
   };
 
@@ -239,8 +259,9 @@ export default function Checkout() {
   };
 
   const addcheckhandle = (e) => {
-    if (addressId.length > 0) {
+    if (addressId) {
       setGoSteps(1);
+      localStorage.setItem("SeletedAddressId", addressId );
     } else {
       alert("Select One Address");
     }
@@ -267,22 +288,8 @@ export default function Checkout() {
     }
   };
 
-  const editaddressHndler = async () => {
-    const body = {
-      address_1,
-      address_2,
-      label,
-      landmark,
-      pincode,
-      type,
-    };
-    const response = await editaddressHndler(editId, body);
-    console.log(response);
-    if (response) {
-      setAddeditdiv(false);
-      getaddData(userId);
-    }
-  };
+  console.log(addressId);
+
   const discount = (orderSubtotal * discountPercent) / 100;
 
   // const current = new Date();
@@ -389,7 +396,21 @@ export default function Checkout() {
                   <>
                     <div className="row customcard">
                       <h4 className="main-heading main">Delivery Address</h4>
+                      {/* {loading && (
+                        <PropagateLoader className="loadingdata" size={25} />
+                      )} */}
+
+                      {loading && (
+                        <Box>
+                          <Addskeleton />
+                          <Addskeleton />
+                          <Addskeleton />
+                          <Addskeleton />
+                        </Box>
+                      )}
+
                       {addData.length > 0 &&
+                        !loading &&
                         addData.map((data, index) => {
                           return (
                             <label className="col-md-5 mb-3  form-check">
@@ -424,16 +445,22 @@ export default function Checkout() {
                             </label>
                           );
                         })}
-                      <button
-                        className="col-md-6  addcardbutton"
-                        onClick={() => setAdddiv(true)}
-                      >
-                        + Add Delivery Address
-                      </button>
+
+                      {!loading && (
+                        <button
+                          className="col-md-6  addcardbutton"
+                          onClick={() => setAdddiv(true)}
+                        >
+                          + Add Delivery Address
+                        </button>
+                      )}
 
                       <div className="row mt-5">
                         <div className="col-sm-3">
-                          <Link className="button" to={`/cart?uid=${userId}`}>
+                          <Link
+                            className="button"
+                            to={`/cart?uid=${localuserData.id}`}
+                          >
                             Go to cart
                           </Link>
                         </div>
@@ -526,7 +553,6 @@ export default function Checkout() {
                           id="landmark"
                           placeholder="Enter Landmark"
                           name="landmark"
-                          maxLength={10}
                           value={landmark}
                           onChange={(e) => [
                             setLandmark(e.target.value),
@@ -585,12 +611,7 @@ export default function Checkout() {
                       </div>
                       <div className="col-sm-7"></div>
                       <div className="col-sm-2">
-                        <button
-                          className="button"
-                          onClick={() => editaddressHndler}
-                        >
-                          Save
-                        </button>
+                        <button className="button">Save</button>
                       </div>
                     </div>
                   </form>
@@ -613,9 +634,8 @@ export default function Checkout() {
                         type="text"
                         className="form-control"
                         id="address"
-                        placeholder={`${editadd.address_1}`}
                         name="Address"
-                        value={address_1}
+                        value={editadd.address_1}
                         onChange={(e) => [
                           setAddress(e.target.value),
                           setAddressErr(""),
@@ -632,9 +652,9 @@ export default function Checkout() {
                         type="text"
                         className="form-control"
                         id="address2"
-                        placeholder={`${editadd.address_2}`}
+                        placeholder="Enter Address 2"
                         name="Address2"
-                        value={address_2}
+                        value={editadd.address_2}
                         onChange={(e) => [
                           setAddress2(e.target.value),
                           setAddress2Err(""),
@@ -652,9 +672,9 @@ export default function Checkout() {
                         type="text"
                         className="form-control"
                         id="label"
-                        placeholder={`${editadd.label}`}
+                        placeholder="Enter Recevier Name"
                         name="label"
-                        value={label}
+                        value={editadd.label}
                         onChange={(e) => [
                           setLabel(e.target.value),
                           setLabelErr(""),
@@ -669,10 +689,10 @@ export default function Checkout() {
                           type="text"
                           className="form-control"
                           id="landmark"
-                          placeholder={`${editadd.landmark}`}
+                          placeholder="Enter Landmark"
                           name="landmark"
                           maxLength={10}
-                          value={landmark}
+                          value={editadd.landmark}
                           onChange={(e) => [
                             setLandmark(e.target.value),
                             setLandmarkErr(""),
@@ -688,10 +708,10 @@ export default function Checkout() {
                           type="text"
                           className="form-control"
                           id="pincode"
-                          placeholder={`${editadd.pincode}`}
+                          placeholder="Enter Pincode"
                           name="pincode"
                           maxLength={6}
-                          value={pincode}
+                          value={editadd.pincode}
                           onChange={(e) => [
                             setPincode(parseInt(e.target.value)),
                             setPincodeErr(""),
@@ -706,7 +726,7 @@ export default function Checkout() {
                         <select
                           className="form-select"
                           aria-label="Default select example"
-                          value={type}
+                          value={editadd.type}
                           onChange={(e) => [setType(e.target.value)]}
                         >
                           <option value="HOME" selected>
@@ -720,7 +740,7 @@ export default function Checkout() {
 
                     <hr className="mb-4" />
                     <div className="row">
-                      <div className="col-sm-3">
+                      <div className="col-sm-2">
                         <button
                           className="button"
                           onClick={() => setAddeditdiv(false)}
@@ -729,9 +749,9 @@ export default function Checkout() {
                         </button>
                       </div>
                       <div className="col-sm-7"></div>
-                      <div className="col-sm-2">
+                      <div className="col-sm-3">
                         <button className="button" type="submit">
-                          Save
+                          Save Changes
                         </button>
                       </div>
                     </div>
@@ -778,19 +798,19 @@ export default function Checkout() {
                 <ul className="list-group mb-3">
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                      <h6 className="my-0">Total Price of Product</h6>
+                      <h6 className="my-0 text">Total Price of Product</h6>
                     </div>
                     <span className="text-muted">&#x20b9; {orderSubtotal}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between bg-light">
                     <div className="text-success">
-                      <h6 className="my-0">Discount Price</h6>
+                      <h6 className="my-0 text">Discount Price</h6>
                     </div>
                     <span className="text-success">&#x20b9; {discount}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between">
                     <div className="text-success">
-                      <h6 className="my-0">After Discount Total Price </h6>
+                      <h6 className="my-0 text">After Discount Total Price </h6>
                     </div>
                     <span className="text-success">
                       &#x20b9; {orderSubtotal - discount}
@@ -798,7 +818,7 @@ export default function Checkout() {
                   </li>
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                      <h6 className="my-0">Tax (SGST+ CGST)</h6>
+                      <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
                     </div>
                     <span className="text-muted">
                       &#x20b9; {(orderSubtotal / 100) * 18}
@@ -806,7 +826,7 @@ export default function Checkout() {
                   </li>
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                      <h6 className="my-0">Shipping Charge</h6>
+                      <h6 className="my-0 text">Shipping Charge</h6>
                     </div>
                     <span className="text-muted">
                       &#x20b9; {orderSubtotal > 500 ? "0" : "40"}

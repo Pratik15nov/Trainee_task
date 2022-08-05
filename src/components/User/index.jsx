@@ -10,16 +10,17 @@ import {
 
 export default function User() {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [lastName, setLastName] = useState(""); // eslint-disable-next-line
+  const [email, setEmail] = useState(""); // eslint-disable-next-line
   const [phoneNumber, setphoneNumber] = useState("");
-  const [emailErr, setEmailErr] = useState(false);
+  // const [emailErr, setEmailErr] = useState(false);
   const [fnameErr, setfnameErr] = useState(false);
   const [lnameErr, setlnameErr] = useState(false);
-  const [phonenoErr, setphonenoErr] = useState(false);
+  // const [phonenoErr, setphonenoErr] = useState(false);
   const [msg, setMsg] = useState(false);
   const [selected, setSelected] = useState(false);
   const [userData, setuserData] = useState([]);
+  const [localuserData, setlocaluserData] = useState([]);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
@@ -31,14 +32,16 @@ export default function User() {
     } else {
       userId = "";
     }
-    getuserData(userId);// eslint-disable-next-line 
-  }, []);
+    getuserData(userId); // eslint-disable-next-line
+    setlocaluserData(JSON.parse(localStorage.getItem("userData")));
+  }, [search]);
 
   const getuserData = async (userId) => {
     const response = await userHndlerData(userId);
     setuserData(response.data?.data);
     setuid(response.data?.data._id);
   };
+  console.log(userData);
   const validate = () => {
     let formIsValid = true;
     // if (!validEmail.test(email)) {
@@ -86,7 +89,7 @@ export default function User() {
     e.preventDefault();
   };
 
-  const postData = async (event, id) => {
+  const postData = async (event) => {
     event.preventDefault();
     const body = {
       firstName,
@@ -190,7 +193,7 @@ export default function User() {
                         className="form-control"
                         id="Firstname"
                         aria-describedby="fullNameHelp"
-                        placeholder={`${userData.firstName}`}
+                        placeholder={`${localuserData.firstName}`}
                         value={firstName}
                         onChange={(e) => [
                           setFirstName(e.target.value),
@@ -207,7 +210,7 @@ export default function User() {
                         className="form-control"
                         id="lastName"
                         aria-describedby="fullNameHelp"
-                        placeholder={`${userData.lastName}`}
+                        placeholder={`${localuserData.lastName}`}
                         value={lastName}
                         onChange={(e) => [
                           setLastName(e.target.value),
@@ -217,14 +220,14 @@ export default function User() {
                       />{" "}
                       {lnameErr && <p className="errorstyle">{lnameErr}</p>}
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label htmlFor="fullName">E-mail</label>
                       <input
                         type="email"
                         className="form-control"
                         id="email"
                         aria-describedby="fullNameHelp"
-                        placeholder={`${userData.email}`}
+                        placeholder={`${localuserData.email}`}
                         value={email}
                         onChange={(e) => [
                           setEmail(e.target.value),
@@ -233,15 +236,15 @@ export default function User() {
                         ]}
                       />
                       {emailErr && <p className="errorstyle">{emailErr}</p>}
-                    </div>
-                    <div className="form-group">
+                    </div> */}
+                    {/* <div className="form-group">
                       <label htmlFor="fullName">Phone No:</label>
                       <input
                         type="text"
                         className="form-control"
                         id="phoneNumber"
                         aria-describedby="fullNameHelp"
-                        placeholder={`${userData.phoneNumber}`}
+                        placeholder={`${localuserData.phoneNumber}`}
                         value={phoneNumber}
                         maxLength={10}
                         onChange={(e) => [
@@ -251,7 +254,7 @@ export default function User() {
                         ]}
                       />
                       {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
-                    </div>
+                    </div> */}
                     {/* <div className="form-group">
                       <label htmlFor="fullName">Password</label>
                       <input
@@ -287,16 +290,14 @@ export default function User() {
                         </button>
                       </div>
 
-                      <div className="col-4">
-                     
-                      </div>
+                      <div className="col-4"></div>
                       <div className="col-4 ">
                         <button
                           type="reset"
                           className="button"
                           onClick={(e) => setMsg("")}
                         >
-                          Reset 
+                          Reset
                         </button>
                       </div>
                       {msg && <p className="Sstyle">{msg}</p>}

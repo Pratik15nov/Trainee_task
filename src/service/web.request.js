@@ -30,16 +30,35 @@ export const remove = async (url, data) => {
   return response;
 };
 
+// export const patch = async (url, data) => {
+//   const response = await axios
+//     .patch(url, data)
+//     .then((res) => {
+//       return res;
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+//   return response;
+// };
+
 export const patch = async (url, data) => {
-  const response = await axios
+  return await axios
     .patch(url, data)
     .then((res) => {
-      return res;
+      if (res.status === 200) {
+        if (res.data?.success) {
+          return res.data?.data.list ? res.data?.data.list : res.data;
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
     })
     .catch((err) => {
-      console.error(err);
+      // return err?.response?.data;
     });
-  return response;
 };
 
 export const post = async (url, data) => {

@@ -4,6 +4,7 @@
 }
 .navbar {
   padding: 1rem 2rem;
+  background-color: #290c4c;
 }
 .nav-link {
   color: rgb(255, 254, 255);
@@ -37,4 +38,7 @@
   border-radius: 100%;
   padding: -3px;
   
+}
+.logoimg{
+width: 128px;
 }
