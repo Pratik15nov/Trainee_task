@@ -54,7 +54,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top text">
+    <nav className="navbar navbar-expand-md  fixed-top text">
       <Link className="logo" to="/">
         <img src="../images/logo.png" className="logoimg" alt="logo"></img>
       </Link>

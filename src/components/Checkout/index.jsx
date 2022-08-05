@@ -66,7 +66,7 @@ export default function Checkout() {
         amount: response.data.amount,
         currency: response.data.currency,
         order_id: response.data.order_id,
-        name: "FrontendArmy",
+        name: "Shoppy",
         description: "Payment options",
         image: "../images/pop_up_logo.png",
 
@@ -90,7 +90,7 @@ export default function Checkout() {
 
   /// Cart Summery>>
   const [cart, setCart] = useState([]);
-  // const [userData, setuserData] = useState([]);
+  const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
   const [addData, setaddData] = useState([]);
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -108,7 +108,7 @@ export default function Checkout() {
   const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
-  const [addressId, setaddressId] = useState([]);
+  const [addressId, setaddressId] = useState();
   const [adddiv, setAdddiv] = useState(false);
   const [addeditdiv, setAddeditdiv] = useState(false);
   const [localuserData, setlocaluserData] = useState(false);
@@ -177,7 +177,7 @@ export default function Checkout() {
   const getuserData = async (userId) => {
     // eslint-disable-next-line
     const response = await userHndlerData(userId);
-    // setuserData(response.data?.data);
+    setuserData(response.data?.data);
   };
 
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -271,7 +271,7 @@ export default function Checkout() {
       type,
     };
     const response = await editaddressHndlerData(editId, body);
-    console.log(response);
+
     if (response) {
       setAddeditdiv(false);
       getaddData(userId);
@@ -301,8 +301,9 @@ export default function Checkout() {
   };
 
   const addcheckhandle = (e) => {
-    if (addressId.length > 0) {
+    if (addressId) {
       setGoSteps(1);
+      localStorage.setItem("SeletedAddressId", addressId );
     } else {
       alert("Select One Address");
     }
@@ -328,7 +329,8 @@ export default function Checkout() {
       seteditId(response[0]?._id);
     }
   };
-  console.log(editId);
+
+  console.log(addressId);
 
   const discount = (orderSubtotal * discountPercent) / 100;
 
@@ -548,7 +550,6 @@ export default function Checkout() {
                           id="landmark"
                           placeholder="Enter Landmark"
                           name="landmark"
-                          maxLength={10}
                           value={landmark}
                           onChange={(e) => [
                             setLandmark(e.target.value),
@@ -630,7 +631,6 @@ export default function Checkout() {
                         type="text"
                         className="form-control"
                         id="address"
-                       
                         name="Address"
                         value={editadd.address_1}
                         onChange={(e) => [
