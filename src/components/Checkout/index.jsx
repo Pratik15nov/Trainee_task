@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { CSSProperties } from "react";
-// import PropagateLoader from "react-spinners/PropagateLoader";
-
 import "./Checkout.css";
 import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
-// import { useFormik } from "formik";
-// import Select from "react-select";
-// import csc from "country-state-city";
 import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-
 import {
   cartHndlerData,
   addaddressHndlerData,
@@ -22,8 +15,6 @@ import {
   addressDelHndler,
   editaddressHndlerData,
 } from "../../service/auth.service";
-
-import StripeContainer from "../StripeContainer";
 import Addskeleton from "./Addskeleton";
 import { Box } from "@mui/system";
 
@@ -40,7 +31,6 @@ const loadScript = (src) => {
     document.body.appendChild(script);
   });
 };
-
 const _DEV_ = document.domain === "localhost";
 
 export default function Checkout() {
@@ -102,22 +92,7 @@ export default function Checkout() {
     getuserData(userId);
     getaddData(userId);
     setlocaluserData(JSON.parse(localStorage.getItem("userData")));
-    // setmainuid(userId);
-    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
-
-  // const conHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropcountry(event.name);
-  // };
-  // const stateHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropstate(event.name);
-  // };
-  // const cityHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropcity(event.name);
-  // };
 
   const getcartproductData = async (log = "") => {
     const response = await cartHndlerData(
@@ -134,8 +109,6 @@ export default function Checkout() {
     // eslint-disable-next-line
     const response = await userHndlerData(userId);
     setuserData(response);
-
-
   };
 
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -261,7 +234,7 @@ export default function Checkout() {
   const addcheckhandle = (e) => {
     if (addressId) {
       setGoSteps(1);
-      localStorage.setItem("SeletedAddressId", addressId );
+      localStorage.setItem("SeletedAddressId", addressId);
     } else {
       alert("Select One Address");
     }
@@ -292,47 +265,6 @@ export default function Checkout() {
 
   const discount = (orderSubtotal * discountPercent) / 100;
 
-  // const current = new Date();
-  // const orderDate = `${current.getDate()}/${
-  //   current.getMonth() + 1
-  // }/${current.getFullYear()}`;
-
-  // const invoiceData = JSON.parse(localStorage.getItem("Data"));
-  // // console.log(invoiceData);
-  // const componentRef = useRef();
-
-  // const handlePrint = useReactToPrint({
-  //   content: () => componentRef.current,
-  // });
-
-  // const addressFromik = useFormik({
-  //   initialValues: {
-  //     country: null,
-  //     state: null,
-  //     city: null,
-  //   },
-  // });
-
-  // const countries = csc.getAllCountries();
-
-  // const updatedCountries = countries.map((country) => ({
-  //   label: country.name,
-  //   value: country.id,
-  //   ...country,
-  // }));
-  // const updatedStates = (countryId) =>
-  //   csc
-  //     .getStatesOfCountry(countryId)
-  //     .map((state) => ({ label: state.name, value: state.id, ...state }));
-
-  // const updatedCities = (stateId) =>
-  //   csc
-  //     .getCitiesOfState(stateId)
-  //     .map((city) => ({ label: city.name, value: city.id, ...city }));
-  // // eslint-disable-next-line
-  // const { values, setFieldValue, setValues } = addressFromik;
-  // console.log();
-  // useEffect(() => {}, [values]);
   const displayRazorpay = async () => {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -361,10 +293,9 @@ export default function Checkout() {
 
         handler: function (response) {
           alert(response.razorpay_payment_id);
-          console.log('RESPONSE AFTER THE PAYMENT SUCCESSFULL',response)
+          console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
           // alert(response.razorpay_order_id);
           // alert(response.razorpay_signature);
-         
         },
         prefill: {
           name: userData.firstName + " " + userData.lastName,
@@ -870,153 +801,11 @@ export default function Checkout() {
                     <button className="button" onClick={displayRazorpay}>
                       Pay Now
                     </button>
-                    {/* <StripeCheckoutButton
-                      price={orderSubtotal > 500 ? finalValue : finalValue + 40}
-                    /> */}
                   </div>
                 </div>
               </div>
             )}
-            {goSteps === 2 && (
-              <StripeContainer price={TOTAL_PRICE} />
-              // <form className="customcard">
-              //   <h4 className="mb-3 ">Payment</h4>
-              //   <div className="d-block my-3">
-              //     <div className="custom-control custom-radio">
-              //       <input
-              //         id="credit"
-              //         name="paymentMethod"
-              //         type="radio"
-              //         className="custom-control-input"
-              //         defaultChecked
-              //       />
-              //       <label className="custom-control-label" htmlFor="credit">
-              //         Credit card
-              //       </label>
-              //     </div>
-              //     <div className="custom-control custom-radio">
-              //       <input
-              //         id="debit"
-              //         name="paymentMethod"
-              //         type="radio"
-              //         className="custom-control-input"
-              //       />
-              //       <label className="custom-control-label" htmlFor="debit">
-              //         Debit card
-              //       </label>
-              //     </div>
-              //     <div className="custom-control custom-radio">
-              //       <input
-              //         id="paypal"
-              //         name="paymentMethod"
-              //         type="radio"
-              //         className="custom-control-input"
-              //       />
-              //       <label className="custom-control-label" htmlFor="paypal">
-              //         PayPal
-              //       </label>
-              //     </div>
-              //   </div>
-              //   <div className="row">
-              //     <div className="col-md-6 mb-3">
-              //       <label htmlFor="cc-name">Name on card</label>
-              //       <input
-              //         type="text"
-              //         className="form-control"
-              //         id="cc-name"
-              //         placeholder="Enter Name on card"
-              //         name="cardname"
-              //         maxLength={15}
-              //         value={cardname}
-              //         onChange={(e) => [
-              //           setCardname(e.target.value),
-              //           setCardnameErr(""),
-              //         ]}
-              //       />
-              //       {cardnameErr && <p className="errorstyle">{cardnameErr}</p>}
-
-              //       <small className="text-muted">
-              //         Full name as displayed on card
-              //       </small>
-              //     </div>
-              //     <div className="col-md-6 mb-3">
-              //       <label htmlFor="cc-number">Card number</label>
-              //       <input
-              //         type="text"
-              //         className="form-control"
-              //         id="cardnumber"
-              //         placeholder="1234 5678 9101"
-              //         name="cardnumber"
-              //         maxLength={10}
-              //         value={cardnumber}
-              //         onChange={(e) => [
-              //           setCardnumber(e.target.value),
-              //           setCardnumberErr(""),
-              //         ]}
-              //       />
-              //       {cardnumberErr && (
-              //         <p className="errorstyle">{cardnumberErr}</p>
-              //       )}
-              //     </div>
-              //   </div>
-              //   <div className="row">
-              //     <div className="col-md-3 mb-3">
-              //       <label htmlFor="cc-expiration">Expiration</label>
-              //       <input
-              //         type="text"
-              //         className="form-control"
-              //         id="cc-expiration"
-              //         placeholder="7/27"
-              //         name="expdate"
-              //         maxLength={10}
-              //         value={expdate}
-              //         onChange={(e) => [
-              //           setExpdate(e.target.value),
-              //           setExpdateErr(""),
-              //         ]}
-              //       />
-              //       {expdateErr && <p className="errorstyle">{expdateErr}</p>}
-              //     </div>
-              //     <div className="col-md-3 mb-3">
-              //       <label htmlFor="cc-cvv">CVV</label>
-              //       <input
-              //         type="text"
-              //         className="form-control"
-              //         id="cvv"
-              //         placeholder="123"
-              //         name="cardnumber"
-              //         maxLength={10}
-              //         value={cvv}
-              //         onChange={(e) => [setCvv(e.target.value), setCvvErr("")]}
-              //       />
-              //       {cvvErr && <p className="errorstyle">{cvvErr}</p>}
-              //     </div>
-              //   </div>
-
-              //   <div className="row">
-              //     <div className="col-sm-4">
-              //       {" "}
-              //       <button className="button">Pay</button>
-              //     </div>
-              //     <div className="col-sm-4"></div>
-              //     <div className="col-sm-4"></div>
-              //   </div>
-              //   <hr className="mb-4" />
-              //   <div className="row">
-              //     <div className="col-sm-2">
-              //       <button className="button" onClick={() => setGoSteps(1)}>
-              //         Back
-              //       </button>
-              //     </div>
-              //     <div className="col-sm-8"></div>
-              //     <div className="col-sm-2">
-              //       <button className="button" onClick={() => setGoSteps(3)}>
-              //         Next
-              //       </button>
-              //     </div>
-              //   </div>
-              // </form>
-            )}
+            {/* {goSteps === 2 && (<StripeContainer price={TOTAL_PRICE} />)} */}
             {goSteps === 3 && (
               <div className="col customcard">
                 {/* <div className="container-fluid invoice">
