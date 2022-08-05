@@ -217,7 +217,7 @@ export default function Checkout() {
       })
     );
 
-    if (response?.length > 0) {
+    if (response) {
       setaddData(response);
       setLoading(false);
     }
