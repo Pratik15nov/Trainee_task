@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Checkout.css";
 import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import {
   cartHndlerData,
   addaddressHndlerData,
@@ -40,6 +41,7 @@ export default function Checkout() {
   const [goSteps, setGoSteps] = useState(0);
   const [addData, setaddData] = useState([]);
   const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountprice, setDiscountprice] = useState(0);
   const [address_1, setAddress] = useState("");
   const [address_2, setAddress2] = useState("");
   const [pincode, setPincode] = useState();
@@ -54,6 +56,8 @@ export default function Checkout() {
   const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
+  const [Promocode, setpromocodeData] = useState(false); // eslint-disable-next-line
+
   const [addressId, setaddressId] = useState();
   const [adddiv, setAdddiv] = useState(false);
   const [addeditdiv, setAddeditdiv] = useState(false);
@@ -66,20 +70,20 @@ export default function Checkout() {
   // const [userId, setmainuid] = useState(localuserData.id);
   const { search } = location;
   const userId = localuserData.id;
-  const Promocode = [
-    {
-      code: "50OFF",
-      discount: "50%",
-    },
-    {
-      code: "25OFF",
-      discount: "25%",
-    },
-    {
-      code: "10OFF",
-      discount: "10%",
-    },
-  ];
+  // const Promocode = [
+  //   {
+  //     code: "50OFF",
+  //     discount: "50%",
+  //   },
+  //   {
+  //     code: "25OFF",
+  //     discount: "25%",
+  //   },
+  //   {
+  //     code: "10OFF",
+  //     discount: "10%",
+  //   },
+  // ];
 
   useEffect(() => {
     let userId;
@@ -92,6 +96,7 @@ export default function Checkout() {
     getuserData(userId);
     getaddData(userId);
     setlocaluserData(JSON.parse(localStorage.getItem("userData")));
+    getPromocode();
   }, [search]);
 
   const getcartproductData = async (log = "") => {
@@ -102,6 +107,18 @@ export default function Checkout() {
     );
     if (response?.length > 0) {
       setCart(response[0]?.cartdetail);
+    }
+  };
+
+  const getPromocode = async () => {
+    const response = await promocodeHndlerData(
+      listBody({
+        where: { isActive: true },
+      })
+    );
+    console.log(response);
+    if (response?.length > 0) {
+      setpromocodeData(response);
     }
   };
 
@@ -116,22 +133,6 @@ export default function Checkout() {
     (r, { price }) => r + price,
     0
   );
-
-  const checkPromoCode = () => {
-    for (var i = 0; i < Promocode.length; i++) {
-      if (promoCode === Promocode[i].code) {
-        setDiscountPercent(parseFloat(Promocode[i].discount.replace("%", "")));
-        setPromocoderr();
-        setPromocodeSuc("Promocode Applied Successfully!");
-        return;
-      }
-      if (!validName.test(promoCode)) {
-        setPromocoderr("Your Promocode is invalid !");
-        setDiscountPercent(0);
-        setPromocodeSuc();
-      }
-    }
-  };
 
   const onEnterPromoCode = (event) => {
     setPromoCode(event.target.value);
@@ -261,8 +262,6 @@ export default function Checkout() {
     }
   };
 
-  console.log(addressId);
-
   const discount = (orderSubtotal * discountPercent) / 100;
 
   const displayRazorpay = async () => {
@@ -292,7 +291,8 @@ export default function Checkout() {
         image: "../images/pop_up_logo.png",
 
         handler: function (response) {
-          setGoSteps(3);
+          setGoSteps(2);
+          setCart([]);
           console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
           // alert(response.razorpay_order_id);
           // alert(response.razorpay_signature);
@@ -309,6 +309,37 @@ export default function Checkout() {
       console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
     }
   };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const invoiceData = JSON.parse(localStorage.getItem("Data"));
+  // console.log(invoiceData);
+  const componentRef = useRef();
+
+  const checkPromoCode = () => {
+    for (var i = 0; i < Promocode.length; i++) {
+      if (promoCode === Promocode[i].couponcode) {
+        if (Promocode[i].type === "PERCENTAGE") {
+          if(orderSubtotal?Promocode[i].maxdiscountvalue){}
+          else{}
+          setDiscountPercent(parseFloat(Promocode[i].maxdiscountvalue));
+          setPromocodeSuc("Promocode Applied!");
+        } else {
+          setDiscountprice(parseFloat(Promocode[i].maxdiscountvalue));
+          setPromocodeSuc("Promocode Applied!");
+        }
+
+        setPromocoderr();
+
+        return;
+      }
+      if (!validName.test(promoCode)) {
+        setPromocoderr("Your Promocode is invalid !");
+        setDiscountPercent(0);
+        setPromocodeSuc();
+      }
+    }
+  };
 
   return (
     <>
@@ -316,10 +347,9 @@ export default function Checkout() {
         <div className="row main">
           <div className="col-lg-12 Checkcard">
             <Stepper activeStep={goSteps} className="subt">
-              <Step onClick={() => setGoSteps(0)} label="Delivery Address" />
-              <Step onClick={() => setGoSteps(1)} label="Complete Order" />
-              <Step onClick={() => setGoSteps(2)} label="Payment Option" />
-              <Step onClick={() => setGoSteps(3)} label="Order Invoice" />
+              <Step label="Delivery Address" />
+              <Step label="Order Payment" />
+              <Step label="Order Invoice" />
             </Stepper>
             {goSteps === 0 && (
               <>
@@ -806,25 +836,21 @@ export default function Checkout() {
               </div>
             )}
             {/* {goSteps === 2 && (<StripeContainer price={TOTAL_PRICE} />)} */}
-            {goSteps === 3 && (
+            {goSteps === 2 && (
               <div className="col customcard">
-                {/* <div className="container-fluid invoice">
+                <div className="container-fluid invoice">
                   <div className="row maincard ">
                     <div className="col-12">
                       <div className="page-title-box row">
                         <div className="page-title-right col-sm-3 ">
-                          <button onClick={handlePrint} className="button">
+                          <button
+                            onClick={() => handlePrint()}
+                            className="button"
+                          >
                             Print Invoice
                           </button>
                         </div>
-                        <div className="col-sm-3">
-                          <button
-                            className="button"
-                            onClick={() => setGoSteps(2)}
-                          >
-                            Back
-                          </button>
-                        </div>
+                        <div className="col-sm-3"></div>
 
                         <div className="col-sm-6 Sstyle">
                           Thank you. Your order has been received.
@@ -839,10 +865,14 @@ export default function Checkout() {
                         <div className="card-body">
                           <div className="clearfix">
                             <div className="float-start mb-3">
-                              <h1>eCommerce</h1>
+                              <img
+                                src="../images/logob.png"
+                                className="logoimg"
+                                alt="logo"
+                              ></img>
                             </div>
                             <div className="float-end">
-                              <h4 className="m-0 d-print-none">Invoice</h4>
+                              <h4 className="m-0 d-print-none text">Invoice</h4>
                             </div>
                           </div>
 
@@ -850,15 +880,7 @@ export default function Checkout() {
                             <div className="col-sm-6">
                               <div className="float-end mt-3">
                                 <p>
-                                  <b>
-                                    Hello,
-                                    {JSON.parse(
-                                      localStorage.getItem("First Name")
-                                    )}
-                                    {JSON.parse(
-                                      localStorage.getItem("Last Name")
-                                    )}
-                                  </b>
+                                  <b>Hello,</b>
                                 </p>
                                 <p className="text-muted font-13">
                                   Please find below a cost-breakdown for the
@@ -872,12 +894,7 @@ export default function Checkout() {
                             <div className="col-sm-4 offset-sm-2">
                               <div className="mt-3 float-sm-end">
                                 <p className="font-13">
-                                  <strong>
-                                    Order Date:
-                                    {JSON.parse(
-                                      localStorage.getItem("OrderDate")
-                                    )}{" "}
-                                  </strong>{" "}
+                                  <strong>Order Date:</strong>
                                   &nbsp;&nbsp;&nbsp;
                                 </p>
                                 <p className="font-13">
@@ -888,7 +905,7 @@ export default function Checkout() {
                                 </p>
                                 <p className="font-13">
                                   <strong>Order ID: </strong>{" "}
-                                  <span className="float-end">123456</span>
+                                  <span className="float-end"></span>
                                 </p>
                               </div>
                             </div>
@@ -897,16 +914,12 @@ export default function Checkout() {
                           <div className="row mt-4">
                             <div className="col-sm-4">
                               <h6>Address</h6>
-                              <address>
-                                {JSON.parse(localStorage.getItem("Address"))}
-                              </address>
+                              <address></address>
                             </div>
 
                             <div className="col-sm-4">
                               <h6>Shipping Address</h6>
-                              <address>
-                                {JSON.parse(localStorage.getItem("Address2"))}
-                              </address>
+                              <address></address>
                             </div>
                           </div>
 
@@ -924,9 +937,7 @@ export default function Checkout() {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {invoiceData.map((data, index) => {
-                                      return (
-                                        <tr>
+                                    {/* <tr>
                                           <td>{index + 1}</td>
                                           <td>
                                             <b>{data.name}</b> <br />
@@ -939,9 +950,7 @@ export default function Checkout() {
                                           <td className="text-end">
                                             &#x20b9; {data.price}
                                           </td>
-                                        </tr>
-                                      );
-                                    })}
+                                        </tr> */}
                                   </tbody>
                                 </table>
                               </div>
@@ -962,39 +971,23 @@ export default function Checkout() {
                               <div className="float-end mt-3 mt-sm-0">
                                 <p>
                                   <b>Sub-total:</b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Order Total")
-                                    )}
-                                  </span>
+                                  <span className="float-end"></span>
                                 </p>
                                 <p>
                                   <b>Tax(CGST+SGST):</b>
-                                  <span className="float-end">
-                                    {JSON.parse(localStorage.getItem("Tax"))}
-                                  </span>
+                                  <span className="float-end"></span>
                                 </p>
                                 <p>
                                   <b>Shipping Charge: </b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Shipping Charge")
-                                    )}
-                                  </span>
+                                  <span className="float-end"></span>
                                 </p>
                                 <p>
                                   <b>Discount: </b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Discount")
-                                    )}
-                                  </span>
+                                  <span className="float-end"></span>
                                 </p>
                                 <p>
                                   <b>Total &#x20b9; </b>
-                                  <span className="float-end">
-                                    {JSON.parse(localStorage.getItem("Total"))}
-                                  </span>
+                                  <span className="float-end"></span>
                                 </p>
                               </div>
                               <div className="clearfix" />
@@ -1004,7 +997,7 @@ export default function Checkout() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
             )}
           </div>
