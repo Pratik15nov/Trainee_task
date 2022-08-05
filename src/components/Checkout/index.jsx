@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./Checkout.css";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { validName, validPhoneno } from "../../utils/helper";
 import { Link } from "react-router-dom";
+=======
+import { validName } from "../../utils/helper";
+>>>>>>> 3b306ce041964cb4c375d748a40fb98956380e33
 import { Stepper, Step } from "react-form-stepper";
 // import { useFormik } from "formik";
 // import Select from "react-select";
 // import csc from "country-state-city";
-import { useReactToPrint } from "react-to-print";
 import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import {
   cartHndlerData,
   addaddressHndlerData,
   userHndlerData,
-  promocodeHndlerData,
+  promocodeHndlerData, 
   addressHndlerData,
   addressDelHndler,
   editaddressHndler,
 } from "../../service/auth.service";
-// import StripeCheckoutButton from "../StripeCheckoutComponent";
+
+import StripeContainer from "../StripeContainer";
 
 export default function Checkout() {
   /// Cart Summery>>
@@ -52,7 +56,12 @@ export default function Checkout() {
   const [landmarkErr, setLandmarkErr] = useState(false);
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
+<<<<<<< HEAD
   const [addressId, setaddressId] = useState([]);
+=======
+  const [finalprice,setFinalprice] = useState([])
+
+>>>>>>> 3b306ce041964cb4c375d748a40fb98956380e33
   const [adddiv, setAdddiv] = useState(false);
   const [addeditdiv, setAddeditdiv] = useState(false);
 
@@ -127,6 +136,9 @@ export default function Checkout() {
     0
   );
 
+
+
+
   const checkPromoCode = () => {
     for (var i = 0; i < Promocode.length; i++) {
       if (promoCode === Promocode[i].code) {
@@ -153,6 +165,7 @@ export default function Checkout() {
     (orderSubtotal / 100) * 18 -
     (orderSubtotal * discountPercent) / 100;
 
+const TOTAL_PRICE = orderSubtotal > 500 ? finalValue : finalValue + 40;
   const validate1 = () => {
     let formIsValid = true;
     if (!validName.test(address_1)) {
@@ -323,6 +336,7 @@ export default function Checkout() {
             </Stepper>
             {goSteps === 0 && (
               <>
+<<<<<<< HEAD
                 {!adddiv && !addeditdiv && (
                   <>
                     <div className="row customcard">
@@ -385,6 +399,44 @@ export default function Checkout() {
                             Next Step
                           </button>
                         </div>
+=======
+                {!adddiv && (
+                  <div className="row customcard">
+                    <h4 className="main-heading main">Delivery Address</h4>
+                    {addData.length > 0 &&
+                      addData.map((data) => {
+                        return (
+                          <div className="col-md-5 mb-3 addcard">
+                            <h5>{data.type}</h5>
+                            <p>
+                              {data.address_1}
+                              {data.address_2}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    <button
+                      className="col-md-5 mb-3 addcardbutton"
+                      onClick={() => setAdddiv(true)}
+                    >
+                      + Add Delivery Address
+                    </button>
+                    <div className="row">
+                      <div className="col-sm-3">
+                        {/* <Link className="button" to="/cart">
+                      Go to cart
+                    </Link> */}
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-2">
+                        <button
+                          className="button"
+                          type="xx"
+                          onClick={() => setGoSteps(1)}
+                        >
+                          Next Step
+                        </button>
+>>>>>>> 3b306ce041964cb4c375d748a40fb98956380e33
                       </div>
                     </div>
                   </>
@@ -752,7 +804,8 @@ export default function Checkout() {
                     <span>Total</span>
                     <strong>
                       &#x20b9;
-                      {orderSubtotal > 500 ? finalValue : finalValue + 40}
+                      {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
+                      {TOTAL_PRICE}
                     </strong>
                   </li>
                 </ul>
@@ -791,144 +844,144 @@ export default function Checkout() {
                 </div>
               </div>
             )}
-            {goSteps === 2 && (
-              <form className="customcard">
-                <h4 className="mb-3 ">Payment</h4>
-                <div className="d-block my-3">
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="credit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                      defaultChecked
-                    />
-                    <label className="custom-control-label" htmlFor="credit">
-                      Credit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="debit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                    />
-                    <label className="custom-control-label" htmlFor="debit">
-                      Debit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="paypal"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                    />
-                    <label className="custom-control-label" htmlFor="paypal">
-                      PayPal
-                    </label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-name">Name on card</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cc-name"
-                      placeholder="Enter Name on card"
-                      name="cardname"
-                      maxLength={15}
-                      value={cardname}
-                      onChange={(e) => [
-                        setCardname(e.target.value),
-                        setCardnameErr(""),
-                      ]}
-                    />
-                    {cardnameErr && <p className="errorstyle">{cardnameErr}</p>}
+            {goSteps === 2 && (<StripeContainer price = {TOTAL_PRICE}  />
+              // <form className="customcard">
+              //   <h4 className="mb-3 ">Payment</h4>
+              //   <div className="d-block my-3">
+              //     <div className="custom-control custom-radio">
+              //       <input
+              //         id="credit"
+              //         name="paymentMethod"
+              //         type="radio"
+              //         className="custom-control-input"
+              //         defaultChecked
+              //       />
+              //       <label className="custom-control-label" htmlFor="credit">
+              //         Credit card
+              //       </label>
+              //     </div>
+              //     <div className="custom-control custom-radio">
+              //       <input
+              //         id="debit"
+              //         name="paymentMethod"
+              //         type="radio"
+              //         className="custom-control-input"
+              //       />
+              //       <label className="custom-control-label" htmlFor="debit">
+              //         Debit card
+              //       </label>
+              //     </div>
+              //     <div className="custom-control custom-radio">
+              //       <input
+              //         id="paypal"
+              //         name="paymentMethod"
+              //         type="radio"
+              //         className="custom-control-input"
+              //       />
+              //       <label className="custom-control-label" htmlFor="paypal">
+              //         PayPal
+              //       </label>
+              //     </div>
+              //   </div>
+              //   <div className="row">
+              //     <div className="col-md-6 mb-3">
+              //       <label htmlFor="cc-name">Name on card</label>
+              //       <input
+              //         type="text"
+              //         className="form-control"
+              //         id="cc-name"
+              //         placeholder="Enter Name on card"
+              //         name="cardname"
+              //         maxLength={15}
+              //         value={cardname}
+              //         onChange={(e) => [
+              //           setCardname(e.target.value),
+              //           setCardnameErr(""),
+              //         ]}
+              //       />
+              //       {cardnameErr && <p className="errorstyle">{cardnameErr}</p>}
 
-                    <small className="text-muted">
-                      Full name as displayed on card
-                    </small>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-number">Card number</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cardnumber"
-                      placeholder="1234 5678 9101"
-                      name="cardnumber"
-                      maxLength={10}
-                      value={cardnumber}
-                      onChange={(e) => [
-                        setCardnumber(e.target.value),
-                        setCardnumberErr(""),
-                      ]}
-                    />
-                    {cardnumberErr && (
-                      <p className="errorstyle">{cardnumberErr}</p>
-                    )}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-expiration">Expiration</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cc-expiration"
-                      placeholder="7/27"
-                      name="expdate"
-                      maxLength={10}
-                      value={expdate}
-                      onChange={(e) => [
-                        setExpdate(e.target.value),
-                        setExpdateErr(""),
-                      ]}
-                    />
-                    {expdateErr && <p className="errorstyle">{expdateErr}</p>}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-cvv">CVV</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cvv"
-                      placeholder="123"
-                      name="cardnumber"
-                      maxLength={10}
-                      value={cvv}
-                      onChange={(e) => [setCvv(e.target.value), setCvvErr("")]}
-                    />
-                    {cvvErr && <p className="errorstyle">{cvvErr}</p>}
-                  </div>
-                </div>
+              //       <small className="text-muted">
+              //         Full name as displayed on card
+              //       </small>
+              //     </div>
+              //     <div className="col-md-6 mb-3">
+              //       <label htmlFor="cc-number">Card number</label>
+              //       <input
+              //         type="text"
+              //         className="form-control"
+              //         id="cardnumber"
+              //         placeholder="1234 5678 9101"
+              //         name="cardnumber"
+              //         maxLength={10}
+              //         value={cardnumber}
+              //         onChange={(e) => [
+              //           setCardnumber(e.target.value),
+              //           setCardnumberErr(""),
+              //         ]}
+              //       />
+              //       {cardnumberErr && (
+              //         <p className="errorstyle">{cardnumberErr}</p>
+              //       )}
+              //     </div>
+              //   </div>
+              //   <div className="row">
+              //     <div className="col-md-3 mb-3">
+              //       <label htmlFor="cc-expiration">Expiration</label>
+              //       <input
+              //         type="text"
+              //         className="form-control"
+              //         id="cc-expiration"
+              //         placeholder="7/27"
+              //         name="expdate"
+              //         maxLength={10}
+              //         value={expdate}
+              //         onChange={(e) => [
+              //           setExpdate(e.target.value),
+              //           setExpdateErr(""),
+              //         ]}
+              //       />
+              //       {expdateErr && <p className="errorstyle">{expdateErr}</p>}
+              //     </div>
+              //     <div className="col-md-3 mb-3">
+              //       <label htmlFor="cc-cvv">CVV</label>
+              //       <input
+              //         type="text"
+              //         className="form-control"
+              //         id="cvv"
+              //         placeholder="123"
+              //         name="cardnumber"
+              //         maxLength={10}
+              //         value={cvv}
+              //         onChange={(e) => [setCvv(e.target.value), setCvvErr("")]}
+              //       />
+              //       {cvvErr && <p className="errorstyle">{cvvErr}</p>}
+              //     </div>
+              //   </div>
 
-                <div className="row">
-                  <div className="col-sm-4">
-                    {" "}
-                    <button className="button">Pay</button>
-                  </div>
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-4"></div>
-                </div>
-                <hr className="mb-4" />
-                <div className="row">
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(1)}>
-                      Back
-                    </button>
-                  </div>
-                  <div className="col-sm-8"></div>
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(3)}>
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </form>
+              //   <div className="row">
+              //     <div className="col-sm-4">
+              //       {" "}
+              //       <button className="button">Pay</button>
+              //     </div>
+              //     <div className="col-sm-4"></div>
+              //     <div className="col-sm-4"></div>
+              //   </div>
+              //   <hr className="mb-4" />
+              //   <div className="row">
+              //     <div className="col-sm-2">
+              //       <button className="button" onClick={() => setGoSteps(1)}>
+              //         Back
+              //       </button>
+              //     </div>
+              //     <div className="col-sm-8"></div>
+              //     <div className="col-sm-2">
+              //       <button className="button" onClick={() => setGoSteps(3)}>
+              //         Next
+              //       </button>
+              //     </div>
+              //   </div>
+              // </form>
             )}
             {goSteps === 3 && (
               <div className="col customcard">

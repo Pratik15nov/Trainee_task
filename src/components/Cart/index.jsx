@@ -14,13 +14,18 @@ import Cartskeleton from "./Cartskeleton";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true);
   const [checkedList, setcheckedList] = useState([]);// eslint-disable-next-line 
   const [isCheckAll, setIsCheckAll] = useState(false);
   
+=======
+  const [checkedList, setcheckedList] = useState([]);
+>>>>>>> 3b306ce041964cb4c375d748a40fb98956380e33
 
   useEffect(() => {
     let userId;
@@ -42,12 +47,6 @@ export default function Cart() {
     0
   );
 
-  // const handleDelete = (itemId) => {
-  //   const items = cart.filter((item) => item.id !== itemId);
-  //   setCart(items);
-  //   EventEmitter.dispatch("DELETE", items);
-  // };
-
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
     const response = await cartproductdeleteHndlerData(
@@ -58,7 +57,6 @@ export default function Cart() {
     );
 
     getcartproductData(uid);
-    // EventEmitter.dispatch("DELETE", cart);
   };
 
   // const claerAll = async () => {

@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@google-pay/button-react": "^3.0.0",
     "@mui/material": "latest",
     "@popperjs/core": "^2.11.5",
     "@stripe/react-stripe-js": "^1.10.0",
@@ -33,7 +34,6 @@
     "react-to-print": "^2.14.7",
     "react-toastify": "^9.0.7",
     "react-transition-group": "^4.4.2",
-    "stripe": "^9.16.0",
     "swiper": "^8.2.5",
     "web-vitals": "^2.1.4"
   },

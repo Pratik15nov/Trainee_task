@@ -79,3 +79,7 @@ export const editaddressHndler = (id, body) => {
 export const promocodeHndlerData = (body) => {
   return post(`${ENDPOINTURL}/promocode/list`, body);
 };
+
+export const stripeDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/stripe/create-payment-intent`,body);
+};
