@@ -42,7 +42,7 @@ export default function StripeContainer(props) {
     <div className="App">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <StripeCheckoutForm />
+          <StripeCheckoutForm  price={props.price} />
         </Elements>
       )}
 

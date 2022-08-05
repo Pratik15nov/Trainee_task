@@ -72,7 +72,7 @@ export const addressDelHndler = (id) => {
   return remove(`${ENDPOINTURL}/address/${id}`);
 };
 
-export const editaddressHndler = (id, body) => {
+export const editaddressHndlerData = (id, body) => {
   return patch(`${ENDPOINTURL}/address/${id}`, body);
 };
 

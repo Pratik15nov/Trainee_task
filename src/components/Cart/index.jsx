@@ -18,14 +18,10 @@ export default function Cart() {
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
-<<<<<<< HEAD
-  const [loading, setLoading] = useState(true);
-  const [checkedList, setcheckedList] = useState([]);// eslint-disable-next-line 
+// eslint-disable-next-line
   const [isCheckAll, setIsCheckAll] = useState(false);
-  
-=======
+
   const [checkedList, setcheckedList] = useState([]);
->>>>>>> 3b306ce041964cb4c375d748a40fb98956380e33
 
   useEffect(() => {
     let userId;
@@ -197,7 +193,7 @@ export default function Cart() {
                         return (
                           <Cartproduct
                             card={card}
-                            key={card.id}
+                            key={`cartproduct_${card.id}}`}
                             checkedList={checkedList}
                             onDelete={handleDelete}
                             handlecheckbox={handlecheckbox}
