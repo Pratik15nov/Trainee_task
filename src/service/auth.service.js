@@ -69,5 +69,9 @@ export const promocodeHndlerData = (body) => {
 };
 
 export const stripeDataHandler = (body) => {
-  return post(`${ENDPOINTURL}/stripe/create-payment-intent`,body);
+  return post(`${ENDPOINTURL}/stripe/create-payment-intent`, body);
+};
+
+export const razorpayDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/razorpay`, body);
 };
