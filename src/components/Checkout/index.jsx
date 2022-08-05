@@ -286,7 +286,7 @@ export default function Checkout() {
       })
     );
 
-    if (response?.length > 0) {
+    if (response) {
       setaddData(response);
       setLoading(false);
     }
@@ -303,7 +303,7 @@ export default function Checkout() {
   const addcheckhandle = (e) => {
     if (addressId) {
       setGoSteps(1);
-      localStorage.setItem("SeletedAddressId", addressId );
+      localStorage.setItem("SeletedAddressId", addressId);
     } else {
       alert("Select One Address");
     }
