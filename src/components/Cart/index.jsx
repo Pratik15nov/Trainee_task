@@ -6,7 +6,7 @@ import Cartproduct from "./Cartproduct";
 import {
   cartHndlerData,
   cartproductdeleteHndlerData,
-  cartdeleteHndlerData,
+  cartseldeleteHndlerData,
 } from "../../service/auth.service";
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -14,11 +14,13 @@ import Cartskeleton from "./Cartskeleton";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
-  const [checkedList, setcheckedList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [checkedList, setcheckedList] = useState([]);// eslint-disable-next-line 
+  const [isCheckAll, setIsCheckAll] = useState(false);
+  
 
   useEffect(() => {
     let userId;
@@ -52,15 +54,15 @@ export default function Cart() {
     getcartproductData(uid);
   };
 
-  const claerAll = async () => {
-    // eslint-disable-next-line
-    const response = await cartdeleteHndlerData(
-      delBody({
-        userId: String(uid),
-      })
-    );
-    getcartproductData(uid);
-  };
+  // const claerAll = async () => {
+  //   // eslint-disable-next-line
+  //   const response = await cartdeleteHndlerData(
+  //     delBody({
+  //       userId: String(uid),
+  //     })
+  //   );
+  //   getcartproductData(uid);
+  // };
 
   const getcartproductData = async (log = "") => {
     const response = await cartHndlerData(
@@ -85,11 +87,32 @@ export default function Cart() {
       setcheckedList(checkedList.filter((e) => e !== value));
     }
   };
-  console.log(checkedList);
 
   const alldelete = async () => {
     console.log(checkedList);
-    // if(checkedList.length!==0){
+
+    const response = await cartseldeleteHndlerData({
+      userId: uid,
+      cartdetail: checkedList,
+    });
+    console.log(response);
+    if (response) {
+      getcartproductData(uid);
+      setcheckedList([]);
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    // setIsCheckAll(!isCheckAll);
+    if (isCheckAll) {
+      setcheckedList([]);
+    } else {
+      setcheckedList(cart.map((li) => li.productId._id));
+    }
+  };
+
+  const handledeSelectAll = (e) => {
+    setcheckedList([]);
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -118,26 +141,48 @@ export default function Cart() {
                   <div
                     style={{ display: orderSubtotal > 0 ? "block" : "none" }}
                   >
-                    <button
+                    {/* <button
                       className="dbutton"
                       type="button"
                       onClick={claerAll}
                     >
                       Empty Cart
-                    </button>
-                    <button
-                      className="dbutton"
-                      type="button"
-                      onClick={claerAll}
-                    >
-                      {checkedList.length}
-                    </button>
+                    </button> */}
+
+                    {checkedList.length > 0 && (
+                      <button
+                        className="dbutton ml-1"
+                        type="button"
+                        onClick={alldelete}
+                      >
+                        DELETE ({checkedList.length})
+                      </button>
+                    )}
+                    {checkedList.length === 0 && (
+                      <button
+                        type="button"
+                        className="dbutton ml-1"
+                        onClick={handleSelectAll}
+                        checked={checkedList.includes(cart._id)}
+                      >
+                        Select All
+                      </button>
+                    )}
+                    {checkedList.length > 0 && (
+                      <button
+                        type="button"
+                        className="dbutton ml-1"
+                        onClick={handledeSelectAll}
+                      >
+                        Deselect All
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div
                   className={
                     cart.length > 2
-                      ? "container cartscroll cartheight   "
+                      ? "container cartscroll cartheight"
                       : "container cartheight"
                   }
                 >
@@ -148,6 +193,7 @@ export default function Cart() {
                           <Cartproduct
                             card={card}
                             key={card.id}
+                            checkedList={checkedList}
                             onDelete={handleDelete}
                             handlecheckbox={handlecheckbox}
                           />

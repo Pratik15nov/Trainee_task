@@ -10,7 +10,7 @@ const Cartproduct = (props) => {
           type="checkbox"
           className="checkbox-input"
           value={props.card.productId._id}
-          checked={props.isChecked}
+          checked={props.checkedList.includes(props.card.productId._id)}
           onChange={(e) => props.handlecheckbox(e)}
         />
         <span class="checkbox-tile">
@@ -29,29 +29,29 @@ const Cartproduct = (props) => {
                   <h6>Product Quantity : {props.card.quantity}</h6>
                   <p>Specification: {props.card.productId.specification}</p>
                 </div>
-                <div className="col-md-2 mt-3">
+                <div className="col-md-3 mt-3">
                   <h5 className="text">
                     &#x20b9; {props.card.productId.price * props.card.quantity}
                     /-
                   </h5>
-                  <h6>&#x20b9;
+                  <h6>
+                    &#x20b9;
                     <del>
                       {props.card.productId.discountPrice +
                         props.card.productId.price}
                       /-
-                    </del></h6>
-                  
+                    </del>
+                  </h6>
                 </div>
-                <div className="col-md-1 mt-3">
-                <button
+                {/* <div className="col-md-1 mt-3">
+                  <button
                     className="dbutton"
                     type="button"
                     onClick={() => props.onDelete(props.card.productId._id)}
                   >
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
-
-                </div>
+                </div> */}
               </div>
             </div>
           </span>

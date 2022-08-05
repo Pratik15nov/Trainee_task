@@ -56,12 +56,24 @@ export const cartdeleteHndlerData = (body) => {
   return remove(`${ENDPOINTURL}/cart/clearAll`, body);
 };
 
+export const cartseldeleteHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart/selected`, body);
+};
+
 export const addaddressHndlerData = (body) => {
   return post(`${ENDPOINTURL}/address`, body);
 };
 
 export const addressHndlerData = (body) => {
   return post(`${ENDPOINTURL}/address/list`, body);
+};
+
+export const addressDelHndler = (id) => {
+  return remove(`${ENDPOINTURL}/address/${id}`);
+};
+
+export const editaddressHndler = (id, body) => {
+  return patch(`${ENDPOINTURL}/address/${id}`, body);
 };
 
 export const promocodeHndlerData = (body) => {
