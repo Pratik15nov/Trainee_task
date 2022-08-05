@@ -287,12 +287,12 @@ export default function Checkout() {
         amount: response.data.amount,
         currency: response.data.currency,
         order_id: response.data.order_id,
-        name: "FrontendArmy",
+        name: "Shoppy",
         description: "Payment options",
         image: "../images/pop_up_logo.png",
 
         handler: function (response) {
-          alert(response.razorpay_payment_id);
+          setGoSteps(3);
           console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
           // alert(response.razorpay_order_id);
           // alert(response.razorpay_signature);
