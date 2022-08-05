@@ -39,50 +39,6 @@ const loadScript = (src) => {
 const _DEV_ = document.domain === "localhost";
 
 export default function Checkout() {
-  const displayRazorpay = async () => {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
-      alert("Razorpay SDK failed to load, Are you online");
-      return;
-    }
-
-    const body = {
-      amount: TOTAL_PRICE,
-    };
-    const response = await razorpayDataHandler(body);
-
-    if (response.data) {
-      const options = {
-        key: _DEV_
-          ? "rzp_test_XqUGrjRWQI1oVV"
-          : "enter here your live mode key from razorpay ",
-        amount: response.data.amount,
-        currency: response.data.currency,
-        order_id: response.data.order_id,
-        name: "FrontendArmy",
-        description: "Payment options",
-        image: "../images/pop_up_logo.png",
-
-        handler: function (response) {
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature);
-        },
-        prefill: {
-          name: "Prince Akbari",
-          email: "prince.frontendarmy@gmail.com",
-          contact: "6359557449",
-        },
-      };
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    } else {
-      console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
-    }
-  };
-
   /// Cart Summery>>
   const [cart, setCart] = useState([]);
   const [userData, setuserData] = useState([]);
@@ -179,7 +135,7 @@ export default function Checkout() {
 
   const getuserData = async (userId) => {
     const response = await userHndlerData(userId);
-    setuserData(response.data?.data);
+    setuserData(response);
     setuid(response.data?.data._id);
   };
   const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
@@ -312,7 +268,6 @@ export default function Checkout() {
   };
 
   const editaddressHndler = async () => {
-    
     const body = {
       address_1,
       address_2,
@@ -371,6 +326,51 @@ export default function Checkout() {
   // const { values, setFieldValue, setValues } = addressFromik;
   // console.log();
   // useEffect(() => {}, [values]);
+  const displayRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Razorpay SDK failed to load, Are you online");
+      return;
+    }
+
+    const body = {
+      amount: TOTAL_PRICE,
+    };
+    const response = await razorpayDataHandler(body);
+
+    if (response.data) {
+      const options = {
+        key: _DEV_
+          ? "rzp_test_XqUGrjRWQI1oVV"
+          : "enter here your live mode key from razorpay ",
+        amount: response.data.amount,
+        currency: response.data.currency,
+        order_id: response.data.order_id,
+        name: "FrontendArmy",
+        description: "Payment options",
+        image: "../images/pop_up_logo.png",
+
+        handler: function (response) {
+          alert(response.razorpay_payment_id);
+          console.log('RESPONSE AFTER THE PAYMENT SUCCESSFULL',response)
+          // alert(response.razorpay_order_id);
+          // alert(response.razorpay_signature);
+         
+        },
+        prefill: {
+          name: userData.firstName + " " + userData.lastName,
+          email: userData.email,
+          contact: userData.phoneNumber,
+        },
+      };
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } else {
+      console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
+    }
+  };
 
   return (
     <>
@@ -585,7 +585,10 @@ export default function Checkout() {
                       </div>
                       <div className="col-sm-7"></div>
                       <div className="col-sm-2">
-                        <button className="button" onClick={() =>editaddressHndler }>
+                        <button
+                          className="button"
+                          onClick={() => editaddressHndler}
+                        >
                           Save
                         </button>
                       </div>
