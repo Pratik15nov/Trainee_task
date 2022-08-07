@@ -40,8 +40,8 @@ export default function Checkout() {
   const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
   const [addData, setaddData] = useState([]);
-  const [discountPercent, setDiscountPercent] = useState(0);
-  const [discountprice, setDiscountprice] = useState(0);
+  // const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [address_1, setAddress] = useState("");
   const [address_2, setAddress2] = useState("");
   const [pincode, setPincode] = useState();
@@ -142,7 +142,7 @@ export default function Checkout() {
   const finalValue =
     orderSubtotal +
     (orderSubtotal / 100) * 18 -
-    (orderSubtotal * discountPercent) / 100;
+    (orderSubtotal) / 100;
 
   const TOTAL_PRICE = orderSubtotal > 500 ? finalValue : finalValue + 40;
   const validate1 = () => {
@@ -262,7 +262,7 @@ export default function Checkout() {
     }
   };
 
-  const discount = (orderSubtotal * discountPercent) / 100;
+
 
   const displayRazorpay = async () => {
     const res = await loadScript(
@@ -316,16 +316,33 @@ export default function Checkout() {
   // console.log(invoiceData);
   const componentRef = useRef();
 
+  console.log(Promocode)
+  const [perdiscountPrice, setPerdiscountPrice] = useState(0);
+  const [flatdiscountPrice, setFlatdiscountPrice] = useState(0);
+
+
+
   const checkPromoCode = () => {
     for (var i = 0; i < Promocode.length; i++) {
       if (promoCode === Promocode[i].couponcode) {
-        if (Promocode[i].type === "PERCENTAGE") {
-          if(orderSubtotal?Promocode[i].maxdiscountvalue){}
-          else{}
-          setDiscountPercent(parseFloat(Promocode[i].maxdiscountvalue));
+        if (Promocode[i].type === "PERECENTAGE") {
+          // setPerdiscountPrice(orderSubtotal*)
+
+
+
+
+
+          console.log("percentages");
           setPromocodeSuc("Promocode Applied!");
-        } else {
-          setDiscountprice(parseFloat(Promocode[i].maxdiscountvalue));
+        }
+
+        if (Promocode[i].type === "FLAT") {
+
+
+
+
+
+          console.log("flat")
           setPromocodeSuc("Promocode Applied!");
         }
 
@@ -335,7 +352,7 @@ export default function Checkout() {
       }
       if (!validName.test(promoCode)) {
         setPromocoderr("Your Promocode is invalid !");
-        setDiscountPercent(0);
+        setDiscountPrice(0);
         setPromocodeSuc();
       }
     }
@@ -728,7 +745,16 @@ export default function Checkout() {
                 </h4>
                 <div className="input-group"></div>
                 <div className="row">
-                  <div className="col-sm-6"></div>
+                  <div className="col-sm-6">
+                    Apply Promcode and Enjoy Discount!! <br/>
+                    {Promocode?.map((code, index) => {
+                      return (
+                       
+                        <span class="badge">{code.couponcode}</span>
+                       
+                      );
+                    })}
+                  </div>
                   <div className="col-sm-3">
                     <input
                       type="text"
@@ -767,14 +793,14 @@ export default function Checkout() {
                     <div className="text-success">
                       <h6 className="my-0 text">Discount Price</h6>
                     </div>
-                    <span className="text-success">&#x20b9; {discount}</span>
+                    <span className="text-success">&#x20b9; {discountPrice}</span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between">
                     <div className="text-success">
                       <h6 className="my-0 text">After Discount Total Price </h6>
                     </div>
                     <span className="text-success">
-                      &#x20b9; {orderSubtotal - discount}
+                      &#x20b9; {orderSubtotal - discountPrice}
                     </span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
