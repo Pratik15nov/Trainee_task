@@ -326,7 +326,8 @@ export default function Checkout() {
     for (var i = 0; i < Promocode.length; i++) {
       if (promoCode === Promocode[i].couponcode) {
         if (Promocode[i].type === "PERECENTAGE") {
-          // setPerdiscountPrice(orderSubtotal*)
+          // setPerdiscountPrice()
+        
 
 
 
@@ -337,7 +338,13 @@ export default function Checkout() {
         }
 
         if (Promocode[i].type === "FLAT") {
-
+          setFlatdiscountPrice(Promocode[i].minvalue)
+          setDiscountPrice(Promocode[i].maxdiscountvalue)
+          // if(orderSubtotal > Promocode[i].maxdiscountvalue){
+          //   setDiscountPrice(Promocode[i].maxdiscountvalue)
+          // }else{
+          //   setDiscountPrice(Promocode[i].maxdiscountvalue)
+          // }
 
 
 
@@ -357,6 +364,11 @@ export default function Checkout() {
       }
     }
   };
+
+  console.log("FLATDIC",flatdiscountPrice);
+  console.log("PERDICOUNT",perdiscountPrice);
+
+  
 
   return (
     <>
@@ -741,16 +753,16 @@ export default function Checkout() {
             {goSteps === 1 && (
               <div className="col customcard ">
                 <h4 className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-muted">Your Cart Summary</span>
+                  <span className="text">Your Cart Summary</span>
                 </h4>
                 <div className="input-group"></div>
                 <div className="row">
                   <div className="col-sm-6">
-                    Apply Promcode and Enjoy Discount!! <br/>
+                    Apply Promcode and Enjoy Discount!! <br/><br/>
                     {Promocode?.map((code, index) => {
                       return (
                        
-                        <span class="badge">{code.couponcode}</span>
+                        <span class="promocode">{code.couponcode}</span>
                        
                       );
                     })}

@@ -159,3 +159,13 @@
   margin-left: 48%;
   margin-top: 8%;
 }
+.promocode{
+  background-color: #2f2e41;
+  color: white;
+  /* padding: 4px; */
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding: 6px;
+  margin: 4px;
+}
