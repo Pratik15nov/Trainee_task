@@ -755,6 +755,7 @@ kbd {
 
 .cs-invoice_btns .cs-invoice_btn:last-child {
   border-radius:  5px ;
+  height: 40px;
 }
 
 .cs-invoice_btn {
