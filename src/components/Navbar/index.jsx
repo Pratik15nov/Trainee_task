@@ -38,10 +38,7 @@ export default function Navbar() {
       })
     );
     setCart(response[0].cartdetail);
-    
   };
- 
-  
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
@@ -118,7 +115,11 @@ export default function Navbar() {
             </ul>
           </li>
           <li className="nav-item">
-            <Link to={`/cart?uid=${userData.id}`} type="button" class="btn carticon position-relative">
+            <Link
+              to={`/cart?uid=${userData.id}`}
+              type="button"
+              class="btn carticon position-relative"
+            >
               <i className="fas fa-shopping-cart"></i>
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-scuess cartcount">
                 {cart.length}
@@ -126,13 +127,13 @@ export default function Navbar() {
             </Link>
           </li>
 
-
-
-          <li className="nav-item ">
-            <Link
-              className="nav-link"
-              to={`/user?uid=${userData.id}`}
-              style={{ display: token ? "block" : "none" }}
+          <li className="nav-item dropdown" style={{ display: token ? "block" : "none" }}>
+            <div
+              className="nav-link dropdown-toggle"
+              id="dropdown01"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +149,20 @@ export default function Navbar() {
                   d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
                 />
               </svg>
-            </Link>
+            </div>
+            <ui
+              className="dropdown-menu"
+              aria-labelledby="dropdown01"
+              
+            >
+              <Link className="nav-link" to={`/user?uid=${userData.id}`}>
+                Profile
+              </Link>
+
+              <Link className="nav-link" to={`/order`}>
+                Order
+              </Link>
+            </ui>
           </li>
           <li className="nav-item ">
             <Link

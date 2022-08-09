@@ -248,7 +248,7 @@ export default function Checkout() {
     if (addressId) {
       setLoading(false);
       setGoSteps(1);
-      
+
       localStorage.setItem("SeletedAddressId", addressId);
     } else {
       alert("Select One Address");
