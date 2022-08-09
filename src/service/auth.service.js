@@ -83,3 +83,13 @@ export const promocodeHndlerData = (body) => {
 export const razorpayDataHandler = (body) => {
   return post(`${ENDPOINTURL}/razorpay`, body);
 };
+
+
+export const orderDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order`, body);
+};
+
+export const orderinvoiceDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
+

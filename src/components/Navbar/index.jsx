@@ -40,7 +40,7 @@ export default function Navbar() {
     setCart(response[0].cartdetail);
     
   };
-  console.log(cart)
+ 
   
 
   const getcategoryData = async () => {

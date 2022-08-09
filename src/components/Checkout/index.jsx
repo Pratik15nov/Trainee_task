@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Checkout.css";
-import { validName, validPhoneno } from "../../utils/helper";
+// import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 import { listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -15,9 +15,13 @@ import {
   addressHndlerData,
   addressDelHndler,
   editaddressHndlerData,
+  orderDataHandler,
+  orderinvoiceDataHandler,
 } from "../../service/auth.service";
 import Addskeleton from "./Addskeleton";
 import { Box } from "@mui/system";
+import CartsummerySkel from "./CartsummerySkel";
+// import { jsPDF } from "jspdf";
 
 const loadScript = (src) => {
   return new Promise((resolve) => {
@@ -57,7 +61,7 @@ export default function Checkout() {
   const [promocodeErr, setPromocoderr] = useState(false);
   const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
   const [Promocode, setpromocodeData] = useState(false); // eslint-disable-next-line
-
+  const [discountis, setDiscountIs] = useState(false);
   const [addressId, setaddressId] = useState();
   const [adddiv, setAdddiv] = useState(false);
   const [addeditdiv, setAddeditdiv] = useState(false);
@@ -65,25 +69,22 @@ export default function Checkout() {
   const [editadd, seteditadd] = useState([]);
   const [editId, seteditId] = useState();
   const [loading, setLoading] = useState(true);
+  const [cartsumloading, setCartSumLoading] = useState(false);
+  const [invoicedata, setInvoiceData] = useState([]);
+  const [paymentId, setPaymentId] = useState("");
+
+  // const [orderStatus, setOrderStatus] = useState("PLACED");
+  // eslint-disable-next-line
+  const [cartdetail, setCartdetail] = useState([]);
+  const [promocodeId, setPromocodeId] = useState();
   const location = useLocation();
 
-  // const [userId, setmainuid] = useState(localuserData.id);
   const { search } = location;
   const userId = localuserData.id;
-  // const Promocode = [
-  //   {
-  //     code: "50OFF",
-  //     discount: "50%",
-  //   },
-  //   {
-  //     code: "25OFF",
-  //     discount: "25%",
-  //   },
-  //   {
-  //     code: "10OFF",
-  //     discount: "10%",
-  //   },
-  // ];
+
+  // const cartdetail=[
+  //   {productId: "" , quantity:""}
+  // ]
 
   useEffect(() => {
     let userId;
@@ -110,13 +111,24 @@ export default function Checkout() {
     }
   };
 
+  const cartDataHandler = () => {
+    if (cart.length > 0) {
+      setCartdetail(
+        cart?.map((res) => ({
+          productId: res.productId._id,
+          quantity: res.quantity,
+        }))
+      );
+    }
+  };
+
   const getPromocode = async () => {
     const response = await promocodeHndlerData(
       listBody({
         where: { isActive: true },
       })
     );
-    console.log(response);
+
     if (response?.length > 0) {
       setpromocodeData(response);
     }
@@ -128,50 +140,50 @@ export default function Checkout() {
     setuserData(response);
   };
 
-  const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
-  const orderSubtotal = Object.values(updatedData).reduce(
-    (r, { price }) => r + price,
-    0
-  );
+  // const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  // const orderSubtotal = Object.values(updatedData).reduce(
+  //   (r, { price }) => r + price,
+  //   0
+  // );
+
+  var orderSubtotal = 0;
+  for (var i = 0; i < cart.length; i++) {
+    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+  }
 
   const onEnterPromoCode = (event) => {
     setPromoCode(event.target.value);
     setPromocodeSuc();
   };
 
-  const finalValue =
-    orderSubtotal +
-    (orderSubtotal / 100) * 18 -
-    (orderSubtotal) / 100;
+  const finalValue = orderSubtotal - discountPrice + (orderSubtotal / 100) * 18;
 
-  const TOTAL_PRICE = orderSubtotal > 500 ? finalValue : finalValue + 40;
-  const validate1 = () => {
-    let formIsValid = true;
-    if (!validName.test(address_1)) {
-      formIsValid = false;
-      setAddressErr("Your Address is invalid");
-    }
+  const totalPrice = orderSubtotal > 500 ? finalValue : finalValue + 40;
+  // const validate1 = () => {
+  //   let formIsValid = true;
+  //   if (!validName.test(address_1)) {
+  //     formIsValid = false;
+  //     setAddressErr("Your Address is invalid");
+  //   }
 
-    if (!validPhoneno.test(pincode)) {
-      formIsValid = false;
-      setPincodeErr("Your Pincode is invalid");
-    }
+  //   if (!validPhoneno.test(pincode)) {
+  //     formIsValid = false;
+  //     setPincodeErr("Your Pincode is invalid");
+  //   }
 
-    if (!validName.test(label)) {
-      formIsValid = false;
-      setLabelErr("Your Label is invalid");
-    }
+  //   if (!validName.test(label)) {
+  //     formIsValid = false;
+  //     setLabelErr("Your Label is invalid");
+  //   }
 
-    return formIsValid;
-  };
+  //   return formIsValid;
+  // };
 
   const addresshandleSubmit = (e) => {
-    if (!validate1()) {
-    } else {
-      postAddData(e);
-      setAdddiv(false);
-      getaddData();
-    }
+    postAddData(e);
+    setAdddiv(false);
+    getaddData();
+
     e.preventDefault();
   };
 
@@ -262,9 +274,8 @@ export default function Checkout() {
     }
   };
 
-
-
   const displayRazorpay = async () => {
+    cartDataHandler();
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -274,7 +285,7 @@ export default function Checkout() {
     }
 
     const body = {
-      amount: TOTAL_PRICE,
+      amount: parseInt(totalPrice),
     };
     const response = await razorpayDataHandler(body);
 
@@ -291,11 +302,10 @@ export default function Checkout() {
         image: "../images/pop_up_logo.png",
 
         handler: function (response) {
-          setGoSteps(2);
-          setCart([]);
-          console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
-          // alert(response.razorpay_order_id);
-          // alert(response.razorpay_signature);
+          // console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
+
+          orderinfoHandler(response.razorpay_payment_id);
+          setPaymentId(response.razorpay_payment_id);
         },
         prefill: {
           name: userData.firstName + " " + userData.lastName,
@@ -306,69 +316,107 @@ export default function Checkout() {
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     } else {
-      console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
+      // console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
     }
   };
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const invoiceData = JSON.parse(localStorage.getItem("Data"));
+
   // console.log(invoiceData);
   const componentRef = useRef();
 
-  console.log(Promocode)
-  const [perdiscountPrice, setPerdiscountPrice] = useState(0);
-  const [flatdiscountPrice, setFlatdiscountPrice] = useState(0);
+  const checkPromoCode = (promoCode) => {
+    setCartSumLoading(true);
+    try {
+      const isValidCode = Promocode.filter(
+        (res) => res.couponcode === promoCode.trim()
+      )[0];
 
-
-
-  const checkPromoCode = () => {
-    for (var i = 0; i < Promocode.length; i++) {
-      if (promoCode === Promocode[i].couponcode) {
-        if (Promocode[i].type === "PERECENTAGE") {
-          // setPerdiscountPrice()
-        
-
-
-
-
-
-          console.log("percentages");
-          setPromocodeSuc("Promocode Applied!");
-        }
-
-        if (Promocode[i].type === "FLAT") {
-          setFlatdiscountPrice(Promocode[i].minvalue)
-          setDiscountPrice(Promocode[i].maxdiscountvalue)
-          // if(orderSubtotal > Promocode[i].maxdiscountvalue){
-          //   setDiscountPrice(Promocode[i].maxdiscountvalue)
-          // }else{
-          //   setDiscountPrice(Promocode[i].maxdiscountvalue)
-          // }
-
-
-
-
-          console.log("flat")
-          setPromocodeSuc("Promocode Applied!");
-        }
-
-        setPromocoderr();
-
-        return;
+      if (isValidCode) {
+        setPromocodeId(isValidCode._id);
+        setPromoCode(isValidCode.couponcode);
+      } else {
+        setPromocodeId("");
       }
-      if (!validName.test(promoCode)) {
+
+      if (isValidCode) {
+        switch (isValidCode.type) {
+          case "PERCENTAGE":
+            if (
+              (isValidCode.minvalue * orderSubtotal) / 100 <
+              isValidCode.maxdiscountvalue
+            ) {
+              setDiscountPrice((isValidCode.minvalue * orderSubtotal) / 100);
+              setPromocodeSuc(`${promoCode} Promcode Applied!`);
+              setDiscountIs(true);
+              setCartSumLoading(false);
+            } else {
+              setDiscountPrice(isValidCode.maxdiscountvalue);
+              setPromocodeSuc(`${promoCode} Promcode Applied!`);
+              setDiscountIs(true);
+              setCartSumLoading(false);
+            }
+
+            break;
+          case "FLAT":
+            setDiscountPrice(isValidCode.minvalue);
+            setPromocodeSuc(`${promoCode} Promcode Applied!`);
+            setDiscountIs(true);
+            setCartSumLoading(false);
+            break;
+          default:
+            break;
+        }
+      } else {
         setPromocoderr("Your Promocode is invalid !");
+        setDiscountIs(false);
         setDiscountPrice(0);
         setPromocodeSuc();
+        setCartSumLoading(false);
       }
+    } catch (error) {
+      return console.log(error);
     }
   };
 
-  console.log("FLATDIC",flatdiscountPrice);
-  console.log("PERDICOUNT",perdiscountPrice);
+  const orderinfoHandler = async (pId) => {
+    const body = {
+      userId,
+      addressId,
+      promocodeId,
+      orderStatus: "PLACED",
+      paymentId: pId,
+      discountPrice,
+      totalPrice,
+      cartdetail: cart?.map((res) => ({
+        productId: res.productId._id,
+        quantity: res.quantity,
+      })),
+    };
+    // console.log(body);
+    const response = await orderDataHandler(body); // eslint-disable-next-line
 
-  
+    if (response) {
+      console.log("ORDERDATA", response);
+    }
+  };
+
+  const invoiceDataHandler = async () => {
+    const response = await orderinvoiceDataHandler(
+      listBody({ where: { isActive: true, paymentId: paymentId } })
+    ); // eslint-disable-next-line
+
+    if (response) {
+      setInvoiceData(response?.[0]);
+      setGoSteps(2);
+      setCart(response?.[0].cartdetail);
+    }
+  };
+  console.log(invoicedata);
+  // var doc = new jsPDF();
+  // doc.fromHTML(ReactDOMServer.renderToStaticMarkup(this.render()));
+  // doc.save("invoice.pdf");
 
   return (
     <>
@@ -757,104 +805,116 @@ export default function Checkout() {
                 </h4>
                 <div className="input-group"></div>
                 <div className="row">
-                  <div className="col-sm-6">
-                    Apply Promcode and Enjoy Discount!! <br/><br/>
+                  {!cartsumloading && (
+                    <div className="col-sm-8 col">
+                      <ul className="list-group mb-3">
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">
+                              Total Price of Product
+                            </h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {orderSubtotal}
+                          </span>
+                        </li>
+                        {discountis && (
+                          <>
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                              <div className="text-success">
+                                <h6 className="my-0 text">Discount Price</h6>
+                              </div>
+                              <span className="text-success">
+                                &#x20b9; {discountPrice}
+                              </span>
+                            </li>
+
+                            <li className="list-group-item d-flex justify-content-between">
+                              <div className="text-success">
+                                <h6 className="my-0 text">
+                                  After Discount Total Price
+                                </h6>
+                              </div>
+                              <span className="text-success">
+                                &#x20b9; {orderSubtotal - discountPrice}
+                              </span>
+                            </li>
+                          </>
+                        )}
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {((orderSubtotal / 100) * 18).toFixed(2)}
+                          </span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">Shipping Charge</h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
+                          </span>
+                        </li>
+
+                        <li className="list-group-item d-flex justify-content-between bg-light">
+                          <span>Total</span>
+                          <strong>
+                            &#x20b9;
+                            {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
+                            {totalPrice.toFixed(2)}
+                          </strong>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                  {cartsumloading && <CartsummerySkel />}
+
+                  <div className="col-4 row">
+                    <div className="row">
+                      <div className="col-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={promoCode}
+                          onChange={(e) => [
+                            onEnterPromoCode(e),
+                            setPromocoderr(""),
+                          ]}
+                        />
+                      </div>
+                      <div className="col-6">
+                        <button
+                          className="button"
+                          onClick={(e) => checkPromoCode(e)}
+                        >
+                          {promoCode ? "Applied!" : "Apply"}
+                        </button>
+                        <br />
+                      </div>
+                      <div className="">
+                        {promocodeErr && (
+                          <p className="errorstyle">{promocodeErr}</p>
+                        )}
+                        {promocodeSuc && (
+                          <p className="Sstyle">{promocodeSuc}</p>
+                        )}
+                      </div>
+                    </div>
                     {Promocode?.map((code, index) => {
                       return (
-                       
-                        <span class="promocode">{code.couponcode}</span>
-                       
+                        <div
+                          className="promocode col-6"
+                          onClick={() => checkPromoCode(code.couponcode)}
+                          key={`promocode_${index}}`}
+                        >
+                          <span class="promocode-h">{code.couponcode}</span>
+                          <h6 class="promocodeinfo">{code.description}</h6>
+                        </div>
                       );
                     })}
                   </div>
-                  <div className="col-sm-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Have Promo code ?"
-                      onChange={(e) => [
-                        onEnterPromoCode(e),
-                        setPromocoderr(""),
-                      ]}
-                    />
-                  </div>
-                  <div className="col-sm-3">
-                    <button
-                      className="button applynow"
-                      onClick={checkPromoCode}
-                    >
-                      Apply Now
-                    </button>
-                    <br />
-                    {promocodeErr && (
-                      <p className="errorstyle">{promocodeErr}</p>
-                    )}
-                    {promocodeSuc && <p className="Sstyle">{promocodeSuc}</p>}
-                  </div>
-                </div>
-
-                <br />
-                <ul className="list-group mb-3">
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0 text">Total Price of Product</h6>
-                    </div>
-                    <span className="text-muted">&#x20b9; {orderSubtotal}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <div className="text-success">
-                      <h6 className="my-0 text">Discount Price</h6>
-                    </div>
-                    <span className="text-success">&#x20b9; {discountPrice}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between">
-                    <div className="text-success">
-                      <h6 className="my-0 text">After Discount Total Price </h6>
-                    </div>
-                    <span className="text-success">
-                      &#x20b9; {orderSubtotal - discountPrice}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {(orderSubtotal / 100) * 18}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0 text">Shipping Charge</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
-                    </span>
-                  </li>
-
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <span>Total</span>
-                    <strong>
-                      &#x20b9;
-                      {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
-                      {TOTAL_PRICE}
-                    </strong>
-                  </li>
-                </ul>
-                <div className="row">
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-4">
-                    {/* <Link to="/order">
-                      <button
-                        type="submit"
-                        className="button"
-                        onClick={handleSubmit}
-                      >
-                        Place Order
-                      </button>
-                    </Link> */}
-                  </div>
-                  <div className="col-sm-4"></div>
                 </div>
 
                 <hr className="mb-4" />
@@ -866,8 +926,18 @@ export default function Checkout() {
                   </div>
                   <div className="col-sm-7"></div>
                   <div className="col-sm-3">
-                    <button className="button" onClick={displayRazorpay}>
+                    {}
+                    <button
+                      className="button"
+                      onClick={() => displayRazorpay()}
+                    >
                       Pay Now
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => invoiceDataHandler()}
+                    >
+                      Generate invoice
                     </button>
                   </div>
                 </div>
@@ -877,161 +947,299 @@ export default function Checkout() {
             {goSteps === 2 && (
               <div className="col customcard">
                 <div className="container-fluid invoice">
-                  <div className="row maincard ">
-                    <div className="col-12">
-                      <div className="page-title-box row">
-                        <div className="page-title-right col-sm-3 ">
-                          <button
-                            onClick={() => handlePrint()}
-                            className="button"
-                          >
-                            Print Invoice
-                          </button>
-                        </div>
-                        <div className="col-sm-3"></div>
-
-                        <div className="col-sm-6 Sstyle">
-                          Thank you. Your order has been received.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="row invoicecard " ref={componentRef}>
-                    <div className="col-12">
-                      <div className="card">
-                        <div className="card-body">
-                          <div className="clearfix">
-                            <div className="float-start mb-3">
-                              <img
-                                src="../images/logob.png"
-                                className="logoimg"
-                                alt="logo"
-                              ></img>
-                            </div>
-                            <div className="float-end">
-                              <h4 className="m-0 d-print-none text">Invoice</h4>
+                    <div className="cs-invoice cs-style1">
+                      <div className="cs-invoice_in" id="download_section">
+                        <div className="cs-invoice_head cs-type1 cs-mb25">
+                          <div className="cs-invoice_left">
+                            <p className="cs-invoice_number cs-primary_color cs-mb5 cs-f16">
+                              <b className="cs-primary_color">Invoice No:</b>{" "}
+                              {invoicedata.paymentId.substring(4, 14)}
+                            </p>
+                            <p className="cs-invoice_date cs-primary_color cs-m0">
+                              <b className="cs-primary_color">Date: </b>
+
+                              {invoicedata.createdAt.substring(0, 10)}
+                            </p>
+                            <p className="cs-invoice_date cs-primary_color cs-m0">
+                              <b className="cs-primary_color">Order Status: </b>
+                              {invoicedata.orderStatus}
+                            </p>
+                          </div>
+                          <div className="cs-invoice_right cs-text_right">
+                            <div className="cs-logo cs-mb5">
+                              <img src="images/logob.png" alt="Logo" />
                             </div>
                           </div>
-
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="float-end mt-3">
-                                <p>
-                                  <b>Hello,</b>
+                        </div>
+                        <div className="cs-invoice_head cs-mb10">
+                          <div className="cs-invoice_left">
+                            <b className="cs-primary_color">Invoice To:</b>
+                            <p>
+                              {invoicedata.userId.firstName}{" "}
+                              {invoicedata.userId.lastName}
+                              <br />
+                              {invoicedata.addressId.address_1}
+                              <br />
+                              {invoicedata.addressId.address_2} <br />
+                              {invoicedata.addressId.pincode}
+                            </p>
+                          </div>
+                          <div className="cs-invoice_right cs-text_right">
+                            <b className="cs-primary_color">Pay To:</b>
+                            <p>
+                              804, Fortune Business Hub,
+                              <br /> Ahmedabad, Gujarat. 380060,
+                              <br /> PH: +91 79-46006836
+                              <br /> Service Tax Registration Number:
+                              AAACO4007ASD002
+                            </p>
+                          </div>
+                        </div>
+                        <div className="cs-table cs-style1">
+                          <div className="cs-round_border">
+                            <div className="cs-table_responsive">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th className="cs-width_1 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      No.
+                                    </th>
+                                    <th className="cs-width_2 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Product Name
+                                    </th>
+                                    <th className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Description
+                                    </th>
+                                    <th className="cs-width_4 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Qty
+                                    </th>
+                                    <th className="cs-width_5 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Price
+                                    </th>
+                                    <th className="cs-width_6 cs-semi_bold cs-primary_color cs-focus_bg cs-text_right">
+                                      Total
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {invoicedata.cartdetail?.map(
+                                    (card, index) => {
+                                      return (
+                                        <tr>
+                                          <td className="cs-width_1">
+                                            {index + 1}
+                                          </td>
+                                          <td className="cs-width_2">
+                                            {card.productId.name}
+                                          </td>
+                                          <td className="cs-width_3">
+                                            {card.productId.specification}
+                                          </td>
+                                          <td className="cs-width_4">
+                                            {" "}
+                                            {card.quantity}
+                                          </td>
+                                          <td className="cs-width_5">
+                                            {" "}
+                                            &#8377;{card.productId.price}
+                                          </td>
+                                          <td className="cs-width_6 cs-text_right">
+                                            &#8377;{" "}
+                                            {card.quantity *
+                                              card.productId.price}
+                                          </td>
+                                        </tr>
+                                      );
+                                    }
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div className="cs-invoice_footer cs-border_top">
+                              <div className="cs-left_footer cs-mobile_hide">
+                                <p className="cs-mb0">
+                                  <b className="cs-primary_color">
+                                    Additional Information:
+                                  </b>
                                 </p>
-                                <p className="text-muted font-13">
-                                  Please find below a cost-breakdown for the
-                                  recent work completed. Please make payment at
-                                  your earliest convenience, and do not hesitate
-                                  to contact me with any questions.
+                                <p className="cs-m0">
+                                  Dear Consumer, the bill payment will reflect
+                                  in next 48 hours or in the next billing cycle,
+                                  at your service provider end. Please contact
+                                  paytm customer support for any queries
+                                  regarding this order.
                                 </p>
                               </div>
-                            </div>
-
-                            <div className="col-sm-4 offset-sm-2">
-                              <div className="mt-3 float-sm-end">
-                                <p className="font-13">
-                                  <strong>Order Date:</strong>
-                                  &nbsp;&nbsp;&nbsp;
-                                </p>
-                                <p className="font-13">
-                                  <strong>Order Status: </strong>
-                                  <span className="badge bg-success float-end">
-                                    Paid
-                                  </span>
-                                </p>
-                                <p className="font-13">
-                                  <strong>Order ID: </strong>{" "}
-                                  <span className="float-end"></span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="row mt-4">
-                            <div className="col-sm-4">
-                              <h6>Address</h6>
-                              <address></address>
-                            </div>
-
-                            <div className="col-sm-4">
-                              <h6>Shipping Address</h6>
-                              <address></address>
-                            </div>
-                          </div>
-
-                          <div className="row">
-                            <div className="col-12">
-                              <div className="table-responsive">
-                                <table className="table mt-4">
-                                  <thead>
-                                    <tr>
-                                      <th>#</th>
-                                      <th>Item</th>
-                                      <th>Quantity</th>
-                                      <th>Cost</th>
-                                      <th className="text-end">Total</th>
-                                    </tr>
-                                  </thead>
+                              <div className="cs-right_footer">
+                                <table>
                                   <tbody>
-                                    {/* <tr>
-                                          <td>{index + 1}</td>
-                                          <td>
-                                            <b>{data.name}</b> <br />
-                                          </td>
-                                          <td>{data.quantity}</td>
-                                          <td>
-                                            &#x20b9;{" "}
-                                            {data.price / data.quantity}
-                                          </td>
-                                          <td className="text-end">
-                                            &#x20b9; {data.price}
-                                          </td>
-                                        </tr> */}
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                        Order Subtotal
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-focus_bg cs-primary_color cs-text_right">
+                                        &#8377; {orderSubtotal}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Promocode:
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        {invoicedata.promocodeId.couponcode}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Discount Price
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-text_right">
+                                        &#8377; {invoicedata.discountPrice}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Tax (SGST+ CGST)
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        &#x20b9;{" "}
+                                        {((orderSubtotal / 100) * 18).toFixed(
+                                          2
+                                        )}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Shipping Charge
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        &#8377;{" "}
+                                        {orderSubtotal > 500 ? "0" : "40"}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                        Total Amount
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-focus_bg cs-primary_color cs-text_right">
+                                        &#8377; {invoicedata.totalPrice}
+                                      </td>
+                                    </tr>
                                   </tbody>
                                 </table>
                               </div>
                             </div>
                           </div>
-
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="clearfix pt-3">
-                                <h6 className="text-muted">Notes:</h6>
-                                <small>
-                                  All accounts are to be paid within 7 days from
-                                  receipt of invoice.
-                                </small>
-                              </div>
-                            </div>
-                            <div className="col-sm-6">
-                              <div className="float-end mt-3 mt-sm-0">
-                                <p>
-                                  <b>Sub-total:</b>
-                                  <span className="float-end"></span>
-                                </p>
-                                <p>
-                                  <b>Tax(CGST+SGST):</b>
-                                  <span className="float-end"></span>
-                                </p>
-                                <p>
-                                  <b>Shipping Charge: </b>
-                                  <span className="float-end"></span>
-                                </p>
-                                <p>
-                                  <b>Discount: </b>
-                                  <span className="float-end"></span>
-                                </p>
-                                <p>
-                                  <b>Total &#x20b9; </b>
-                                  <span className="float-end"></span>
-                                </p>
-                              </div>
-                              <div className="clearfix" />
-                            </div>
+                        </div>
+                        <div className="cs-note">
+                          <div className="cs-note_left">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="ionicon"
+                              viewBox="0 0 512 512"
+                            >
+                              <path
+                                d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinejoin="round"
+                                strokeWidth={32}
+                              />
+                              <path
+                                d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={32}
+                              />
+                            </svg>
+                          </div>
+                          <div className="cs-note_right">
+                            <p className="cs-mb0">
+                              <b className="cs-primary_color cs-bold">Note:</b>
+                            </p>
+                            <p className="cs-m0">
+                              This is invoice is only a confirmation of the
+                              receipt of the amount paid against for the service
+                              as described above. Subject to terms and
+                              conditions mentioned at Shoppy
+                            </p>
                           </div>
                         </div>
+                        {/* .cs-note */}
+                      </div>
+                      <div className="cs-invoice_btns cs-hide_print">
+                        <p
+                          className="cs-invoice_btn cs-color1"
+                          onClick={() => handlePrint()}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ionicon"
+                            viewBox="0 0 512 512"
+                          >
+                            <path
+                              d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <rect
+                              x={128}
+                              y={240}
+                              width={256}
+                              height={208}
+                              rx="24.32"
+                              ry="24.32"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <path
+                              d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <circle cx={392} cy={184} r={24} />
+                          </svg>
+                          <span>Print</span>
+                        </p>
+                        {/* <button
+                          id="download_btn"
+                          className="cs-invoice_btn cs-color2"
+                          
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ionicon"
+                            viewBox="0 0 512 512"
+                          >
+                            <title>Download</title>
+                            <path
+                              d="M336 176h40a40 40 0 0140 40v208a40 40 0 01-40 40H136a40 40 0 01-40-40V216a40 40 0 0140-40h40"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                              d="M176 272l80 80 80-80M256 48v288"
+                            />
+                          </svg>
+                          <span>Download</span>
+                        </button> */}
                       </div>
                     </div>
                   </div>

@@ -14,7 +14,6 @@ const Cartskeleton = (props) => {
                   variant="rectangular"
                   width={190}
                   height={33}
-                  
                   animation="wave"
                 />
                 <div className="text">
@@ -170,7 +169,6 @@ const Cartskeleton = (props) => {
                   className="s2"
                   animation="wave"
                 />
-                
               </div>
             </div>
           </div>

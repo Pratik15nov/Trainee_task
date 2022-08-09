@@ -92,7 +92,7 @@ const Allproducts = (props) => {
     // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     // EventEmitter.dispatch("DATA", body.quantity.length);
-    
+    console.log(cartdata);
   };
 
   return (
@@ -103,9 +103,9 @@ const Allproducts = (props) => {
       <div className="col-9 data_div">
         <div className="data_container">
           {productData.length > 0 &&
-            productData.map((card,index) => {
+            productData.map((card) => {
               return (
-                <div className="cardView " key={`products_${index}}`}>
+                <div className="cardView " >
                   <img
                     src={URL + card.img}
                     className="card-img-top"
