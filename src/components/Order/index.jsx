@@ -51,7 +51,7 @@ export default function Order() {
                       <th>Date</th>
                       <th>Payment Status</th>
                       <th>Total</th>
-                      <th>Payment Method</th>
+
                       <th>Order Status</th>
                       <th style={{ width: 125 }}>Action</th>
                     </tr>
@@ -69,18 +69,21 @@ export default function Order() {
                             </a>
                           </td>
                           <td>
-                            August 05 2018{" "}
-                            <small className="text-muted">10:29 PM</small>
+                            {card.createdAt.substring(0, 10)}
+                            <small className="text-muted">
+                              {card.createdAt.substring(16, 19)}
+                            </small>
                           </td>
                           <td>
                             <h5>
                               <span className="badge badge-success-lighten">
-                                <i className="mdi mdi-bitcoin" /> Paid
+                                <i className="mdi mdi-bitcoin" />{" "}
+                                {card.orderStatus}
                               </span>
                             </h5>
                           </td>
-                          <td>$176.41</td>
-                          <td>Mastercard</td>
+                          <td> &#x20b9;{card.totalPrice}</td>
+
                           <td>
                             <h5>
                               <span className="badge badge-info-lighten">
