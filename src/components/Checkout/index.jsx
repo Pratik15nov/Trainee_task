@@ -19,14 +19,14 @@ import Addskeleton from "./Addskeleton";
 import { Box } from "@mui/system";
 
 const loadScript = (src) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = src;
     script.onload = () => {
       resolve(true);
     };
     script.onerror = () => {
-      resolve(false);
+      reject(false);
     };
     document.body.appendChild(script);
   });
