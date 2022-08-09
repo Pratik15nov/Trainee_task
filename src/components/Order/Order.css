@@ -1,16 +1,6 @@
-.invoice {
-  
-  font-family: "Inter", sans-serif;
-}
-.card-body {
-  margin: 3%;
-  padding: 2%;
-}
-.maincard {
-    margin: 7%;
-}
-.invoicecard{
-    margin-left: 3%;
-    margin-right: 3%;
-    
+.container-fluid {
+  margin-top: 7%;
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 94%;
 }

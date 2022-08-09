@@ -93,3 +93,9 @@ export const orderinvoiceDataHandler = (body) => {
   return post(`${ENDPOINTURL}/order/list`, body);
 };
 
+
+export const orderListDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
+
+

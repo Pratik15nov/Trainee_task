@@ -127,7 +127,10 @@ export default function Navbar() {
             </Link>
           </li>
 
-          <li className="nav-item dropdown" style={{ display: token ? "block" : "none" }}>
+          <li
+            className="nav-item dropdown"
+            style={{ display: token ? "block" : "none" }}
+          >
             <div
               className="nav-link dropdown-toggle"
               id="dropdown01"
@@ -150,11 +153,7 @@ export default function Navbar() {
                 />
               </svg>
             </div>
-            <ui
-              className="dropdown-menu"
-              aria-labelledby="dropdown01"
-              
-            >
+            <ui className="dropdown-menu" aria-labelledby="dropdown01">
               <Link className="nav-link" to={`/user?uid=${userData.id}`}>
                 Profile
               </Link>
