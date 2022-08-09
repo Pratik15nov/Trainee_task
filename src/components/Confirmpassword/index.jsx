@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Register/Register.css";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { validPaasword } from "../../utils/helper";
 import { compassHandlerData } from "../../service/auth.service";
+import { useLocation } from "react-router-dom";
 
 // import { sendData } from "../../services/authservices";
 
@@ -13,12 +14,26 @@ export default function Confirmpassword() {
   const [compassword, setcomPassword] = useState("");
   const [compasswordErr, setcomPasswordErr] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [uid,setUid] = useState("")
 
   // const [fromdata, setformData] = useState([]);
   const [selected, setSelected] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { search } = location;
 
-  const validate = () => {
+  useEffect(() => {
+    let userId;
+    if (search.split("=").length > 0) {
+      userId = search.split("=")[1];
+    } else {
+      userId = "";
+    }
+    setUid(userId)
+    
+  }, [search]);
+  console.log("CONSOLEDDD",uid)
+  const validate = (userId) => {
     let formIsValid = true;
     if (!validPaasword.test(password)) {
       formIsValid = false;
@@ -58,19 +73,23 @@ export default function Confirmpassword() {
   const postData = async (event) => {
     event.preventDefault();
     const body = {
-      password,
+      confirmPassword :password,
     };
-    const response = await compassHandlerData(body); // eslint-disable-next-line
-    if (response.status == "400") {
-      // navigate(`/forgotPasword?uid=${response}`);
+    try {
+      const response = await compassHandlerData(body,uid); // eslint-disable-next-line
+      if (response.status == "400") {
+        // navigate(`/forgotPasword?uid=${response}`);
+        setSelected(false);
 
-      setSelected(false);
+      } else {
+        setSelected(false);
+        navigate("/successmail");
+        setMsg(response.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    if (response.message) {
-      setSelected(false);
-    }
-    
-    setMsg(response.message);
+   
   };
 
   return (
