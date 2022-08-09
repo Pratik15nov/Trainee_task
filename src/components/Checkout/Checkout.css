@@ -143,7 +143,7 @@
   transition: 0.375s ease;
 }
 .delicon {
-  margin-left: 22rem;
+  margin-left: 75%;
 }
 .editicon {
   margin-left: 1rem;
@@ -755,6 +755,7 @@ kbd {
 
 .cs-invoice_btns .cs-invoice_btn:last-child {
   border-radius:  5px ;
+  height: 40px;
 }
 
 .cs-invoice_btn {
