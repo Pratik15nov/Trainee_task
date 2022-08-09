@@ -69,7 +69,7 @@ export default function Confirmpassword() {
     if (response.message) {
       setSelected(false);
     }
-    
+
     setMsg(response.message);
   };
 
