@@ -302,10 +302,10 @@ export default function Checkout() {
         image: "../images/pop_up_logo.png",
 
         handler: function (response) {
+          setPaymentId(response.razorpay_payment_id);
           // console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
 
           orderinfoHandler(response.razorpay_payment_id);
-          setPaymentId(response.razorpay_payment_id);
         },
         prefill: {
           name: userData.firstName + " " + userData.lastName,
@@ -399,17 +399,19 @@ export default function Checkout() {
 
     if (response) {
       console.log("ORDERDATA", response);
+     
+      invoiceDataHandler(pId);
     }
   };
 
-  const invoiceDataHandler = async () => {
+  const invoiceDataHandler = async (pId) => {
     const response = await orderinvoiceDataHandler(
-      listBody({ where: { isActive: true, paymentId: paymentId } })
+      listBody({ where: { isActive: true, paymentId: pId } })
     ); // eslint-disable-next-line
-
+    console.log(response);
     if (response) {
-      setInvoiceData(response?.[0]);
       setGoSteps(2);
+      setInvoiceData(response?.[0]);
       setCart(response?.[0].cartdetail);
     }
   };
