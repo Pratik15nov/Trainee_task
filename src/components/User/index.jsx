@@ -18,7 +18,7 @@ export default function User() {
   const [lnameErr, setlnameErr] = useState(false);
   // const [phonenoErr, setphonenoErr] = useState(false);
   const [msg, setMsg] = useState(false);
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(false);// eslint-disable-next-line
   const [userData, setuserData] = useState([]);
   const [localuserData, setlocaluserData] = useState([]);
   const location = useLocation();
@@ -41,7 +41,7 @@ export default function User() {
     setuserData(response.data?.data);
     setuid(response.data?.data._id);
   };
-  console.log(userData);
+  
   const validate = () => {
     let formIsValid = true;
     // if (!validEmail.test(email)) {

@@ -77,7 +77,7 @@ export default function Register() {
 
     return formIsValid;
   };
- 
+
   const handleSubmit = (e) => {
     if (validate() !== true) {
     } else {
@@ -105,7 +105,6 @@ export default function Register() {
       setSelected(false);
       setMsg(response.message);
     }
-    
   };
 
   return (

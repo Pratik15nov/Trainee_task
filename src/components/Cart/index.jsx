@@ -18,9 +18,8 @@ export default function Cart() {
   const [uid, setuid] = useState();
   const { search } = location;
   const [loading, setLoading] = useState(true);
-  const [checkedList, setcheckedList] = useState([]);// eslint-disable-next-line 
+  const [checkedList, setcheckedList] = useState([]); // eslint-disable-next-line
   const [isCheckAll, setIsCheckAll] = useState(false);
-  
 
   useEffect(() => {
     let userId;
@@ -36,11 +35,21 @@ export default function Cart() {
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
-  const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
-  const orderSubtotal = Object.values(updatedData).reduce(
-    (r, { price }) => r + price,
-    0
-  );
+  // const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  // const orderSubtotal = Object.values(updatedData).reduce(
+  //   (r, { price }) => r + price,
+  //   0
+  // );
+
+  var orderSubtotal = 0;
+  for (var i = 0; i < cart.length; i++) {
+    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+  }
+
+  console.log(orderSubtotal);
+
+  console.log("updatedata", cart);
+  console.log("totoal", orderSubtotal);
 
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
@@ -89,13 +98,11 @@ export default function Cart() {
   };
 
   const alldelete = async () => {
-    console.log(checkedList);
-
     const response = await cartseldeleteHndlerData({
       userId: uid,
       cartdetail: checkedList,
     });
-    console.log(response);
+
     if (response) {
       getcartproductData(uid);
       setcheckedList([]);
