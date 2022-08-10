@@ -88,13 +88,7 @@ export default function Categories() {
               );
             })}
           </Swiper>
-          {/* <div>
-            <img
-              src="https://borobazar.vercel.app/_next/image?url=%2Fassets%2Fimages%2Fbanner%2Fbanner-7.png&w=1920&q=100"
-              className="img-fluid"
-              alt="bg"
-            />
-          </div> */}
+         
         </div>
       )}
     </div>

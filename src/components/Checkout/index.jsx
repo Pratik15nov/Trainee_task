@@ -1,270 +1,428 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Checkout.css";
-import { Link, useNavigate } from "react-router-dom";
-import { validEmail } from "../../utils/helper";
-import { validName } from "../../utils/helper";
-import { validPhoneno } from "../../utils/helper";
+// import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
-// import { useFormik } from "formik";
-// import Select from "react-select";
-// import csc from "country-state-city";
-
+import { listBody } from "../../utils/helper";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import {
+  cartHndlerData,
+  addaddressHndlerData,
+  userHndlerData,
+  promocodeHndlerData,
+  razorpayDataHandler,
+  addressHndlerData,
+  addressDelHndler,
+  editaddressHndlerData,
+  orderDataHandler,
+  orderinvoiceDataHandler,
+} from "../../service/auth.service";
+import Addskeleton from "./Addskeleton";
+import { Box } from "@mui/system";
+import CartsummerySkel from "./CartsummerySkel";
+// import { jsPDF } from "jspdf";
+
+const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      reject(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+const _DEV_ = document.domain === "localhost";
+
 export default function Checkout() {
   /// Cart Summery>>
-
   const [cart, setCart] = useState([]);
+  const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
+  const [addData, setaddData] = useState([]);
+  // const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [address_1, setAddress] = useState("");
+  const [address_2, setAddress2] = useState("");
+  const [pincode, setPincode] = useState();
+  const [promoCode, setPromoCode] = useState(""); // eslint-disable-next-line
+  const [landmark, setLandmark] = useState(""); // eslint-disable-next-line
+  const [type, setType] = useState("HOME"); // eslint-disable-next-line
+  const [label, setLabel] = useState(""); // eslint-disable-next-line
+  const [labelErr, setLabelErr] = useState(false); // eslint-disable-next-line
+  const [addressErr, setAddressErr] = useState(false);
+  const [address2Err, setAddress2Err] = useState(false); // eslint-disable-next-line
+  const [pincodeErr, setPincodeErr] = useState(false);
+  const [landmarkErr, setLandmarkErr] = useState(false);
+  const [promocodeErr, setPromocoderr] = useState(false);
+  const [promocodeSuc, setPromocodeSuc] = useState(false); // eslint-disable-next-line
+  const [Promocode, setpromocodeData] = useState(false); // eslint-disable-next-line
+  const [discountis, setDiscountIs] = useState(false);
+  const [addressId, setaddressId] = useState();
+  const [adddiv, setAdddiv] = useState(false);
+  const [addeditdiv, setAddeditdiv] = useState(false);
+  const [localuserData, setlocaluserData] = useState(false);
+  const [editadd, seteditadd] = useState([]);
+  const [editId, seteditId] = useState();
+  const [loading, setLoading] = useState(true);
+  const [cartsumloading, setCartSumLoading] = useState(false);
+  const [invoicedata, setInvoiceData] = useState([]);
+  // const [paymentId, setPaymentId] = useState("");
+
+  // const [orderStatus, setOrderS tatus] = useState("PLACED");
+  // eslint-disable-next-line
+  const [cartdetail, setCartdetail] = useState([]);
+  const [promocodeId, setPromocodeId] = useState();
+  const location = useLocation();
+
+  const { search } = location;
+  const userId = localuserData.id;
+
+  // const cartdetail=[
+  //   {productId: "" , quantity:""}
+  // ]
 
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("Data")));
-  }, []);
+    let userId;
+    if (search.split("=").length > 0) {
+      userId = search.split("=")[1];
+    } else {
+      userId = "";
+    }
+    getcartproductData(userId);
+    getuserData(userId);
+    getaddData(userId);
+    setlocaluserData(JSON.parse(localStorage.getItem("userData")));
+    getPromocode();
+  }, [search]);
 
-  // const conHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropcountry(event.name);
-  // };
-  // const stateHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropstate(event.name);
-  // };
-  // const cityHandler = (event) => {
-  //   console.log(event.name);
-  //   setDropcity(event.name);
-  // };
+  const getcartproductData = async (log = "") => {
+    const response = await cartHndlerData(
+      listBody({
+        where: { userId: log },
+      })
+    );
+    if (response?.length > 0) {
+      setCart(response[0]?.cartdetail);
+    }
+  };
 
-  const orderSubtotal = Object.values(cart).reduce(
-    (r, { price }) => r + price,
-    0
-  );
-  const Promocode = [
-    {
-      code: "50OFF",
-      discount: "50%",
-    },
-    {
-      code: "25OFF",
-      discount: "25%",
-    },
-    {
-      code: "10OFF",
-      discount: "10%",
-    },
-  ];
+  const cartDataHandler = () => {
+    if (cart.length > 0) {
+      setCartdetail(
+        cart?.map((res) => ({
+          productId: res.productId._id,
+          quantity: res.quantity,
+        }))
+      );
+    }
+  };
 
-  const [discountPercent, setDiscountPercent] = useState(0);
-  const discount = (orderSubtotal * discountPercent) / 100;
+  const getPromocode = async () => {
+    const response = await promocodeHndlerData(
+      listBody({
+        where: { isActive: true },
+      })
+    );
+
+    if (response?.length > 0) {
+      setpromocodeData(response);
+    }
+  };
+
+  const getuserData = async (userId) => {
+    // eslint-disable-next-line
+    const response = await userHndlerData(userId);
+    setuserData(response);
+  };
+
+  // const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  // const orderSubtotal = Object.values(updatedData).reduce(
+  //   (r, { price }) => r + price,
+  //   0
+  // );
+
+  var orderSubtotal = 0;
+  for (var i = 0; i < cart.length; i++) {
+    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+  }
+
   const onEnterPromoCode = (event) => {
     setPromoCode(event.target.value);
     setPromocodeSuc();
   };
-  const checkPromoCode = () => {
-    for (var i = 0; i < Promocode.length; i++) {
-      if (promoCode === Promocode[i].code) {
-        setDiscountPercent(parseFloat(Promocode[i].discount.replace("%", "")));
-        setPromocoderr();
-        setPromocodeSuc("Promocode Applied Successfully!");
-        return;
-      }
-      if (!validName.test(promoCode)) {
-        setPromocoderr("Your Promo code is invalid !");
-        setDiscountPercent(0);
-        setPromocodeSuc();
-      }
-    }
-  };
-  const finalValue =
-    orderSubtotal +
-    (orderSubtotal / 100) * 18 -
-    (orderSubtotal * discountPercent) / 100;
 
-  // Submit Data To Localstroage>>
+  const finalValue = orderSubtotal - discountPrice + (orderSubtotal / 100) * 18;
 
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [phoneno, setPhoneno] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [cardname, setCardname] = useState("");
-  const [cardnumber, setCardnumber] = useState("");
-  const [expdate, setExpdate] = useState("");
-  const [cvv, setCvv] = useState("");// eslint-disable-next-line
-  const [pincode, setPincode] = useState("");
-  const [promoCode, setPromoCode] = useState("");// eslint-disable-next-line
-  const [dropcountry, setDropcountry] = useState(""); // eslint-disable-next-line
-  const [dropstate, setDropstate] = useState(""); // eslint-disable-next-line
-  const [dropcity, setDropcity] = useState("");
-  const [emailErr, setEmailErr] = useState(false);
-  const [fnameErr, setfnameErr] = useState(false);
-  const [lnameErr, setlnameErr] = useState(false);
-  const [phonenoErr, setphonenoErr] = useState(false);
-  const [addressErr, setAddressErr] = useState(false);
-  const [address2Err, setAddress2Err] = useState(false);// eslint-disable-next-line
-  const [pincodeErr, setPincodeErr] = useState(false);
-  const [cardnameErr, setCardnameErr] = useState(false);
-  const [cardnumberErr, setCardnumberErr] = useState(false);
-  const [expdateErr, setExpdateErr] = useState(false);
-  const [cvvErr, setCvvErr] = useState(false);
-  const [promocodeErr, setPromocoderr] = useState(false);
-  const [promocodeSuc, setPromocodeSuc] = useState(false);// eslint-disable-next-line
-  const [dropcountryErr, setDropcountryErr] = useState(false);// eslint-disable-next-line
-  const [dropstateErr, setDropstateErr] = useState(false);// eslint-disable-next-line
-  const [dropcityErr, setDropcityErr] = useState(false);
-  const allData = [];
-  const Navigate = useNavigate();
-  const validate = () => {
-    let formIsValid = true;
-    if (!validEmail.test(email)) {
-      formIsValid = false;
-      setEmailErr("Your Email is invalid");
-    }
-    if (!validName.test(firstname)) {
-      formIsValid = false;
-      setfnameErr("Your First Name is invalid");
-    }
-    if (!validName.test(lastname)) {
-      formIsValid = false;
-      setlnameErr("Your Last Name is invalid");
-    }
-    if (!validPhoneno.test(phoneno)) {
-      formIsValid = false;
-      setphonenoErr("Your Phone No is invalid");
-    }
-    if (!validName.test(address)) {
-      formIsValid = false;
-      setAddressErr("Your Address is invalid");
-    }
-    if (!validName.test(address2)) {
-      formIsValid = false;
-      setAddress2Err("Your Address is invalid");
-    }
-    if (!validName.test(cardname)) {
-      formIsValid = false;
-      setCardnameErr("Your Card Name is invalid");
-    }
-    if (!validPhoneno.test(cardnumber)) {
-      formIsValid = false;
-      setCardnumberErr("Your Card Number is invalid");
-    }
-    if (!validPhoneno.test(expdate)) {
-      formIsValid = false;
-      setExpdateErr("Your Exp Date is invalid");
-    }
-    if (!validPhoneno.test(cvv)) {
-      formIsValid = false;
-      setCvvErr("Your CVV is invalid");
-    }
-    if (!validName.test(dropcountry)) {
-      formIsValid = false;
-      setDropcountryErr("Select Country");
-    }
-    if (!validName.test(dropstate)) {
-      formIsValid = false;
-      setDropstateErr("Select State");
-    }
-    if (!validName.test(dropcity)) {
-      formIsValid = false;
-      setDropcityErr("Select City");
-    }
-    if (!validPhoneno.test(pincode)) {
-      formIsValid = false;
-      setPincodeErr("Your Pincode is invalid");
-    }
-    return formIsValid;
-  };
+  const totalPrice = orderSubtotal > 500 ? finalValue : finalValue + 40;
+  // const validate1 = () => {
+  //   let formIsValid = true;
+  //   if (!validName.test(address_1)) {
+  //     formIsValid = false;
+  //     setAddressErr("Your Address is invalid");
+  //   }
 
-  const handleSubmit = (e) => {
-    if (validate() !== true) {
-    } else {
-      localStorage.setItem("First Name", JSON.stringify(firstname));
-      localStorage.setItem("Last Name", JSON.stringify(lastname));
-      localStorage.setItem("Email", JSON.stringify(email));
-      localStorage.setItem("Phone No", JSON.stringify(phoneno));
-      localStorage.setItem("Address", JSON.stringify(address));
-      localStorage.setItem("Address2", JSON.stringify(address2));
-      localStorage.setItem("Pincode", JSON.stringify(pincode));
-      localStorage.setItem("Card Name", JSON.stringify(cardname));
-      localStorage.setItem("Card Number", JSON.stringify(cardnumber));
-      localStorage.setItem("Card ExpDate", JSON.stringify(expdate));
-      localStorage.setItem("Card CVV", JSON.stringify(cvv));
-      localStorage.setItem("Order Total", JSON.stringify(orderSubtotal));
-      localStorage.setItem("Tax", JSON.stringify((orderSubtotal / 100) * 18));
-      localStorage.setItem("Promocde", JSON.stringify(promoCode));
-      localStorage.setItem("OrderDate", JSON.stringify(orderDate));
-      localStorage.setItem("Country", JSON.stringify(dropcountry));
-      localStorage.setItem("State", JSON.stringify(dropstate));
-      localStorage.setItem("City", JSON.stringify(dropcity));
-      localStorage.setItem(
-        "Shipping Charge",
-        JSON.stringify(orderSubtotal > 500 ? "0" : "40")
-      );
-      localStorage.setItem("Discount", JSON.stringify(discount));
-      localStorage.setItem(
-        "Total",
-        JSON.stringify(orderSubtotal > 500 ? finalValue : finalValue + 40)
-      );
-      Navigate("/Order");
-    }
+  //   if (!validPhoneno.test(pincode)) {
+  //     formIsValid = false;
+  //     setPincodeErr("Your Pincode is invalid");
+  //   }
+
+  //   if (!validName.test(label)) {
+  //     formIsValid = false;
+  //     setLabelErr("Your Label is invalid");
+  //   }
+
+  //   return formIsValid;
+  // };
+
+  const addresshandleSubmit = (e) => {
+    postAddData(e);
+    setAdddiv(false);
+    getaddData();
+
     e.preventDefault();
-    const details = {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phoneno: phoneno,
-      address: address,
-      address2: address2,
-      pincode: pincode,
-      cardname: cardname,
-      cardnumber: cardnumber,
-      expdate: expdate,
-      cvv: cvv,
-    };
-    allData.push(details);
-    // console.log(allData);
   };
 
-  const current = new Date();
-  const orderDate = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
+  const postAddData = async (event) => {
+    event.preventDefault();
+    const body = {
+      userId,
+      address_1,
+      address_2,
+      label,
+      landmark,
+      pincode,
+      type,
+    };
+    const response = await addaddressHndlerData(body); // eslint-disable-next-line
+    if (response) {
+      getaddData(userId);
+    }
+  };
 
-  const invoiceData = JSON.parse(localStorage.getItem("Data"));
-  // console.log(invoiceData);
-  const componentRef = useRef();
+  const editaddressHndler = async (event) => {
+    event.preventDefault();
+    const body = {
+      address_1,
+      address_2,
+      label,
+      landmark,
+      pincode,
+      type,
+    };
+    const response = await editaddressHndlerData(editId, body);
 
+    if (response) {
+      setAddeditdiv(false);
+      getaddData(userId);
+    }
+  };
+
+  const getaddData = async (log = "") => {
+    setLoading(true);
+    const response = await addressHndlerData(
+      listBody({
+        where: { userId: log, isActive: true },
+      })
+    );
+
+    if (response) {
+      setaddData(response);
+      setLoading(false);
+    }
+  };
+
+  const handlecheckbox = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setaddressId(value);
+    }
+  };
+
+  const addcheckhandle = (e) => {
+    if (addressId) {
+      setLoading(false);
+      setGoSteps(1);
+
+      localStorage.setItem("SeletedAddressId", addressId);
+    } else {
+      alert("Select One Address");
+    }
+  };
+
+  const addDelhandler = async (itemId) => {
+    const response = await addressDelHndler(itemId);
+
+    if (response) {
+      getaddData(userId);
+    }
+  };
+  const addressedit = async (id) => {
+    setAddeditdiv(true);
+    const response = await addressHndlerData(
+      listBody({
+        where: { isActive: true, _id: id },
+      })
+    );
+
+    if (response?.length > 0) {
+      seteditadd(response[0]);
+      seteditId(response[0]?._id);
+    }
+  };
+
+  const displayRazorpay = async () => {
+    setLoading(true);
+    cartDataHandler();
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Razorpay SDK failed to load, Are you online");
+      return;
+    }
+
+    const body = {
+      amount: parseInt(totalPrice),
+    };
+    const response = await razorpayDataHandler(body);
+
+    if (response.data) {
+      const options = {
+        key: _DEV_
+          ? "rzp_test_XqUGrjRWQI1oVV"
+          : "enter here your live mode key from razorpay ",
+        amount: response.data.amount,
+        currency: response.data.currency,
+        order_id: response.data.order_id,
+        name: "Shoppy",
+        description: "Payment options",
+        image: "../images/pop_up_logo.png",
+
+        handler: function (response) {
+          // console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
+
+          orderinfoHandler(response.razorpay_payment_id);
+        },
+        prefill: {
+          name: userData.firstName + " " + userData.lastName,
+          email: userData.email,
+          contact: userData.phoneNumber,
+        },
+      };
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } else {
+      // console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
+    }
+  };
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
-  // const addressFromik = useFormik({
-  //   initialValues: {
-  //     country: null,
-  //     state: null,
-  //     city: null,
-  //   },
-  // });
+  // console.log(invoiceData);
+  const componentRef = useRef();
 
-  // const countries = csc.getAllCountries();
+  const checkPromoCode = (promoCode) => {
+    setCartSumLoading(true);
+    setLoading(false);
+    try {
+      const isValidCode = Promocode.filter(
+        (res) => res.couponcode === promoCode.trim()
+      )[0];
 
-  // const updatedCountries = countries.map((country) => ({
-  //   label: country.name,
-  //   value: country.id,
-  //   ...country,
-  // }));
-  // const updatedStates = (countryId) =>
-  //   csc
-  //     .getStatesOfCountry(countryId)
-  //     .map((state) => ({ label: state.name, value: state.id, ...state }));
+      if (isValidCode) {
+        setPromocodeId(isValidCode._id);
+        setPromoCode(isValidCode.couponcode);
+      } else {
+        setPromocodeId("");
+      }
 
-  // const updatedCities = (stateId) =>
-  //   csc
-  //     .getCitiesOfState(stateId)
-  //     .map((city) => ({ label: city.name, value: city.id, ...city }));
-  // // eslint-disable-next-line
-  // const { values, setFieldValue, setValues } = addressFromik;
-  // console.log();
-  // useEffect(() => {}, [values]);
+      if (isValidCode) {
+        switch (isValidCode.type) {
+          case "PERCENTAGE":
+            if (
+              (isValidCode.minvalue * orderSubtotal) / 100 <
+              isValidCode.maxdiscountvalue
+            ) {
+              setDiscountPrice((isValidCode.minvalue * orderSubtotal) / 100);
+              setPromocodeSuc(`${promoCode} Promcode Applied!`);
+              setDiscountIs(true);
+              setCartSumLoading(false);
+            } else {
+              setDiscountPrice(isValidCode.maxdiscountvalue);
+              setPromocodeSuc(`${promoCode} Promcode Applied!`);
+              setDiscountIs(true);
+              setCartSumLoading(false);
+            }
+
+            break;
+          case "FLAT":
+            setDiscountPrice(isValidCode.minvalue);
+            setPromocodeSuc(`${promoCode} Promcode Applied!`);
+            setDiscountIs(true);
+            setCartSumLoading(false);
+            break;
+          default:
+            break;
+        }
+      } else {
+        setPromocoderr("Your Promocode is invalid !");
+        setDiscountIs(false);
+        setDiscountPrice(0);
+        setPromocodeSuc();
+        setCartSumLoading(false);
+      }
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
+  const orderinfoHandler = async (pId) => {
+    const body = {
+      userId,
+      addressId,
+      promocodeId,
+      orderStatus: "PLACED",
+      paymentId: pId,
+      discountPrice,
+      totalPrice,
+      cartdetail: cart?.map((res) => ({
+        productId: res.productId._id,
+        quantity: res.quantity,
+      })),
+    };
+    // console.log(body);
+    const response = await orderDataHandler(body); // eslint-disable-next-line
+
+    if (response) {
+      console.log("ORDERDATA", response);
+
+      invoiceDataHandler(pId);
+    }
+  };
+
+  const invoiceDataHandler = async (pId) => {
+    const response = await orderinvoiceDataHandler(
+      listBody({ where: { isActive: true, paymentId: pId } })
+    ); // eslint-disable-next-line
+    console.log(response);
+    if (response) {
+      setGoSteps(2);
+      setInvoiceData(response?.[0]);
+      setCart(response?.[0].cartdetail);
+      setLoading(false);
+    }
+  };
+  console.log(invoicedata);
+  // var doc = new jsPDF();
+  // doc.fromHTML(ReactDOMServer.renderToStaticMarkup(this.render()));
+  // doc.save("invoice.pdf");
 
   return (
     <>
@@ -272,361 +430,499 @@ export default function Checkout() {
         <div className="row main">
           <div className="col-lg-12 Checkcard">
             <Stepper activeStep={goSteps} className="subt">
-              <Step onClick={() => setGoSteps(0)} label="Delivery Address" />
-              <Step onClick={() => setGoSteps(1)} label="Payment Option" />
-              <Step onClick={() => setGoSteps(2)} label="Complete Order" />
-              <Step onClick={() => setGoSteps(3)} label="Order Invoice" />
+              <Step label="Delivery Address" />
+              <Step label="Order Payment" />
+              <Step label="Order Invoice" />
             </Stepper>
             {goSteps === 0 && (
-              <form className="customcard">
-                <h4 className="main-heading main">Enter Shipping Address</h4>
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="firstName">First name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="firstName"
-                      placeholder="Enter First name"
-                      name="firstName"
-                      maxLength={15}
-                      value={firstname}
-                      onChange={(e) => [
-                        setFirstname(e.target.value),
-                        setfnameErr(""),
-                      ]}
-                    />
+              <>
+                {!adddiv && !addeditdiv && (
+                  <>
+                    <div className="row customcard">
+                      <h4 className="main-heading main">Delivery Address</h4>
+                      {/* {loading && (
+                        <PropagateLoader className="loadingdata" size={25} />
+                      )} */}
 
-                    {fnameErr && <p className="errorstyle">{fnameErr}</p>}
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="lastName">Last name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="lastName"
-                      placeholder="Enter Last name"
-                      name="lastName"
-                      maxLength={15}
-                      value={lastname}
-                      onChange={(e) => [
-                        setLastname(e.target.value),
-                        setlnameErr(""),
-                      ]}
-                    />
-                    {lnameErr && <p className="errorstyle">{lnameErr}</p>}
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email">
-                    Email <span className="text-muted">(Optional)</span>
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter Email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => [
-                      setEmail(e.target.value),
-                      setEmailErr(""),
-                    ]}
-                  />
-                  {emailErr && <p className="errorstyle">{emailErr}</p>}
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email">
-                    Phone No <span className="text-muted"></span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="email"
-                    placeholder="Enter Phone No"
-                    name="e"
-                    maxLength={10}
-                    value={phoneno}
-                    onChange={(e) => [
-                      setPhoneno(e.target.value),
-                      setphonenoErr(""),
-                    ]}
-                  />
-                  {phonenoErr && <p className="errorstyle">{phonenoErr}</p>}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address"
-                    placeholder="Enter Address"
-                    name="Address"
-                    maxLength={15}
-                    value={address}
-                    onChange={(e) => [
-                      setAddress(e.target.value),
-                      setAddressErr(""),
-                    ]}
-                  />
-                  {addressErr && <p className="errorstyle">{addressErr}</p>}
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="address2">
-                    Address 2 <span className="text-muted">(Optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="address2"
-                    placeholder="Enter Address 2"
-                    name="Address2"
-                    maxLength={15}
-                    value={address2}
-                    onChange={(e) => [
-                      setAddress2(e.target.value),
-                      setAddress2Err(""),
-                    ]}
-                  />
-                  {address2Err && <p className="errorstyle">{address2Err}</p>}
-                </div>
-                {/* <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Country</label>
-                    <Select
-                      id="country"
-                      name="country"
-                      label="country"
-                      options={updatedCountries}
-                      value={values.country}
-                      // onChange={stateHandler}
-                      // onChange={value => {
-                      //   setFieldValue("country", value);
-                      //   setFieldValue("state", null);Q
-                      //   setFieldValue("city", null);
-                      // }}
-                      onChange={(value) => [
-                        setValues(
-                          { country: value, state: null, city: null },
-                          false
-                        ),
-                        setDropcountryErr(""),
-                        conHandler(),
-                      ]}
-                    />
-                    {dropcountryErr && (
-                      <p className="errorstyle">{dropcountryErr}</p>
-                    )}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">State</label>
-                    <Select
-                      id="state"
-                      name="state"
-                      options={updatedStates(
-                        values.country ? values.country.value : null
+                      {loading && (
+                        <Box>
+                          <Addskeleton />
+                          <Addskeleton />
+                          <Addskeleton />
+                          <Addskeleton />
+                        </Box>
                       )}
-                      value={values.state}
-                      // onChange={stateHandler(e)}
-                      // onChange={(value) => [
-                      //   setValues({ state: value, city: null }, false),
-                      //   setDropstateErr(""),
-                      //   stateHandler(),
-                      // ]}
-                    />
-                    {dropstateErr && (
-                      <p className="errorstyle">{dropstateErr}</p>
-                    )}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">City</label>
-                    <Select
-                      id="city"
-                      name="city"
-                      options={updatedCities(
-                        values.state ? values.state.value : null
+
+                      {addData.length > 0 &&
+                        !loading &&
+                        addData.map((data, index) => {
+                          return (
+                            <label className="col-md-5 mb-3  form-check">
+                              <input
+                                type="radio"
+                                className="checkbox-input-adds form-check-input"
+                                id={`${("flexRadioDefault", index + 1)}`}
+                                value={data._id}
+                                name="optradio"
+                                // checked={checked === option.value}
+                                onChange={(e) => handlecheckbox(e)}
+                              />
+                              <span className="checkbox-adds">
+                                <span className="checkbox-icon">
+                                  <h5 className="cardhending">
+                                    {data.type}
+                                    <i
+                                      className="fa-solid fa-trash-can delicon"
+                                      onClick={() => addDelhandler(data._id)}
+                                    ></i>
+                                    <i
+                                      className="fa-solid fa-pen-to-square editicon"
+                                      onClick={() => addressedit(data._id)}
+                                    ></i>
+                                  </h5>
+                                  <p className="cardcon">
+                                    {data.address_1}
+                                    {data.address_2}
+                                  </p>
+                                </span>
+                              </span>
+                            </label>
+                          );
+                        })}
+
+                      {!loading && (
+                        <button
+                          className="col-md-6  addcardbutton"
+                          onClick={() => setAdddiv(true)}
+                        >
+                          + Add Delivery Address
+                        </button>
                       )}
-                      value={values.city}
-                      // onChange={(value) => setFieldValue("city", value)}
-                      // onChange={(value) => [
-                      //   setFieldValue("city", value),
-                      //   setDropcityErr(""),
-                      //   cityHandler(),
-                      // ]}
-                    />
-                    {dropcityErr && <p className="errorstyle">{dropcityErr}</p>}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="zip">Pincode</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="pincode"
-                      placeholder="123456"
-                      name="pincode"
-                      maxLength={10}
-                      value={pincode}
-                      onChange={(e) => [
-                        setPincode(e.target.value),
-                        setPincodeErr(""),
-                      ]}
-                    />
-                    {pincodeErr && <p className="errorstyle">{pincodeErr}</p>}
-                  </div>
-                </div> */}
 
-                <div className="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id="save-info"
-                  />
-                  <label className="custom-control-label" htmlFor="save-info">
-                    Save this information for next time
-                  </label>
-                </div>
+                      <div className="row mt-5">
+                        <div className="col-sm-3">
+                          <Link
+                            className="button"
+                            to={`/cart?uid=${localuserData.id}`}
+                          >
+                            Go to cart
+                          </Link>
+                        </div>
+                        <div className="col-sm-7"></div>
+                        <div className="col-sm-2">
+                          <button
+                            className="button"
+                            type="submit"
+                            onClick={() => addcheckhandle()}
+                          >
+                            Next Step
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                {adddiv && (
+                  <form
+                    className="customcard"
+                    method="post"
+                    onSubmit={(e) => {
+                      addresshandleSubmit(e);
+                    }}
+                  >
+                    <h4 className="main-heading main">
+                      Enter Delivery Address
+                    </h4>
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address">Address</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address"
+                        placeholder="Enter Address"
+                        name="Address"
+                        value={address_1}
+                        onChange={(e) => [
+                          setAddress(e.target.value),
+                          setAddressErr(""),
+                        ]}
+                      />
+                      {addressErr && <p className="errorstyle">{addressErr}</p>}
+                    </div>
 
-                <hr className="mb-4" />
-                <div className="row">
-                  <div className="col-sm-3">
-                    <Link className="button" to="/cart">
-                      Go to cart
-                    </Link>
-                  </div>
-                  <div className="col-sm-7"></div>
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(1)}>
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </form>
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address2">
+                        Address 2 <span className="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address2"
+                        placeholder="Enter Address 2"
+                        name="Address2"
+                        value={address_2}
+                        onChange={(e) => [
+                          setAddress2(e.target.value),
+                          setAddress2Err(""),
+                        ]}
+                      />
+                      {address2Err && (
+                        <p className="errorstyle">{address2Err}</p>
+                      )}
+                    </div>
+                    <div className="col-md-4 mb-3">
+                      <label htmlFor="address2">
+                        Label <span className="text-muted"></span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="label"
+                        placeholder="Enter Recevier Name"
+                        name="label"
+                        value={label}
+                        onChange={(e) => [
+                          setLabel(e.target.value),
+                          setLabelErr(""),
+                        ]}
+                      />
+                      {labelErr && <p className="errorstyle">{labelErr}</p>}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Landmark</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="landmark"
+                          placeholder="Enter Landmark"
+                          name="landmark"
+                          value={landmark}
+                          onChange={(e) => [
+                            setLandmark(e.target.value),
+                            setLandmarkErr(""),
+                          ]}
+                        />
+                        {landmarkErr && (
+                          <p className="errorstyle">{landmarkErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Pincode</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="pincode"
+                          placeholder="Enter Pincode"
+                          name="pincode"
+                          maxLength={6}
+                          value={pincode}
+                          onChange={(e) => [
+                            setPincode(parseInt(e.target.value)),
+                            setPincodeErr(""),
+                          ]}
+                        />
+                        {pincodeErr && (
+                          <p className="errorstyle">{pincodeErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Select type of Address</label>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          value={type}
+                          onChange={(e) => [setType(e.target.value)]}
+                        >
+                          <option value="HOME" selected>
+                            Home
+                          </option>
+                          <option value="WORK">Work</option>
+                          <option value="OTHER">Other</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <hr className="mb-4" />
+                    <div className="row">
+                      <div className="col-sm-3">
+                        <button
+                          className="button"
+                          onClick={() => setAdddiv(false)}
+                        >
+                          Back
+                        </button>
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-2">
+                        <button className="button">Save</button>
+                      </div>
+                    </div>
+                  </form>
+                )}
+
+                {addeditdiv && (
+                  <form
+                    className="customcard"
+                    method="post"
+                    onSubmit={(e) => {
+                      editaddressHndler(e);
+                    }}
+                  >
+                    <h4 className="main-heading main">
+                      Update Delivery Address
+                    </h4>
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address">Address</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address"
+                        name="Address"
+                        value={editadd.address_1}
+                        onChange={(e) => [
+                          setAddress(e.target.value),
+                          setAddressErr(""),
+                        ]}
+                      />
+                      {addressErr && <p className="errorstyle">{addressErr}</p>}
+                    </div>
+
+                    <div className="col-md-8 mb-3">
+                      <label htmlFor="address2">
+                        Address 2 <span className="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="address2"
+                        placeholder="Enter Address 2"
+                        name="Address2"
+                        value={editadd.address_2}
+                        onChange={(e) => [
+                          setAddress2(e.target.value),
+                          setAddress2Err(""),
+                        ]}
+                      />
+                      {address2Err && (
+                        <p className="errorstyle">{address2Err}</p>
+                      )}
+                    </div>
+                    <div className="col-md-4 mb-3">
+                      <label htmlFor="address2">
+                        Label <span className="text-muted"></span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="label"
+                        placeholder="Enter Recevier Name"
+                        name="label"
+                        value={editadd.label}
+                        onChange={(e) => [
+                          setLabel(e.target.value),
+                          setLabelErr(""),
+                        ]}
+                      />
+                      {labelErr && <p className="errorstyle">{labelErr}</p>}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Landmark</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="landmark"
+                          placeholder="Enter Landmark"
+                          name="landmark"
+                          maxLength={10}
+                          value={editadd.landmark}
+                          onChange={(e) => [
+                            setLandmark(e.target.value),
+                            setLandmarkErr(""),
+                          ]}
+                        />
+                        {landmarkErr && (
+                          <p className="errorstyle">{landmarkErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Pincode</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="pincode"
+                          placeholder="Enter Pincode"
+                          name="pincode"
+                          maxLength={6}
+                          value={editadd.pincode}
+                          onChange={(e) => [
+                            setPincode(parseInt(e.target.value)),
+                            setPincodeErr(""),
+                          ]}
+                        />
+                        {pincodeErr && (
+                          <p className="errorstyle">{pincodeErr}</p>
+                        )}
+                      </div>
+                      <div className="col-md-3 mb-3">
+                        <label htmlFor="zip">Select type of Address</label>
+                        <select
+                          className="form-select"
+                          aria-label="Default select example"
+                          value={editadd.type}
+                          onChange={(e) => [setType(e.target.value)]}
+                        >
+                          <option value="HOME" selected>
+                            Home
+                          </option>
+                          <option value="WORK">Work</option>
+                          <option value="OTHER">Other</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <hr className="mb-4" />
+                    <div className="row">
+                      <div className="col-sm-2">
+                        <button
+                          className="button"
+                          onClick={() => setAddeditdiv(false)}
+                        >
+                          Back
+                        </button>
+                      </div>
+                      <div className="col-sm-7"></div>
+                      <div className="col-sm-3">
+                        <button className="button" type="submit">
+                          Save Changes
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </>
             )}
+
             {goSteps === 1 && (
-              <form className="customcard">
-                <h4 className="mb-3 ">Payment</h4>
-                <div className="d-block my-3">
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="credit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                      defaultChecked
-                    />
-                    <label className="custom-control-label" htmlFor="credit">
-                      Credit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="debit"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                    />
-                    <label className="custom-control-label" htmlFor="debit">
-                      Debit card
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      id="paypal"
-                      name="paymentMethod"
-                      type="radio"
-                      className="custom-control-input"
-                    />
-                    <label className="custom-control-label" htmlFor="paypal">
-                      PayPal
-                    </label>
-                  </div>
-                </div>
+              <div className="col customcard ">
+                <h4 className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="text">Your Cart Summary</span>
+                </h4>
+                <div className="input-group"></div>
                 <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-name">Name on card</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cc-name"
-                      placeholder="Enter Name on card"
-                      name="cardname"
-                      maxLength={15}
-                      value={cardname}
-                      onChange={(e) => [
-                        setCardname(e.target.value),
-                        setCardnameErr(""),
-                      ]}
-                    />
-                    {cardnameErr && <p className="errorstyle">{cardnameErr}</p>}
+                  {!cartsumloading && (
+                    <div className="col-sm-8 col">
+                      <ul className="list-group mb-3">
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">
+                              Total Price of Product
+                            </h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {orderSubtotal}
+                          </span>
+                        </li>
+                        {discountis && (
+                          <>
+                            <li className="list-group-item d-flex justify-content-between bg-light">
+                              <div className="text-success">
+                                <h6 className="my-0 text">Discount Price</h6>
+                              </div>
+                              <span className="text-success">
+                                &#x20b9; {discountPrice}
+                              </span>
+                            </li>
 
-                    <small className="text-muted">
-                      Full name as displayed on card
-                    </small>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-number">Card number</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cardnumber"
-                      placeholder="1234 5678 9101"
-                      name="cardnumber"
-                      maxLength={10}
-                      value={cardnumber}
-                      onChange={(e) => [
-                        setCardnumber(e.target.value),
-                        setCardnumberErr(""),
-                      ]}
-                    />
-                    {cardnumberErr && (
-                      <p className="errorstyle">{cardnumberErr}</p>
-                    )}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-expiration">Expiration</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cc-expiration"
-                      placeholder="7/27"
-                      name="expdate"
-                      maxLength={10}
-                      value={expdate}
-                      onChange={(e) => [
-                        setExpdate(e.target.value),
-                        setExpdateErr(""),
-                      ]}
-                    />
-                    {expdateErr && <p className="errorstyle">{expdateErr}</p>}
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-cvv">CVV</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cvv"
-                      placeholder="123"
-                      name="cardnumber"
-                      maxLength={10}
-                      value={cvv}
-                      onChange={(e) => [setCvv(e.target.value), setCvvErr("")]}
-                    />
-                    {cvvErr && <p className="errorstyle">{cvvErr}</p>}
+                            <li className="list-group-item d-flex justify-content-between">
+                              <div className="text-success">
+                                <h6 className="my-0 text">
+                                  After Discount Total Price
+                                </h6>
+                              </div>
+                              <span className="text-success">
+                                &#x20b9; {orderSubtotal - discountPrice}
+                              </span>
+                            </li>
+                          </>
+                        )}
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {((orderSubtotal / 100) * 18).toFixed(2)}
+                          </span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                          <div>
+                            <h6 className="my-0 text">Shipping Charge</h6>
+                          </div>
+                          <span className="text-muted">
+                            &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
+                          </span>
+                        </li>
+
+                        <li className="list-group-item d-flex justify-content-between bg-light">
+                          <span>Total</span>
+                          <strong>
+                            &#x20b9;
+                            {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
+                            {totalPrice.toFixed(2)}
+                          </strong>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                  {cartsumloading && <CartsummerySkel />}
+
+                  <div className="col-4 row">
+                    <div className="row">
+                      <div className="col-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={promoCode}
+                          onChange={(e) => [
+                            onEnterPromoCode(e),
+                            setPromocoderr(""),
+                          ]}
+                        />
+                      </div>
+                      <div className="col-6">
+                        <button
+                          className="button"
+                          onClick={(e) => checkPromoCode(e)}
+                        >
+                          {promoCode ? "Applied!" : "Apply"}
+                        </button>
+                        <br />
+                      </div>
+                      <div className="">
+                        {promocodeErr && (
+                          <p className="errorstyle">{promocodeErr}</p>
+                        )}
+                        {promocodeSuc && (
+                          <p className="Sstyle">{promocodeSuc}</p>
+                        )}
+                      </div>
+                    </div>
+                    {Promocode?.map((code, index) => {
+                      return (
+                        <div
+                          className="promocode col-6"
+                          onClick={() => checkPromoCode(code.couponcode)}
+                          key={`promocode_${index}}`}
+                        >
+                          <span class="promocode-h">{code.couponcode}</span>
+                          <h6 class="promocodeinfo">{code.description}</h6>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-sm-4">
-                    {" "}
-                    <button className="button">Pay</button>
-                  </div>
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-4"></div>
-                </div>
                 <hr className="mb-4" />
                 <div className="row">
                   <div className="col-sm-2">
@@ -634,320 +930,302 @@ export default function Checkout() {
                       Back
                     </button>
                   </div>
-                  <div className="col-sm-8"></div>
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(2)}>
-                      Next
-                    </button>
-                  </div>
-                </div>
-              </form>
-            )}
-            {goSteps === 2 && (
-              <div className="col customcard ">
-                <h4 className="d-flex justify-content-between align-items-center mb-3">
-                  <span className="text-muted">Your Cart Summary</span>
-                </h4>
-                <div className="input-group"></div>
-                <div className="row">
-                  <div className="col-sm-6"></div>
-                  <div className="col-sm-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Have Promo code ?"
-                      onChange={(e) => [
-                        onEnterPromoCode(e),
-                        setPromocoderr(""),
-                      ]}
-                    />
-                  </div>
-                  <div className="col-sm-3">
-                    <button
-                      className="button applynow"
-                      onClick={checkPromoCode}
-                    >
-                      Apply Now
-                    </button>
-                  </div>
-                </div>
-                {promocodeErr && <p className="errorstyle">{promocodeErr}</p>}
-                {promocodeSuc && <p className="Sstyle">{promocodeSuc}</p>}
-
-                <br />
-                <ul className="list-group mb-3">
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Total Price of Product</h6>
-                    </div>
-                    <span className="text-muted">&#x20b9; {orderSubtotal}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <div className="text-success">
-                      <h6 className="my-0">Discount Price</h6>
-                    </div>
-                    <span className="text-success">&#x20b9; {discount}</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between">
-                    <div className="text-success">
-                      <h6 className="my-0">After Discount Total Price </h6>
-                    </div>
-                    <span className="text-success">
-                      &#x20b9; {orderSubtotal - discount}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Tax (SGST+ CGST)</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {(orderSubtotal / 100) * 18}
-                    </span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                      <h6 className="my-0">Shipping Charge</h6>
-                    </div>
-                    <span className="text-muted">
-                      &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
-                    </span>
-                  </li>
-
-                  <li className="list-group-item d-flex justify-content-between bg-light">
-                    <span>Total</span>
-                    <strong>
-                      &#x20b9;
-                      {orderSubtotal > 500 ? finalValue : finalValue + 40}
-                    </strong>
-                  </li>
-                </ul>
-                <div className="row">
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-4">
-                    <Link to="/order">
-                      <button
-                        type="submit"
-                        className="button"
-                        onClick={handleSubmit}
-                      >
-                        Place Order
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="col-sm-4"></div>
-                </div>
-
-                <hr className="mb-4" />
-                <div className="row">
-                  <div className="col-sm-2">
-                    <button className="button" onClick={() => setGoSteps(1)}>
-                      Back
-                    </button>
-                  </div>
                   <div className="col-sm-7"></div>
                   <div className="col-sm-3">
-                    <button className="button" onClick={() => setGoSteps(3)}>
-                      Got to Order Detail
+                    {}
+                    <button
+                      className="button"
+                      onClick={() => displayRazorpay()}
+                    >
+                      {loading ? (
+                        <div className="spinner-border" role="status" />
+                      ) : (
+                        "Pay now"
+                      )}
                     </button>
                   </div>
                 </div>
               </div>
             )}
-            {goSteps === 3 && (
+            {/* {goSteps === 2 && (<StripeContainer price={TOTAL_PRICE} />)} */}
+            {goSteps === 2 && (
               <div className="col customcard">
                 <div className="container-fluid invoice">
-                  <div className="row maincard ">
-                    <div className="col-12">
-                      <div className="page-title-box row">
-                        <div className="page-title-right col-sm-3 ">
-                          <button onClick={handlePrint} className="button">
-                            Print Invoice
-                          </button>
-                        </div>
-                        <div className="col-sm-3">
-                          <button
-                            className="button"
-                            onClick={() => setGoSteps(2)}
-                          >
-                            Back
-                          </button>
-                        </div>
+                  <div className="row invoicecard text" ref={componentRef}>
+                    <div className="cs-invoice cs-style1">
+                      <div className="cs-invoice_in" id="download_section">
+                        <div className="cs-invoice_head cs-type1 cs-mb25">
+                          <div className="cs-invoice_left">
+                            <p className="cs-invoice_number cs-primary_color cs-mb5 cs-f16">
+                              <b className="cs-primary_color">Invoice No:</b>{" "}
+                              {invoicedata.paymentId.substring(4, 14)}
+                            </p>
+                            <p className="cs-invoice_date cs-primary_color cs-m0">
+                              <b className="cs-primary_color">Date: </b>
 
-                        <div className="col-sm-6 Sstyle">
-                          Thank you. Your order has been received.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row invoicecard " ref={componentRef}>
-                    <div className="col-12">
-                      <div className="card">
-                        <div className="card-body">
-                          <div className="clearfix">
-                            <div className="float-start mb-3">
-                              <h1>eCommerce</h1>
-                            </div>
-                            <div className="float-end">
-                              <h4 className="m-0 d-print-none">Invoice</h4>
+                              {invoicedata.createdAt.substring(0, 10)}
+                            </p>
+                            <p className="cs-invoice_date cs-primary_color cs-m0">
+                              <b className="cs-primary_color">Order Status: </b>
+                              {invoicedata.orderStatus}
+                            </p>
+                          </div>
+                          <div className="cs-invoice_right cs-text_right">
+                            <div className="cs-logo cs-mb5">
+                              <img src="images/logob.png" alt="Logo" />
                             </div>
                           </div>
-
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="float-end mt-3">
-                                <p>
-                                  <b>
-                                    Hello,
-                                    {JSON.parse(
-                                      localStorage.getItem("First Name")
-                                    )}
-                                    {JSON.parse(
-                                      localStorage.getItem("Last Name")
-                                    )}
-                                  </b>
-                                </p>
-                                <p className="text-muted font-13">
-                                  Please find below a cost-breakdown for the
-                                  recent work completed. Please make payment at
-                                  your earliest convenience, and do not hesitate
-                                  to contact me with any questions.
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="col-sm-4 offset-sm-2">
-                              <div className="mt-3 float-sm-end">
-                                <p className="font-13">
-                                  <strong>
-                                    Order Date:
-                                    {JSON.parse(
-                                      localStorage.getItem("OrderDate")
-                                    )}{" "}
-                                  </strong>{" "}
-                                  &nbsp;&nbsp;&nbsp;
-                                </p>
-                                <p className="font-13">
-                                  <strong>Order Status: </strong>
-                                  <span className="badge bg-success float-end">
-                                    Paid
-                                  </span>
-                                </p>
-                                <p className="font-13">
-                                  <strong>Order ID: </strong>{" "}
-                                  <span className="float-end">123456</span>
-                                </p>
-                              </div>
-                            </div>
+                        </div>
+                        <div className="cs-invoice_head cs-mb10">
+                          <div className="cs-invoice_left">
+                            <b className="cs-primary_color">Invoice To:</b>
+                            <p>
+                              {invoicedata.userId.firstName}{" "}
+                              {invoicedata.userId.lastName}
+                              <br />
+                              {invoicedata.addressId.address_1}
+                              <br />
+                              {invoicedata.addressId.address_2} <br />
+                              {invoicedata.addressId.pincode}
+                            </p>
                           </div>
-
-                          <div className="row mt-4">
-                            <div className="col-sm-4">
-                              <h6>Address</h6>
-                              <address>
-                                {JSON.parse(localStorage.getItem("Address"))}
-                              </address>
-                            </div>
-
-                            <div className="col-sm-4">
-                              <h6>Shipping Address</h6>
-                              <address>
-                                {JSON.parse(localStorage.getItem("Address2"))}
-                              </address>
-                            </div>
+                          <div className="cs-invoice_right cs-text_right">
+                            <b className="cs-primary_color">Pay To:</b>
+                            <p>
+                              804, Fortune Business Hub,
+                              <br /> Ahmedabad, Gujarat. 380060,
+                              <br /> PH: +91 79-46006836
+                              <br /> Service Tax Registration Number:
+                              AAACO4007ASD002
+                            </p>
                           </div>
-
-                          <div className="row">
-                            <div className="col-12">
-                              <div className="table-responsive">
-                                <table className="table mt-4">
-                                  <thead>
-                                    <tr>
-                                      <th>#</th>
-                                      <th>Item</th>
-                                      <th>Quantity</th>
-                                      <th>Cost</th>
-                                      <th className="text-end">Total</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {invoiceData.map((data, index) => {
+                        </div>
+                        <div className="cs-table cs-style1">
+                          <div className="cs-round_border">
+                            <div className="cs-table_responsive">
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th className="cs-width_1 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      No.
+                                    </th>
+                                    <th className="cs-width_2 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Product Name
+                                    </th>
+                                    <th className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Description
+                                    </th>
+                                    <th className="cs-width_4 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Qty
+                                    </th>
+                                    <th className="cs-width_5 cs-semi_bold cs-primary_color cs-focus_bg">
+                                      Price
+                                    </th>
+                                    <th className="cs-width_6 cs-semi_bold cs-primary_color cs-focus_bg cs-text_right">
+                                      Total
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {invoicedata.cartdetail?.map(
+                                    (card, index) => {
                                       return (
                                         <tr>
-                                          <td>{index + 1}</td>
-                                          <td>
-                                            <b>{data.name}</b> <br />
+                                          <td className="cs-width_1">
+                                            {index + 1}
                                           </td>
-                                          <td>{data.quantity}</td>
-                                          <td>
-                                            &#x20b9;{" "}
-                                            {data.price / data.quantity}
+                                          <td className="cs-width_2">
+                                            {card.productId.name}
                                           </td>
-                                          <td className="text-end">
-                                            &#x20b9; {data.price}
+                                          <td className="cs-width_3">
+                                            {card.productId.specification}
+                                          </td>
+                                          <td className="cs-width_4">
+                                            {" "}
+                                            {card.quantity}
+                                          </td>
+                                          <td className="cs-width_5">
+                                            {" "}
+                                            &#8377;{card.productId.price}
+                                          </td>
+                                          <td className="cs-width_6 cs-text_right">
+                                            &#8377;{" "}
+                                            {card.quantity *
+                                              card.productId.price}
                                           </td>
                                         </tr>
                                       );
-                                    })}
+                                    }
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div className="cs-invoice_footer cs-border_top">
+                              <div className="cs-left_footer cs-mobile_hide">
+                                <p className="cs-mb0">
+                                  <b className="cs-primary_color">
+                                    Additional Information:
+                                  </b>
+                                </p>
+                                <p className="cs-m0">
+                                  Dear Consumer, the bill payment will reflect
+                                  in next 48 hours or in the next billing cycle,
+                                  at your service provider end. Please contact
+                                  paytm customer support for any queries
+                                  regarding this order.
+                                </p>
+                              </div>
+                              <div className="cs-right_footer">
+                                <table>
+                                  <tbody>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                        Order Subtotal
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-focus_bg cs-primary_color cs-text_right">
+                                        &#8377; {orderSubtotal}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Promocode:
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        {invoicedata.promocodeId.couponcode}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Discount Price
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-text_right">
+                                        &#8377; {invoicedata.discountPrice}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Tax (SGST+ CGST)
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        &#x20b9;{" "}
+                                        {((orderSubtotal / 100) * 18).toFixed(
+                                          2
+                                        )}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color ">
+                                        Shipping Charge
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold  cs-primary_color cs-text_right">
+                                        &#8377;{" "}
+                                        {orderSubtotal > 500 ? "0" : "40"}
+                                      </td>
+                                    </tr>
+                                    <tr className="cs-border_left">
+                                      <td className="cs-width_3 cs-semi_bold cs-primary_color cs-focus_bg">
+                                        Total Amount
+                                      </td>
+                                      <td className="cs-width_3 cs-semi_bold cs-focus_bg cs-primary_color cs-text_right">
+                                        &#8377; {invoicedata.totalPrice}
+                                      </td>
+                                    </tr>
                                   </tbody>
                                 </table>
                               </div>
                             </div>
                           </div>
-
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="clearfix pt-3">
-                                <h6 className="text-muted">Notes:</h6>
-                                <small>
-                                  All accounts are to be paid within 7 days from
-                                  receipt of invoice.
-                                </small>
-                              </div>
-                            </div>
-                            <div className="col-sm-6">
-                              <div className="float-end mt-3 mt-sm-0">
-                                <p>
-                                  <b>Sub-total:</b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Order Total")
-                                    )}
-                                  </span>
-                                </p>
-                                <p>
-                                  <b>Tax(CGST+SGST):</b>
-                                  <span className="float-end">
-                                    {JSON.parse(localStorage.getItem("Tax"))}
-                                  </span>
-                                </p>
-                                <p>
-                                  <b>Shipping Charge: </b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Shipping Charge")
-                                    )}
-                                  </span>
-                                </p>
-                                <p>
-                                  <b>Discount: </b>
-                                  <span className="float-end">
-                                    {JSON.parse(
-                                      localStorage.getItem("Discount")
-                                    )}
-                                  </span>
-                                </p>
-                                <p>
-                                  <b>Total &#x20b9; </b>
-                                  <span className="float-end">
-                                    {JSON.parse(localStorage.getItem("Total"))}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="clearfix" />
-                            </div>
+                        </div>
+                        <div className="cs-note">
+                          <div className="cs-note_left">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="ionicon"
+                              viewBox="0 0 512 512"
+                            >
+                              <path
+                                d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinejoin="round"
+                                strokeWidth={32}
+                              />
+                              <path
+                                d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={32}
+                              />
+                            </svg>
+                          </div>
+                          <div className="cs-note_right">
+                            <p className="cs-mb0">
+                              <b className="cs-primary_color cs-bold">Note:</b>
+                            </p>
+                            <p className="cs-m0">
+                              This is invoice is only a confirmation of the
+                              receipt of the amount paid against for the service
+                              as described above. Subject to terms and
+                              conditions mentioned at Shoppy
+                            </p>
                           </div>
                         </div>
+                        {/* .cs-note */}
+                      </div>
+                      <div className="cs-invoice_btns cs-hide_print">
+                        <p
+                          className="cs-invoice_btn cs-color1"
+                          onClick={() => handlePrint()}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ionicon"
+                            viewBox="0 0 512 512"
+                          >
+                            <path
+                              d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <rect
+                              x={128}
+                              y={240}
+                              width={256}
+                              height={208}
+                              rx="24.32"
+                              ry="24.32"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <path
+                              d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinejoin="round"
+                              strokeWidth={32}
+                            />
+                            <circle cx={392} cy={184} r={24} />
+                          </svg>
+                          <span>Print</span>
+                        </p>
+                        <Link className="cs-invoice_btn cs-color1" to="/">
+                          <svg
+                            fill="#000000"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 48 48"
+                            width="32px"
+                            height="32px"
+                          >
+                            <path d="M 23.951172 4 A 1.50015 1.50015 0 0 0 23.072266 4.3222656 L 8.859375 15.519531 C 7.0554772 16.941163 6 19.113506 6 21.410156 L 6 40.5 C 6 41.863594 7.1364058 43 8.5 43 L 18.5 43 C 19.863594 43 21 41.863594 21 40.5 L 21 30.5 C 21 30.204955 21.204955 30 21.5 30 L 26.5 30 C 26.795045 30 27 30.204955 27 30.5 L 27 40.5 C 27 41.863594 28.136406 43 29.5 43 L 39.5 43 C 40.863594 43 42 41.863594 42 40.5 L 42 21.410156 C 42 19.113506 40.944523 16.941163 39.140625 15.519531 L 24.927734 4.3222656 A 1.50015 1.50015 0 0 0 23.951172 4 z M 24 7.4101562 L 37.285156 17.876953 C 38.369258 18.731322 39 20.030807 39 21.410156 L 39 40 L 30 40 L 30 30.5 C 30 28.585045 28.414955 27 26.5 27 L 21.5 27 C 19.585045 27 18 28.585045 18 30.5 L 18 40 L 9 40 L 9 21.410156 C 9 20.030807 9.6307412 18.731322 10.714844 17.876953 L 24 7.4101562 z" />
+                          </svg>
+                          <span>Go to Home</span>
+                        </Link>
                       </div>
                     </div>
                   </div>

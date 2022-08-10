@@ -27,7 +27,7 @@ export const forgotpassHandlerData = (body) => {
 
 export const headerimgHandle = (body) => {
   return post(`${ENDPOINTURL}/header/list`, body);
-}
+};
 export const compassHandlerData = (body, id) => {
   return post(`${ENDPOINTURL}/user/verifyAndChangePassword/${id}`, body);
 };
@@ -55,3 +55,47 @@ export const cartproductdeleteHndlerData = (body) => {
 export const cartdeleteHndlerData = (body) => {
   return remove(`${ENDPOINTURL}/cart/clearAll`, body);
 };
+
+export const cartseldeleteHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/cart/selected`, body);
+};
+
+export const addaddressHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/address`, body);
+};
+
+export const addressHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/address/list`, body);
+};
+
+export const addressDelHndler = (id) => {
+  return remove(`${ENDPOINTURL}/address/${id}`);
+};
+
+export const editaddressHndlerData = (id, body) => {
+  return patch(`${ENDPOINTURL}/address/${id}`, body);
+};
+
+export const promocodeHndlerData = (body) => {
+  return post(`${ENDPOINTURL}/promocode/list`, body);
+};
+
+export const razorpayDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/razorpay`, body);
+};
+
+
+export const orderDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order`, body);
+};
+
+export const orderinvoiceDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
+
+
+export const orderListDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/order/list`, body);
+};
+
+

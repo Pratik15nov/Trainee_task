@@ -6,7 +6,7 @@ import Cartproduct from "./Cartproduct";
 import {
   cartHndlerData,
   cartproductdeleteHndlerData,
-  cartdeleteHndlerData,
+  cartseldeleteHndlerData,
 } from "../../service/auth.service";
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -18,6 +18,8 @@ export default function Cart() {
   const [uid, setuid] = useState();
   const { search } = location;
   const [loading, setLoading] = useState(true);
+  const [checkedList, setcheckedList] = useState([]); // eslint-disable-next-line
+  const [isCheckAll, setIsCheckAll] = useState(false);
 
   useEffect(() => {
     let userId;
@@ -33,17 +35,21 @@ export default function Cart() {
     // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
-  const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
-  const orderSubtotal = Object.values(updatedData).reduce(
-    (r, { price }) => r + price,
-    0
-  );
+  // const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
+  // const orderSubtotal = Object.values(updatedData).reduce(
+  //   (r, { price }) => r + price,
+  //   0
+  // );
 
-  // const handleDelete = (itemId) => {
-  //   const items = cart.filter((item) => item.id !== itemId);
-  //   setCart(items);
-  //   EventEmitter.dispatch("DELETE", items);
-  // };
+  var orderSubtotal = 0;
+  for (var i = 0; i < cart.length; i++) {
+    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+  }
+
+  console.log(orderSubtotal);
+
+  console.log("updatedata", cart);
+  console.log("totoal", orderSubtotal);
 
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
@@ -55,18 +61,17 @@ export default function Cart() {
     );
 
     getcartproductData(uid);
-    // EventEmitter.dispatch("DELETE", cart);
   };
 
-  const claerAll = async () => {
-    // eslint-disable-next-line
-    const response = await cartdeleteHndlerData(
-      delBody({
-        userId: String(uid),
-      })
-    );
-    getcartproductData(uid);
-  };
+  // const claerAll = async () => {
+  //   // eslint-disable-next-line
+  //   const response = await cartdeleteHndlerData(
+  //     delBody({
+  //       userId: String(uid),
+  //     })
+  //   );
+  //   getcartproductData(uid);
+  // };
 
   const getcartproductData = async (log = "") => {
     const response = await cartHndlerData(
@@ -76,11 +81,45 @@ export default function Cart() {
     );
     setLoading(false);
 
-    console.log(response);
     if (response.length > 0) {
       setCart(response[0]?.cartdetail);
     } else {
     }
+  };
+
+  const handlecheckbox = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setcheckedList([...checkedList, value]);
+    } else {
+      setcheckedList(checkedList.filter((e) => e !== value));
+    }
+  };
+
+  const alldelete = async () => {
+    const response = await cartseldeleteHndlerData({
+      userId: uid,
+      cartdetail: checkedList,
+    });
+
+    if (response) {
+      getcartproductData(uid);
+      setcheckedList([]);
+    }
+  };
+
+  const handleSelectAll = (e) => {
+    // setIsCheckAll(!isCheckAll);
+    if (isCheckAll) {
+      setcheckedList([]);
+    } else {
+      setcheckedList(cart.map((li) => li.productId._id));
+    }
+  };
+
+  const handledeSelectAll = (e) => {
+    setcheckedList([]);
   };
 
   const shipCharge = orderSubtotal > 500 ? 0 : 40;
@@ -99,7 +138,7 @@ export default function Cart() {
                   : "pe-xl-3 col-lg-12 card"
               }
             >
-              <div className="cart mb-3">
+              <div className="cart mb-1">
                 <div className="cart-body" />
                 <div className="main-content">
                   <h4 className="main-heading main">Shopping Cart</h4>
@@ -109,30 +148,61 @@ export default function Cart() {
                   <div
                     style={{ display: orderSubtotal > 0 ? "block" : "none" }}
                   >
-                    <button
+                    {/* <button
                       className="dbutton"
                       type="button"
                       onClick={claerAll}
                     >
-                      Remove All Products
-                    </button>
+                      Empty Cart
+                    </button> */}
+
+                    {checkedList.length > 0 && (
+                      <button
+                        className="dbutton ml-1"
+                        type="button"
+                        onClick={alldelete}
+                      >
+                        DELETE ({checkedList.length})
+                      </button>
+                    )}
+                    {checkedList.length === 0 && (
+                      <button
+                        type="button"
+                        className="dbutton ml-1"
+                        onClick={handleSelectAll}
+                        checked={checkedList.includes(cart._id)}
+                      >
+                        Select All
+                      </button>
+                    )}
+                    {checkedList.length > 0 && (
+                      <button
+                        type="button"
+                        className="dbutton ml-1"
+                        onClick={handledeSelectAll}
+                      >
+                        Deselect All
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div
                   className={
-                    cart.length > 3
-                      ? "container scroll mt-5  "
-                      : "container  mt-5 "
+                    cart.length > 2
+                      ? "container cartscroll cartheight"
+                      : "container cartheight"
                   }
                 >
-                  <div className="d-flex justify-content-center row">
+                  <div className="d-flex justify-content-center row cartheight">
                     {cart.length > 0 &&
                       cart.map((card) => {
                         return (
                           <Cartproduct
                             card={card}
-                            key={card.id}
+                            key={`cartproduct_${card.id}}`}
+                            checkedList={checkedList}
                             onDelete={handleDelete}
+                            handlecheckbox={handlecheckbox}
                           />
                         );
                       })}
@@ -189,7 +259,7 @@ export default function Cart() {
                   </p>
                   <div className="overflow-hidden p-0 card-footer">
                     <div className="d-grid">
-                      <Link to="/checkout">
+                      <Link to={`/checkout?cid=${uid}`}>
                         <button className="button">Proceed to Checkout</button>
                       </Link>
                     </div>

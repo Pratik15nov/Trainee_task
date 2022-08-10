@@ -4,10 +4,13 @@
 }
 .navbar {
   padding: 1rem 2rem;
+  background-color: #292a2d;
 }
 .nav-link {
   color: rgb(255, 254, 255);
+  
 }
+
 .nav-link:hover {
   color: aquamarine;
   cursor: pointer;
@@ -17,7 +20,7 @@
 }
 .count {
   background-color: white;
-  color: black;
+  
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -37,4 +40,23 @@
   border-radius: 100%;
   padding: -3px;
   
+}
+.logoimg{
+width: 128px;
+}
+.carticon{
+  font-size: 20px;
+  padding: 0;
+  color: aliceblue;
+  margin-top:5px ;
+  border: none;
+}
+.cartcount{
+  font-size: 10px;
+  /* margin-top: 8px; */
+}
+.carticon:hover{
+  color: aquamarine;
+  cursor: pointer;
+  border: none;
 }

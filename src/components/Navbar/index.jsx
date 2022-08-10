@@ -37,7 +37,7 @@ export default function Navbar() {
         where: { userId: log },
       })
     );
-    setCart(response);
+    setCart(response[0].cartdetail);
   };
 
   const getcategoryData = async () => {
@@ -54,9 +54,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top text">
+    <nav className="navbar navbar-expand-md  fixed-top text">
       <Link className="logo" to="/">
-        FrontendArmy<span>Shop</span>
+        <img src="../images/logo.png" className="logoimg" alt="logo"></img>
       </Link>
       <button
         className="navbar-toggler"
@@ -115,27 +115,28 @@ export default function Navbar() {
             </ul>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to={`/cart?uid=${userData.id}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                className="bi bi-cart-check"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
-                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
-              </svg>
-              <span className="cart__count">{cart.length}</span>
+            <Link
+              to={`/cart?uid=${userData.id}`}
+              type="button"
+              class="btn carticon position-relative"
+            >
+              <i className="fas fa-shopping-cart"></i>
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-scuess cartcount">
+                {cart.length}
+              </span>
             </Link>
           </li>
 
-          <li className="nav-item ">
-            <Link
-              className="nav-link"
-              to={`/user?uid=${userData.id}`}
-              style={{ display: token ? "block" : "none" }}
+          <li
+            className="nav-item dropdown"
+            style={{ display: token ? "block" : "none" }}
+          >
+            <div
+              className="nav-link dropdown-toggle"
+              id="dropdown01"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +152,16 @@ export default function Navbar() {
                   d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
                 />
               </svg>
-            </Link>
+            </div>
+            <ui className="dropdown-menu" aria-labelledby="dropdown01">
+              <Link className="nav-link" to={`/user?uid=${userData.id}`}>
+                Profile
+              </Link>
+
+              <Link className="nav-link" to={`/order`}>
+                Order
+              </Link>
+            </ui>
           </li>
           <li className="nav-item ">
             <Link
