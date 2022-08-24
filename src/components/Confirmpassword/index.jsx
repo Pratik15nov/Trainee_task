@@ -32,7 +32,7 @@ export default function Confirmpassword() {
     setUid(userId)
     
   }, [search]);
-  console.log("CONSOLEDDD",uid)
+  
   const validate = (userId) => {
     let formIsValid = true;
     if (!validPaasword.test(password)) {

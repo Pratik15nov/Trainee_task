@@ -46,10 +46,10 @@ export default function Cart() {
     orderSubtotal += cart[i].productId.price * cart[i].quantity;
   }
 
-  console.log(orderSubtotal);
+  // console.log(orderSubtotal);
 
-  console.log("updatedata", cart);
-  console.log("totoal", orderSubtotal);
+  // console.log("updatedata", cart);
+  // console.log("totoal", orderSubtotal);
 
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
