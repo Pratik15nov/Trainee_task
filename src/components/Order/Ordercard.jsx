@@ -1,6 +1,5 @@
 import React from "react";
 import { URL } from "../../utils/helper";
-import { Link } from "react-router-dom";
 const Ordercard = (props) => {
   return (
     <div className="ordercard-main">
@@ -43,7 +42,7 @@ const Ordercard = (props) => {
               Your Package was left by {props.card.addressId.address_2}
             </div>
             <div className="col-5">
-              <img src={URL + props.card.productId.img} alt="orderimg"></img>{" "}
+              <img src={URL + props.card.productId.img} alt="orderimg"/>{" "}
             </div>
             <div className="col-7 card-content">
               <h5 className="text ">{props.card.productId.name}</h5>
@@ -76,7 +75,7 @@ const Ordercard = (props) => {
           </div>
           <div className="row justify-content-between tracking-main">
             <div className="row col d-flex icon-content">
-              <img className="icon" src="https://i.imgur.com/9nnc9Et.png" />
+              <img className="icon" src="https://i.imgur.com/9nnc9Et.png" alt="orderimg" />
               <div className="d-flex flex-column">
                 <p className="font-weight-bold">
                   Order
@@ -86,7 +85,7 @@ const Ordercard = (props) => {
               </div>
             </div>
             <div className="row col d-flex icon-content">
-              <img className="icon" src="https://i.imgur.com/u1AzR7w.png" />
+              <img className="icon" src="https://i.imgur.com/u1AzR7w.png"  alt="orderimg"/>
               <div className="d-flex flex-column">
                 <p className="font-weight-bold">
                   Order
@@ -96,7 +95,7 @@ const Ordercard = (props) => {
               </div>
             </div>
             <div className="row col d-flex icon-content">
-              <img className="icon" src="https://i.imgur.com/TkPm63y.png" />
+              <img className="icon" src="https://i.imgur.com/TkPm63y.png" alt="orderimg" />
               <div className="d-flex flex-column">
                 <p className="font-weight-bold">
                   Order
@@ -106,7 +105,7 @@ const Ordercard = (props) => {
               </div>
             </div>
             <div className="row col d-flex icon-content">
-              <img className="icon" src="https://i.imgur.com/HdsziHP.png" />
+              <img className="icon" src="https://i.imgur.com/HdsziHP.png" alt="orderimg"/>
               <div className="d-flex flex-column">
                 <p className="font-weight-bold">
                   Order
