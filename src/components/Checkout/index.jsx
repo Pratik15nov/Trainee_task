@@ -3,7 +3,7 @@ import "./Checkout.css";
 // import { validName, validPhoneno } from "../../utils/helper";
 import { Stepper, Step } from "react-form-stepper";
 import { listBody } from "../../utils/helper";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   cartHndlerData,
@@ -277,49 +277,53 @@ export default function Checkout() {
   };
 
   const displayRazorpay = async () => {
+
     setLoading(true);
     cartDataHandler();
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
-      alert("Razorpay SDK failed to load, Are you online");
-      return;
-    }
+    // alert("Paymnet");
+    orderinfoHandler("#KJFJSBJ345");
+    Navigate("/")
+    // const res = await loadScript(
+    //   "https://checkout.razorpay.com/v1/checkout.js"
+    // );
+    // if (!res) {
+    //   alert("Razorpay SDK failed to load, Are you online");
+    //   return;
+    // }
 
-    const body = {
-      amount: parseInt(totalPrice),
-    };
-    const response = await razorpayDataHandler(body);
+    // const body = {
+    //   amount: parseInt(totalPrice),
+    // };
+    // const response = await razorpayDataHandler(body);
 
-    if (response.data) {
-      const options = {
-        key: _DEV_
-          ? "rzp_test_XqUGrjRWQI1oVV"
-          : "enter here your live mode key from razorpay ",
-        amount: response.data.amount,
-        currency: response.data.currency,
-        order_id: response.data.order_id,
-        name: "Shoppy",
-        description: "Payment options",
-        image: "../images/pop_up_logo.png",
+    // if (response.data) {
+    //   const options = {
+    //     key: _DEV_
+    //       ? "rzp_test_XqUGrjRWQI1oVV"
+    //       : "enter here your live mode key from razorpay ",
+    //     amount: response.data.amount,
+    //     currency: response.data.currency,
+    //     order_id: response.data.order_id,
+    //     name: "Shoppy",
+    //     description: "Payment options",
+    //     image: "../images/pop_up_logo.png",
 
-        handler: function (response) {
-          // console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
+    //     handler: function (response) {
+    //       // console.log("RESPONSE AFTER THE PAYMENT SUCCESSFULL", response);
 
-          orderinfoHandler(response.razorpay_payment_id);
-        },
-        prefill: {
-          name: userData.firstName + " " + userData.lastName,
-          email: userData.email,
-          contact: userData.phoneNumber,
-        },
-      };
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-    } else {
-      // console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
-    }
+    //       orderinfoHandler(response.razorpay_payment_id);
+    //     },
+    //     prefill: {
+    //       name: userData.firstName + " " + userData.lastName,
+    //       email: userData.email,
+    //       contact: userData.phoneNumber,
+    //     },
+    //   };
+    //   const paymentObject = new window.Razorpay(options);
+    //   paymentObject.open();
+    // } else {
+    //   // console.log("API CALL ERROR WHILE GETTING  SECRECT KEY RAZOR PAY");
+    // }
   };
 
   // console.log(invoiceData);
@@ -394,7 +398,7 @@ export default function Checkout() {
         quantity: res.quantity,
       })),
     };
-    // console.log(body);
+    console.log(body);
     const response = await orderDataHandler(body); // eslint-disable-next-line
 
     if (response) {
@@ -929,7 +933,7 @@ export default function Checkout() {
                   </div>
                   <div className="col-sm-7"></div>
                   <div className="col-sm-3">
-                    {}
+                    { }
                     <button
                       className="button"
                       onClick={() => displayRazorpay()}
