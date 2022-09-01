@@ -5,21 +5,91 @@ import { useState } from "react";
 import { orderListDataHandler } from "../../service/auth.service";
 import { useEffect } from "react";
 import { listBody } from "../../utils/helper";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+import Invoice from "../Checkout/Invoice";
+import { orderinvoiceDataHandler } from "../../service/auth.service";
+import Ordercard from "./Ordercard";
+import Ordercardskel from "./Ordercardskel";
 export default function Order() {
   const [orderList, setOrderList] = useState([]);
+  const [invoicedata, setInvoiceData] = useState([]);
+  const [orderSubtotal, setOrderSubtotal] = useState(0);
+  const [isInvoice, setIsInvoice] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [cardData, setCardData] = useState(true);
+
   useEffect(() => {
     orderListHandler();
   }, []);
+
   const orderListHandler = async (pId) => {
     const response = await orderListDataHandler(
-      listBody({ where: { isActive: true } })
+      listBody({
+        where: {
+          isActive: true,
+          userId: JSON.parse(localStorage.getItem("userData"))?.id,
+        },
+      })
     );
-    console.log(response);
+
     if (response) {
-      setOrderList(response);
+      const updatedList = [];
+      response.filter((res) => {
+        res.cartdetail.filter((res1) => {
+          updatedList.push({ ...res, ...res1 });
+        });
+        setCardData(false);
+      });
+
+      setOrderList(updatedList);
     }
   };
-  console.log(orderList);
+
+  const componentRef = React.useRef();
+
+  const invoiceDataHandler = async (pId) => {
+    const selectedData = orderList.filter((res) => res.paymentId === pId)[0];
+    console.log(orderList.filter((res) => res.paymentId === pId)[0]);
+    setLoading(true);
+    // const response = await orderinvoiceDataHandler(
+    //   listBody({ where: { isActive: true, paymentId: pId } })
+    // );
+
+    // if (response) {
+    setInvoiceData(selectedData);
+    setIsInvoice(true);
+    var orderSubtotal = selectedData.cartdetail?.reduce(
+      (acc, value) => value.productId?.price * value.quantity,
+      0
+    );
+    console.log(orderSubtotal);
+    // for (var i = 0; i < selectedData.cartdetail.length; i++) {
+    //   orderSubtotal +=
+    //     selectedData.cartdetail[i].productId.price *
+    //     selectedData.cartdetail[i].quantity;
+    // }
+    setOrderSubtotal(orderSubtotal);
+    setTimeout(async () => {
+      await handleDownloadPdf();
+    }, 1000);
+    // }
+  };
+
+  const handleDownloadPdf = async () => {
+    const element = componentRef.current;
+    const canvas = await html2canvas(element);
+    const data = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    const imgProperties = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`shoppy_invoice_${invoicedata.paymentId}`);
+    setIsInvoice(false);
+    setLoading(false);
+  };
+
   return (
     <div className="container-fluid text">
       <div className="row">
@@ -30,96 +100,40 @@ export default function Order() {
                 <li className="breadcrumb-item">
                   <Link to="/"> Home</Link>
                 </li>
-
                 <li className="breadcrumb-item active">Orders</li>
               </ol>
             </div>
-            <h4 className="page-title text">Orders</h4>
+            <h4 className="page-title text">Your Orders</h4>
           </div>
         </div>
       </div>
-      {/* end page title */}
       <div className="row">
-        <div className="col-12">
-          <div className="card">
-            <div className="card-body">
-              <div className="table-responsive">
-                <table className="table table-centered table-nowrap mb-0">
-                  <thead className="table-light">
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Date</th>
-                      <th>Payment Status</th>
-                      <th>Total</th>
-
-                      <th>Order Status</th>
-                      <th style={{ width: 125 }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orderList.map((card) => {
-                      return (
-                        <tr>
-                          <td>
-                            <a
-                              href="apps-ecommerce-orders-details.html"
-                              className="text-body fw-bold"
-                            >
-                              {card.paymentId.substring(4, 14)}
-                            </a>
-                          </td>
-                          <td>
-                            {card.createdAt.substring(0, 10)}
-                            <small className="text-muted">
-                              {card.createdAt.substring(16, 19)}
-                            </small>
-                          </td>
-                          <td>
-                            <h5>
-                              <span className="badge badge-success-lighten">
-                                <i className="mdi mdi-bitcoin" />{" "}
-                                {card.orderStatus}
-                              </span>
-                            </h5>
-                          </td>
-                          <td> &#x20b9;{card.totalPrice}</td>
-
-                          <td>
-                            <h5>
-                              <span className="badge badge-info-lighten">
-                                Shipped
-                              </span>
-                            </h5>
-                          </td>
-                          <td>
-                            <a
-                              href="javascript:void(0);"
-                              className="action-icon"
-                            >
-                              <i className="mdi mdi-eye" />
-                            </a>
-                            <a
-                              href="javascript:void(0);"
-                              className="action-icon"
-                            >
-                              <i className="mdi mdi-square-edit-outline" />
-                            </a>
-                            <a
-                              href="javascript:void(0);"
-                              className="action-icon"
-                            >
-                              <i className="mdi mdi-delete" />
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <div className="col-3"></div>
+        {!cardData ? (
+          <div className="col-9">
+            {orderList.map((card) => {
+              return (
+                <Ordercard
+                  card={card}
+                  loading={loading}
+                  invoiceDataHandler={invoiceDataHandler}
+                />
+              );
+            })}
           </div>
-        </div>
+        ) : (
+          <div className="col-9">
+            <Ordercardskel />
+            <Ordercardskel />
+          </div>
+        )}
+      </div>
+      <div ref={componentRef}>
+        {isInvoice ? (
+          <Invoice invoicedata={invoicedata} orderSubtotal={orderSubtotal} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -40,8 +40,8 @@ const Cardskeleton = (props) => {
         />
       </div>
 
-      <div className="row">
-        <div className="col">
+      <div className="row skecarda">
+        <div className="col skecarda">
           {/* <b className="text">&#x20b9;{props.card.price}</b>
           <p className="text">
             M.R.P.:
@@ -64,7 +64,7 @@ const Cardskeleton = (props) => {
             animation="wave"
           />
         </div>
-        <div className="col">
+        <div className="col skecarda">
           {/* <button className="BuyButton text">Buy Now</button> */}
           <Skeleton
             variant="rectangular"

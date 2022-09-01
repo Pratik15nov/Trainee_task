@@ -92,7 +92,7 @@ const Allproducts = (props) => {
     // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     // EventEmitter.dispatch("DATA", body.quantity.length);
-    console.log(cartdata);
+    // console.log(cartdata);
   };
 
   return (
@@ -116,13 +116,13 @@ const Allproducts = (props) => {
                     <p className="font_cardView text">
                       <b className="text">{card.name}</b>
                       <br />
-                      &#x20b9;{card.price}
+                      &#x20b9;{card.discountPrice}
                     </p>
                   </div>
                   <div className="third_container">
                     <div className="fourth_container">
                       &#x20b9;
-                      <del>{card.discountPrice + card.price}</del>
+                      <del>{card.price}</del>
                     </div>
                     <div className="fifth_conatiner">
                       <button

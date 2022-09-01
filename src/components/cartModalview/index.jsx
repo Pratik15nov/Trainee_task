@@ -61,10 +61,10 @@ const CartModal = (props) => {
             <div className="nameModal">
               <b>{data.name}</b>
             </div>
-            <div className="priceModal">&#x20b9;{data.price * num}</div>
+            <div className="priceModal">&#x20b9;{data.discountPrice * num}</div>
             <div className="descriptionModal">
               M.R.P.:&#x20b9;
-              <del>{data.discountPrice * num + data.price * num}</del>
+              <del>{data.price * num}</del>
             </div>
             <div className="descriptionModal">
               <b>Specification : </b>
