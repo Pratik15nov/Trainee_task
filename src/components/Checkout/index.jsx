@@ -332,6 +332,7 @@ export default function Checkout() {
   // const componentRef = useRef();
 
   const checkPromoCode = (promoCode) => {
+    setPromocoderr(false)
     setCartSumLoading(true);
     setLoading(false);
     try {
@@ -814,70 +815,70 @@ export default function Checkout() {
                 </h4>
                 <div className="input-group"></div>
                 <div className="row">
-                  {!cartsumloading && (
-                    <div className="col-sm-8 col">
-                      <ul className="list-group mb-3">
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0 text">
-                              Total Price of Product
-                            </h6>
-                          </div>
-                          <span className="text-muted">
-                            &#x20b9; {orderSubtotal}
-                          </span>
-                        </li>
-                        {discountis && (
-                          <>
-                            <li className="list-group-item d-flex justify-content-between bg-light">
-                              <div className="text-success">
-                                <h6 className="my-0 text">Discount Price</h6>
-                              </div>
-                              <span className="text-success">
-                                &#x20b9; {discountPrice}
-                              </span>
-                            </li>
 
-                            <li className="list-group-item d-flex justify-content-between">
-                              <div className="text-success">
-                                <h6 className="my-0 text">
-                                  After Discount Total Price
-                                </h6>
-                              </div>
-                              <span className="text-success">
-                                &#x20b9; {orderSubtotal - discountPrice}
-                              </span>
-                            </li>
-                          </>
-                        )}
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
-                          </div>
-                          <span className="text-muted">
-                            &#x20b9; {((orderSubtotal / 100) * 18).toFixed(2)}
-                          </span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between lh-condensed">
-                          <div>
-                            <h6 className="my-0 text">Shipping Charge</h6>
-                          </div>
-                          <span className="text-muted">
-                            &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
-                          </span>
-                        </li>
+                  <div className="col-sm-8 col">
+                    <ul className="list-group mb-3">
+                      <li className="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                          <h6 className="my-0 text">
+                            Total Price of Product
+                          </h6>
+                        </div>
+                        <span className="text-muted">
+                          &#x20b9; {orderSubtotal}
+                        </span>
+                      </li>
+                      {discountis && (
+                        <>
+                          <li className="list-group-item d-flex justify-content-between bg-light">
+                            <div className="text-success">
+                              <h6 className="my-0 text">Discount Price</h6>
+                            </div>
+                            <span className="text-success">
+                              &#x20b9; {discountPrice}
+                            </span>
+                          </li>
 
-                        <li className="list-group-item d-flex justify-content-between bg-light">
-                          <span>Total</span>
-                          <strong>
-                            &#x20b9;
-                            {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
-                            {totalPrice.toFixed(2)}
-                          </strong>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+                          <li className="list-group-item d-flex justify-content-between">
+                            <div className="text-success">
+                              <h6 className="my-0 text">
+                                After Discount Total Price
+                              </h6>
+                            </div>
+                            <span className="text-success">
+                              &#x20b9; {orderSubtotal - discountPrice}
+                            </span>
+                          </li>
+                        </>
+                      )}
+                      <li className="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                          <h6 className="my-0 text">Tax (SGST+ CGST)</h6>
+                        </div>
+                        <span className="text-muted">
+                          &#x20b9; {((orderSubtotal / 100) * 18).toFixed(2)}
+                        </span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                          <h6 className="my-0 text">Shipping Charge</h6>
+                        </div>
+                        <span className="text-muted">
+                          &#x20b9; {orderSubtotal > 500 ? "0" : "40"}
+                        </span>
+                      </li>
+
+                      <li className="list-group-item d-flex justify-content-between bg-light">
+                        <span>Total</span>
+                        <strong>
+                          &#x20b9;
+                          {/* {orderSubtotal > 500 ? finalValue : finalValue + 40} */}
+                          {totalPrice.toFixed(2)}
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
+
                   {cartsumloading && <CartsummerySkel />}
 
                   <div className="col-4 row">
@@ -893,26 +894,16 @@ export default function Checkout() {
                           ]}
                         />
                       </div>
-                      {promoCode ? <div className="col-6">
+                      <div className="col-6">
                         <button
                           className="button "
-
-                          disabled
-                        >
-                          Applied
-                        </button>
-                        <br />
-                      </div> : <div className="col-6">
-                        <button
-                          className="button "
-                          onClick={(e) => checkPromoCode(e)}
+                          type="submit"
+                          onClick={() => checkPromoCode(promoCode)}
                         >
                           Apply
                         </button>
                         <br />
-                      </div>}
-
-
+                      </div>
                       <div className="">
                         {promocodeErr && (
                           <p className="errorstyle">{promocodeErr}</p>
