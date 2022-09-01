@@ -148,7 +148,7 @@ export default function Checkout() {
 
   var orderSubtotal = 0;
   for (var i = 0; i < cart.length; i++) {
-    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+    orderSubtotal += cart[i].productId.discountPrice * cart[i].quantity;
   }
 
   const onEnterPromoCode = (event) => {
@@ -281,7 +281,9 @@ export default function Checkout() {
     setLoading(true);
     cartDataHandler();
     // alert("Paymnet");
-    orderinfoHandler("#KJFJSBJ345");
+    let r = ((Math.random() + 1).toString(36).substring(2)).toUpperCase();
+
+    orderinfoHandler("#" + `${r}`);
     Navigate("/")
     // const res = await loadScript(
     //   "https://checkout.razorpay.com/v1/checkout.js"
@@ -891,15 +893,26 @@ export default function Checkout() {
                           ]}
                         />
                       </div>
-                      <div className="col-6">
+                      {promoCode ? <div className="col-6">
                         <button
-                          className="button"
-                          onClick={(e) => checkPromoCode(e)}
+                          className="button "
+
+                          disabled
                         >
-                          {promoCode ? "Applied!" : "Apply"}
+                          Applied
                         </button>
                         <br />
-                      </div>
+                      </div> : <div className="col-6">
+                        <button
+                          className="button "
+                          onClick={(e) => checkPromoCode(e)}
+                        >
+                          Apply
+                        </button>
+                        <br />
+                      </div>}
+
+
                       <div className="">
                         {promocodeErr && (
                           <p className="errorstyle">{promocodeErr}</p>
@@ -909,7 +922,7 @@ export default function Checkout() {
                         )}
                       </div>
                     </div>
-                    {Promocode?.map((code, index) => {
+                    <div className="promocodescroll">{Promocode?.map((code, index) => {
                       return (
                         <div
                           className="promocode col-6"
@@ -920,7 +933,8 @@ export default function Checkout() {
                           <h6 class="promocodeinfo">{code.description}</h6>
                         </div>
                       );
-                    })}
+                    })}</div>
+
                   </div>
                 </div>
 

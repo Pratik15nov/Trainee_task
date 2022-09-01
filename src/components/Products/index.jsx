@@ -23,11 +23,11 @@ const Products = (props) => {
 
       <div className="div3">
         <div className="div4">
-          <b className="text">&#x20b9;{props.card.price}</b>
+          <b className="text">&#x20b9;{props.card.discountPrice}</b>
           <p className="text">
             M.R.P.:
             <span>
-              &#x20b9;<del>{props.card.discountPrice + props.card.price}</del>
+              &#x20b9;<del>{props.card.price}</del>
             </span>
           </p>
         </div>

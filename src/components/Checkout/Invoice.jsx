@@ -1,13 +1,13 @@
 import { React, useRef } from "react";
-// import { Link } from "react-router-dom";
-// import { useReactToPrint } from "react-to-print";
+import { Link } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 const Invoice = (props) => {
-  //   const handlePrint = useReactToPrint({
-  //     content: () => componentRef.current,
-  //   });
-  //   const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const componentRef = useRef();
   return (
-    <div className="row invoicecard text">
+    <div ref={componentRef} className="row invoicecard text">
       <div className="cs-invoice cs-style1">
         <div className="cs-invoice_in" id="download_section">
           <div className="cs-invoice_head cs-type1 cs-mb25">
@@ -93,10 +93,10 @@ const Invoice = (props) => {
                           <td className="cs-width_4"> {card.quantity}</td>
                           <td className="cs-width_5">
                             {" "}
-                            &#8377;{card.productId.price}
+                            &#8377;{card.productId.discountPrice}
                           </td>
                           <td className="cs-width_6 cs-text_right">
-                            &#8377; {card.quantity * card.productId.price}
+                            &#8377; {card.quantity * card.productId.discountPrice}
                           </td>
                         </tr>
                       );
@@ -209,9 +209,9 @@ const Invoice = (props) => {
               </p>
             </div>
           </div>
-          {/* .cs-note */}
+
         </div>
-        {/* <div className="cs-invoice_btns cs-hide_print">
+        <div className="cs-invoice_btns cs-hide_print">
           <p className="cs-invoice_btn cs-color1" onClick={() => handlePrint()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -260,7 +260,7 @@ const Invoice = (props) => {
             </svg>
             <span>Go to Home</span>
           </Link>
-        </div> */}
+        </div>
       </div>
     </div>
   );

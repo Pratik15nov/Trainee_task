@@ -43,7 +43,7 @@ export default function Cart() {
 
   var orderSubtotal = 0;
   for (var i = 0; i < cart.length; i++) {
-    orderSubtotal += cart[i].productId.price * cart[i].quantity;
+    orderSubtotal += cart[i].productId.discountPrice * cart[i].quantity;
   }
 
   // console.log(orderSubtotal);
