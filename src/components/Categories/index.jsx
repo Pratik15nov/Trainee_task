@@ -7,6 +7,7 @@ import { listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import Skeleton from "@mui/material/Skeleton";
+import { useQuery } from "react-query";
 
 export default function Categories() {
   const [categoriesData, setcategoriesData] = useState([]);
@@ -30,11 +31,10 @@ export default function Categories() {
           width={2000}
           height={500}
           animation="wave"
-          
         />
       )}
       {categoriesData.length > 0 && (
-        <div >
+        <div>
           <h1 className="header_one">Shop by Category</h1>
           <p className="header_two">Top Rated And Premium Quality</p>
 
@@ -71,7 +71,7 @@ export default function Categories() {
               },
             }}
           >
-            {categoriesData?.map((card,index) => {
+            {categoriesData?.map((card, index) => {
               return (
                 <SwiperSlide key={`categories_${index}}`}>
                   <div className="cimg-container">
@@ -88,7 +88,6 @@ export default function Categories() {
               );
             })}
           </Swiper>
-         
         </div>
       )}
     </div>
