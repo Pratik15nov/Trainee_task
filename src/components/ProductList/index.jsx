@@ -13,20 +13,15 @@ import Cardskeleton from "../Products/Cardskeleton";
 import Box from "@mui/material/Box";
 //
 import { useQuery } from "react-query";
-import axios from "axios";
-import { ENDPOINTURL } from "../../utils/helper";
 
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [userData, setuserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const fetcher = (url) => axios.post(url).then((res) => res.data);
-  const { data, error } = useQuery(
-    'products',
-    () => productHndlerData(
-      listBody({ where: { isActive: true } })
-    )
+  // const fetcher = (url) => axios.post(url).then((res) => res.data);
+  const { data, error } = useQuery("products", () =>
+    productHndlerData(listBody({ where: { isActive: true } }))
   );
   console.error("error: ", error);
   console.log("data: ", data);
@@ -56,7 +51,7 @@ const ProductList = (props) => {
   };
 
   const [productData, setproductData] = useState([]);
-  console.log("productData: ", productData);
+  // console.log("productData: ", productData);
   useEffect(() => {
     getproductData();
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);

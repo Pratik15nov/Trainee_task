@@ -23,6 +23,11 @@ export default function Categories() {
     setcategoriesData(response);
   };
 
+  const { data, error } = useQuery("category", () =>
+    categoryHndlerData(listBody({ where: { isActive: true }, perPage: 1000 }))
+  );
+  console.error("error: ", error);
+  console.log("categorydata: ", data);
   return (
     <div>
       {categoriesData.length === 0 && (
