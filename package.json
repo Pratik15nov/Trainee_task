@@ -28,6 +28,7 @@
     "react-form-stepper": "^2.0.3",
     "react-loader-spinner": "^5.1.7-beta.1",
     "react-loading-skeleton": "^3.1.0",
+    "react-query": "^3.39.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
     "react-select-country-list": "^2.2.3",

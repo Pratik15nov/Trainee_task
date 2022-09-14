@@ -11,12 +11,25 @@ import {
 } from "../../service/auth.service";
 import Cardskeleton from "../Products/Cardskeleton";
 import Box from "@mui/material/Box";
+//
+import { useQuery } from "react-query";
+import axios from "axios";
+import { ENDPOINTURL } from "../../utils/helper";
 
 const ProductList = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [userData, setuserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const fetcher = (url) => axios.post(url).then((res) => res.data);
+  const { data, error } = useQuery(
+    'products',
+    () => productHndlerData(
+      listBody({ where: { isActive: true } })
+    )
+  );
+  console.error("error: ", error);
+  console.log("data: ", data);
 
   const parentFunc = () => {
     setShow(true);
@@ -43,6 +56,7 @@ const ProductList = (props) => {
   };
 
   const [productData, setproductData] = useState([]);
+  console.log("productData: ", productData);
   useEffect(() => {
     getproductData();
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
@@ -61,8 +75,7 @@ const ProductList = (props) => {
       <div>
         <h1 className="header_one">The One-stop Shopping Destination</h1>
         <p className="header_two">
-          E-commerce is revolutionizing the
-          way we all shop in India.
+          E-commerce is revolutionizing the way we all shop in India.
         </p>
         <div>
           {productData.length > 0 &&

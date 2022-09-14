@@ -1,3 +1,4 @@
+
 import { get, post, patch, remove } from "./web.request";
 import { ENDPOINTURL } from "../utils/helper";
 
@@ -6,7 +7,7 @@ export const categoryHndlerData = (body) => {
 };
 
 export const productHndlerData = (body) => {
-  return post(`${ENDPOINTURL}/product/list`, body);
+  return  post(`${ENDPOINTURL}/product/list`, body);
 };
 
 export const userHandlerData = (body) => {
