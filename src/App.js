@@ -17,106 +17,111 @@ import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
 import Successmail from "./components/successmail";
 import User from "./components/User";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <>
-              <Navbar />
-              <Dashboard />
-              <Categories />
-              <ProductList />
-            </>
-          }
-        />
-        <Route exact path="/cart" element={<ProtectedRoute />}>
           <Route
-            path="/cart"
+            exact
+            path="/"
             element={
               <>
                 <Navbar />
-                <Cart />
+                <Dashboard />
+                <Categories />
+                <ProductList />
               </>
             }
           />
-        </Route>
-        <Route
-          path="/categories"
-          element={
-            <>
-              <Navbar />
-              <Categories />
-            </>
-          }
-        />
-        <Route
-          path="/products"
-          element={
-            <>
-              <Navbar />
-              <Allproducts />
-            </>
-          }
-        />
-        <Route exact path="/checkout" element={<ProtectedRoute />}>
+          <Route exact path="/cart" element={<ProtectedRoute />}>
+            <Route
+              path="/cart"
+              element={
+                <>
+                  <Navbar />
+                  <Cart />
+                </>
+              }
+            />
+          </Route>
           <Route
-            path="/checkout"
+            path="/categories"
             element={
               <>
                 <Navbar />
-                <Checkout />
+                <Categories />
               </>
             }
           />
-        </Route>
-        <Route exact path="/order" element={<ProtectedRoute />}>
           <Route
-            path="/order"
+            path="/products"
             element={
               <>
                 <Navbar />
-                <Order />
+                <Allproducts />
               </>
             }
           />
-        </Route>
-        <Route exact path="/user" element={<ProtectedRoute />}>
+          <Route exact path="/checkout" element={<ProtectedRoute />}>
+            <Route
+              path="/checkout"
+              element={
+                <>
+                  <Navbar />
+                  <Checkout />
+                </>
+              }
+            />
+          </Route>
+          <Route exact path="/order" element={<ProtectedRoute />}>
+            <Route
+              path="/order"
+              element={
+                <>
+                  <Navbar />
+                  <Order />
+                </>
+              }
+            />
+          </Route>
+          <Route exact path="/user" element={<ProtectedRoute />}>
+            <Route
+              path="/user"
+              element={
+                <>
+                  <Navbar />
+                  <User />
+                </>
+              }
+            />
+          </Route>
           <Route
-            path="/user"
+            path="/login"
             element={
               <>
-                <Navbar />
-                <User />
+                <Login />
               </>
             }
           />
-        </Route>
-        <Route
-          path="/login"
-          element={
-            <>
-              <Login />
-            </>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <>
-              <Register />
-            </>
-          }
-        />
-        <Route path="/verify" element={<Verify />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/confirmpassword" element={<Confirmpassword />} />
-        <Route path="/successmail" element={<Successmail />} />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Register />
+              </>
+            }
+          />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/confirmpassword" element={<Confirmpassword />} />
+          <Route path="/successmail" element={<Successmail />} />
       </Routes>
+        </QueryClientProvider>
     </BrowserRouter>
   );
 }
