@@ -96,7 +96,8 @@ const Invoice = (props) => {
                             &#8377;{card.productId.discountPrice}
                           </td>
                           <td className="cs-width_6 cs-text_right">
-                            &#8377; {card.quantity * card.productId.discountPrice}
+                            &#8377;{" "}
+                            {card.quantity * card.productId.discountPrice}
                           </td>
                         </tr>
                       );
@@ -209,7 +210,6 @@ const Invoice = (props) => {
               </p>
             </div>
           </div>
-
         </div>
         <div className="cs-invoice_btns cs-hide_print">
           <p className="cs-invoice_btn cs-color1" onClick={() => handlePrint()}>
