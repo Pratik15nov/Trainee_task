@@ -7,6 +7,10 @@ const Products = (props) => {
   };
   return (
     <div className="cardView">
+      {props.card.quantity < 11}
+      <span class=" text instock">In Stock</span>
+      <span class=" text outofstock">Out of Stock</span>
+      <span class=" text lowstock">Low Stock</span>
       <img
         src={URL + props.card.img}
         className="card-img-top"

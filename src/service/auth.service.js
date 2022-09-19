@@ -1,4 +1,3 @@
-
 import { get, post, patch, remove } from "./web.request";
 import { ENDPOINTURL } from "../utils/helper";
 
@@ -7,7 +6,7 @@ export const categoryHndlerData = (body) => {
 };
 
 export const productHndlerData = (body) => {
-  return  post(`${ENDPOINTURL}/product/list`, body);
+  return post(`${ENDPOINTURL}/product/list`, body);
 };
 
 export const userHandlerData = (body) => {
@@ -85,7 +84,6 @@ export const razorpayDataHandler = (body) => {
   return post(`${ENDPOINTURL}/razorpay`, body);
 };
 
-
 export const orderDataHandler = (body) => {
   return post(`${ENDPOINTURL}/order`, body);
 };
@@ -94,9 +92,9 @@ export const orderinvoiceDataHandler = (body) => {
   return post(`${ENDPOINTURL}/order/list`, body);
 };
 
-
 export const orderListDataHandler = (body) => {
   return post(`${ENDPOINTURL}/order/list`, body);
 };
-
-
+export const productUpdateHandler = (id, body) => {
+  return patch(`${ENDPOINTURL}/product/${id}`, body);
+};

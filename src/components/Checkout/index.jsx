@@ -10,12 +10,13 @@ import {
   addaddressHndlerData,
   userHndlerData,
   promocodeHndlerData,
-  razorpayDataHandler,
+  // razorpayDataHandler,
   addressHndlerData,
   addressDelHndler,
   editaddressHndlerData,
   orderDataHandler,
   orderinvoiceDataHandler,
+  productUpdateHandler,
 } from "../../service/auth.service";
 import Addskeleton from "./Addskeleton";
 import { Box } from "@mui/system";
@@ -23,20 +24,20 @@ import CartsummerySkel from "./CartsummerySkel";
 // import { jsPDF } from "jspdf";
 import Invoice from "./Invoice";
 
-const loadScript = (src) => {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = src;
-    script.onload = () => {
-      resolve(true);
-    };
-    script.onerror = () => {
-      reject(false);
-    };
-    document.body.appendChild(script);
-  });
-};
-const _DEV_ = document.domain === "localhost";
+// const loadScript = (src) => {
+//   return new Promise((resolve, reject) => {
+//     const script = document.createElement("script");
+//     script.src = src;
+//     script.onload = () => {
+//       resolve(true);
+//     };
+//     script.onerror = () => {
+//       reject(false);
+//     };
+//     document.body.appendChild(script);
+//   });
+// };
+// const _DEV_ = document.domain === "localhost";
 
 export default function Checkout() {
   /// Cart Summery>>
@@ -277,14 +278,13 @@ export default function Checkout() {
   };
 
   const displayRazorpay = async () => {
-
     setLoading(true);
     cartDataHandler();
     // alert("Paymnet");
-    let r = ((Math.random() + 1).toString(36).substring(2)).toUpperCase();
+    let r = (Math.random() + 1).toString(36).substring(2).toUpperCase();
 
     orderinfoHandler("#" + `${r}`);
-    Navigate("/")
+    Navigate("/");
     // const res = await loadScript(
     //   "https://checkout.razorpay.com/v1/checkout.js"
     // );
@@ -332,7 +332,7 @@ export default function Checkout() {
   // const componentRef = useRef();
 
   const checkPromoCode = (promoCode) => {
-    setPromocoderr(false)
+    setPromocoderr(false);
     setCartSumLoading(true);
     setLoading(false);
     try {
@@ -406,10 +406,17 @@ export default function Checkout() {
 
     if (response) {
       // console.log("ORDERDATA", response);
-
+      // productQuantity();
       invoiceDataHandler(pId);
     }
   };
+
+  // const productQuantity = async () => {
+  //   cart?.map((res) => ({
+  //     response = await productUpdateHandler(res.productId._id,res.quantity)
+  //   }));
+
+  // };
 
   const invoiceDataHandler = async (pId) => {
     const response = await orderinvoiceDataHandler(
@@ -815,14 +822,11 @@ export default function Checkout() {
                 </h4>
                 <div className="input-group"></div>
                 <div className="row">
-
                   <div className="col-sm-8 col">
                     <ul className="list-group mb-3">
                       <li className="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                          <h6 className="my-0 text">
-                            Total Price of Product
-                          </h6>
+                          <h6 className="my-0 text">Total Price of Product</h6>
                         </div>
                         <span className="text-muted">
                           &#x20b9; {orderSubtotal}
@@ -913,19 +917,20 @@ export default function Checkout() {
                         )}
                       </div>
                     </div>
-                    <div className="promocodescroll">{Promocode?.map((code, index) => {
-                      return (
-                        <div
-                          className="promocode col-6"
-                          onClick={() => checkPromoCode(code.couponcode)}
-                          key={`promocode_${index}}`}
-                        >
-                          <span class="promocode-h">{code.couponcode}</span>
-                          <h6 class="promocodeinfo">{code.description}</h6>
-                        </div>
-                      );
-                    })}</div>
-
+                    <div className="promocodescroll">
+                      {Promocode?.map((code, index) => {
+                        return (
+                          <div
+                            className="promocode col-6"
+                            onClick={() => checkPromoCode(code.couponcode)}
+                            key={`promocode_${index}}`}
+                          >
+                            <span class="promocode-h">{code.couponcode}</span>
+                            <h6 class="promocodeinfo">{code.description}</h6>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 
@@ -938,7 +943,7 @@ export default function Checkout() {
                   </div>
                   <div className="col-sm-7"></div>
                   <div className="col-sm-3">
-                    { }
+                    {}
                     <button
                       className="button"
                       onClick={() => displayRazorpay()}
