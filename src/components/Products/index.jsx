@@ -13,7 +13,9 @@ const Products = (props) => {
         alt={props.card.name}
       />
       <div className="div1">
-        <h4 style={{ textAlign: "center" }} className="text">{props.card.name}</h4>
+        <h4 style={{ textAlign: "center" }} className="text">
+          {props.card.name}
+        </h4>
       </div>
       <div className="div1">
         <h6 style={{ textAlign: "center" }} className="text">
