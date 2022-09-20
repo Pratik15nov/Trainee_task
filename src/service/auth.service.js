@@ -98,3 +98,7 @@ export const orderListDataHandler = (body) => {
 export const productUpdateHandler = (id, body) => {
   return patch(`${ENDPOINTURL}/product/${id}`, body);
 };
+
+export const productUpdate = (body) => {
+  return post(`${ENDPOINTURL}/product/updateMany`, body);
+};

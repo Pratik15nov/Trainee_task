@@ -50,7 +50,7 @@ export default function Order() {
 
   const invoiceDataHandler = async (pId) => {
     const selectedData = orderList.filter((res) => res.paymentId === pId)[0];
-    console.log(orderList.filter((res) => res.paymentId === pId)[0]);
+    // console.log(orderList.filter((res) => res.paymentId === pId)[0]);
     setLoading(true);
     // const response = await orderinvoiceDataHandler(
     //   listBody({ where: { isActive: true, paymentId: pId } })
@@ -63,7 +63,7 @@ export default function Order() {
       (acc, value) => value.productId?.price * value.quantity,
       0
     );
-    console.log(orderSubtotal);
+    // console.log(orderSubtotal);
     // for (var i = 0; i < selectedData.cartdetail.length; i++) {
     //   orderSubtotal +=
     //     selectedData.cartdetail[i].productId.price *

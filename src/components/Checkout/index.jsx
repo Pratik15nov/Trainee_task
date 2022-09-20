@@ -17,6 +17,8 @@ import {
   orderDataHandler,
   orderinvoiceDataHandler,
   productUpdateHandler,
+  productHndlerData,
+  productUpdate,
 } from "../../service/auth.service";
 import Addskeleton from "./Addskeleton";
 import { Box } from "@mui/system";
@@ -406,17 +408,54 @@ export default function Checkout() {
 
     if (response) {
       // console.log("ORDERDATA", response);
-      // productQuantity();
+
       invoiceDataHandler(pId);
     }
   };
 
-  // const productQuantity = async () => {
-  //   cart?.map((res) => ({
-  //     response = await productUpdateHandler(res.productId._id,res.quantity)
-  //   }));
+  const productQuantity = async () => {
+    var items = cart?.map((res) => {
+      let menu = { productId: res.productId._id, quantity: res.quantity };
+      return menu;
+    });
+    console.log(items);
+    var products = await productHndlerData(
+      listBody({ where: { isActive: true } })
+    );
+    console.log(products);
+    const result = items.concat(products);
+    const res = Array.from(
+      result
+        .reduce(
+          (m, o) => (
+            m.has(o._id || o.productId)
+              ? m.set(o._id || o.productId, {
+                  ...m.get(o._id || o.productId),
+                  quantity: m.get(o._id || o.productId).quantity - o.quantity,
+                })
+              : m.set(o._id || o.productId, { ...o }),
+            m
+          ),
+          new Map()
+        )
+        .values()
+    );
 
-  // };
+    var finalProduct = Object.values(
+      res.reduce((r, o) => {
+        r[o._id || o.productId] = r[o._id || o.productId] || {
+          productId: o._id || o.productId,
+          quantity: 0,
+        };
+        r[o._id || o.productId].quantity += +o.quantity;
+        return r;
+      }, {})
+    );
+    const quantityProduct = { data: finalProduct };
+    console.log("FINAL", quantityProduct);
+    const updateProduct = await productUpdate(quantityProduct);
+    console.log("UPDATE", updateProduct);
+  };
 
   const invoiceDataHandler = async (pId) => {
     const response = await orderinvoiceDataHandler(
@@ -428,6 +467,7 @@ export default function Checkout() {
       setInvoiceData(response?.[0]);
       setCart(response?.[0].cartdetail);
       setLoading(false);
+      productQuantity();
     }
   };
 
