@@ -7,10 +7,22 @@ const Products = (props) => {
   };
   return (
     <div className="cardView">
-      {props.card.quantity < 11}
-      <span class=" text instock">In Stock</span>
-      <span class=" text outofstock">Out of Stock</span>
-      <span class=" text lowstock">Low Stock</span>
+      {props.card.quantity > 10 ? (
+        <span class=" text instock">In Stock</span>
+      ) : (
+        <></>
+      )}
+      {props.card.quantity < 11 && props.card.quantity > 0 ? (
+        <span class=" text lowstock">Low Stock</span>
+      ) : (
+        <></>
+      )}
+      {props.card.quantity === 0 ? (
+        <span class=" text outofstock">Out of Stock</span>
+      ) : (
+        <></>
+      )}
+
       <img
         src={URL + props.card.img}
         className="card-img-top"
@@ -38,9 +50,15 @@ const Products = (props) => {
           </p>
         </div>
         <div className="div5">
-          <button className="BuyButton text" onClick={(e) => passtoParent(e)}>
-            Buy Now
-          </button>
+          {props.card.quantity === 0 ? (
+            <div className="div4">
+              <p className="text  div4">Out Of Stock</p>
+            </div>
+          ) : (
+            <button className="BuyButton text" onClick={(e) => passtoParent(e)}>
+              Buy Now
+            </button>
+          )}
         </div>
       </div>
     </div>

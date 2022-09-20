@@ -105,7 +105,22 @@ const Allproducts = (props) => {
           {productData.length > 0 &&
             productData.map((card) => {
               return (
-                <div className="cardView " >
+                <div className="cardView ">
+                  {card.quantity > 10 ? (
+                    <span class=" text instock">In Stock</span>
+                  ) : (
+                    <></>
+                  )}
+                  {card.quantity < 11 && card.quantity > 0 ? (
+                    <span class=" text lowstock">Low Stock</span>
+                  ) : (
+                    <></>
+                  )}
+                  {card.quantity === 0 ? (
+                    <span class=" text outofstock">Out of Stock</span>
+                  ) : (
+                    <></>
+                  )}
                   <img
                     src={URL + card.img}
                     className="card-img-top"
@@ -125,12 +140,16 @@ const Allproducts = (props) => {
                       <del>{card.price}</del>
                     </div>
                     <div className="fifth_conatiner">
-                      <button
-                        className="BuyButton"
-                        onClick={(e) => parentFunc(card)}
-                      >
-                        Buy Now
-                      </button>
+                      {card.quantity === 0 ? (
+                        <div className="fourth_container">Out Of Stock</div>
+                      ) : (
+                        <button
+                          className="BuyButton"
+                          onClick={(e) => parentFunc(card)}
+                        >
+                          Buy Now
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
