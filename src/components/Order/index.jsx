@@ -8,7 +8,7 @@ import { listBody } from "../../utils/helper";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import Invoice from "../Checkout/Invoice";
-import { orderinvoiceDataHandler } from "../../service/auth.service";
+// import { orderinvoiceDataHandler } from "../../service/auth.service";
 import Ordercard from "./Ordercard";
 import Ordercardskel from "./Ordercardskel";
 export default function Order() {

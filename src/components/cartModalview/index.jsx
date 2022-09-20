@@ -1,23 +1,35 @@
 import "../cartModalview/cartModalview.css";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { URL } from "../../utils/helper";
 const CartModal = (props) => {
   const data = props.childata;
   const userData = props.userData;
+  const quantity = props.childata.quantity;
+
   const [num, setNum] = useState(1);
+  const [quantityCheck, setQuantityCheck] = useState(false);
+  console.log(data.quantity);
   const goBack = () => {
     props.closeHandle();
   };
+  useEffect(() => {
+    setQuantityCheck(false);
+  }, [num]);
   const addFunc = () => {
-    const body = {
-      userId: userData.id,
-      productId: data._id,
-      quantity: num,
-    };
-    props.cartFunc(body);
-    props.closeHandle();
+    if (quantity >= num) {
+      setQuantityCheck(false);
+      const body = {
+        userId: userData.id,
+        productId: data._id,
+        quantity: num,
+      };
+      props.cartFunc(body);
+      props.closeHandle();
+    } else {
+      setQuantityCheck(true);
+    }
   };
   const incNum = (e) => {
     e.preventDefault();
@@ -86,6 +98,11 @@ const CartModal = (props) => {
                 Add to Cart
               </button>
             </div>
+            {quantityCheck ? (
+              <p className="errorstyle">{num} Quantity not available! </p>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </Modal.Body>
