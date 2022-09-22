@@ -95,7 +95,10 @@ export default function Register() {
       email,
       password,
       phoneNumber,
+      userImg:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
     };
+    console.log(body);
     const response = await userHandlerData(body); // eslint-disable-next-line
     if (response.success) {
       navigate(`/verify?cid=${response?.data._id}`);

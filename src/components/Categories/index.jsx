@@ -7,7 +7,7 @@ import { listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import Skeleton from "@mui/material/Skeleton";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 
 export default function Categories() {
   const [categoriesData, setcategoriesData] = useState([]);
@@ -23,11 +23,11 @@ export default function Categories() {
     setcategoriesData(response);
   };
 
-  const { data, error } = useQuery("category", () =>
-    categoryHndlerData(listBody({ where: { isActive: true }, perPage: 1000 }))
-  );
-  console.error("error: ", error);
-  console.log("categorydata: ", data);
+  // const { data, error } = useQuery("category", () =>
+  //   categoryHndlerData(listBody({ where: { isActive: true }, perPage: 1000 }))
+  // );
+ 
+
   return (
     <div>
       {categoriesData.length === 0 && (

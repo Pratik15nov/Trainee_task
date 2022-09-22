@@ -16,7 +16,7 @@ import {
   editaddressHndlerData,
   orderDataHandler,
   orderinvoiceDataHandler,
-  productUpdateHandler,
+  // productUpdateHandler,
   productHndlerData,
   productUpdate,
 } from "../../service/auth.service";
@@ -43,7 +43,7 @@ import Invoice from "./Invoice";
 
 export default function Checkout() {
   /// Cart Summery>>
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]); // eslint-disable-next-line
   const [userData, setuserData] = useState([]);
   const [goSteps, setGoSteps] = useState(0);
   const [addData, setaddData] = useState([]);
@@ -284,7 +284,7 @@ export default function Checkout() {
     cartDataHandler();
     // alert("Paymnet");
     let r = (Math.random() + 1).toString(36).substring(2).toUpperCase();
-
+    // eslint-disable-next-line
     orderinfoHandler("#" + `${r}`);
     Navigate("/");
     // const res = await loadScript(
@@ -418,12 +418,13 @@ export default function Checkout() {
       let menu = { productId: res.productId._id, quantity: res.quantity };
       return menu;
     });
-    console.log(items);
+    console.log("CART", items);
     var products = await productHndlerData(
       listBody({ where: { isActive: true } })
     );
-    console.log(products);
+    console.log("PRODUCT", products);
     const result = items.concat(products);
+    console.log("CONCAT", result);
     const res = Array.from(
       result
         .reduce(
@@ -432,7 +433,7 @@ export default function Checkout() {
               ? m.set(o._id || o.productId, {
                   ...m.get(o._id || o.productId),
                   quantity: m.get(o._id || o.productId).quantity - o.quantity,
-                })
+                }) // eslint-disable-next-line
               : m.set(o._id || o.productId, { ...o }),
             m
           ),
@@ -440,6 +441,7 @@ export default function Checkout() {
         )
         .values()
     );
+    console.log("ADDRES", res);
 
     var finalProduct = Object.values(
       res.reduce((r, o) => {
@@ -447,12 +449,13 @@ export default function Checkout() {
           productId: o._id || o.productId,
           quantity: 0,
         };
-        r[o._id || o.productId].quantity += +o.quantity;
+        r[o._id || o.productId].quantity += Math.abs(+o.quantity);
         return r;
       }, {})
     );
+
     const quantityProduct = { data: finalProduct };
-    console.log("FINAL", quantityProduct);
+    console.log("FINAL", finalProduct);
     const updateProduct = await productUpdate(quantityProduct);
     console.log("UPDATE", updateProduct);
   };
