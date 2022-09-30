@@ -134,8 +134,8 @@ export default function Cart() {
             <div
               className={
                 cart.length > 0
-                  ? "pe-xl-3 col-lg-8 card "
-                  : "pe-xl-3 col-lg-12 card"
+                  ? "pe-xl-3 col-lg-8 card giveMargin"
+                  : "pe-xl-3 col-lg-12 card giveMargin"
               }
             >
               <div className="cart mb-1">
@@ -213,7 +213,7 @@ export default function Cart() {
 
             <div
               style={{ display: orderSubtotal > 0 ? "block" : "none" }}
-              className="col-lg-4 main"
+              className="col-lg-4 main giveMargin"
             >
               <div className="mb-5 card">
                 <div className="card-header">
