@@ -2,7 +2,6 @@ import React from "react";
 import { URL } from "../../utils/helper";
 import "../Order/Order.css";
 const Ordercard = (props) => {
-  console.log("check",props.card.productId.price)
   return (
     <div className="ordercard-main">
       <div className="row ordercard">
@@ -60,12 +59,16 @@ const Ordercard = (props) => {
               <p className="textcard">
                 Quantity: {props.card.productId.quantity}
               </p>
-              <button
-                className="cancleButton"
-                onClick={() => props.updateState()}
-              >
-                Cancel Order
-              </button>
+              {props.card.orderStatus !== "CANCEL" ? (
+                <button
+                  className="cancleButton"
+                  onClick={() => props.updateState()}
+                >
+                  Cancel Order
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>

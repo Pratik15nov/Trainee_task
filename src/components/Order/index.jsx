@@ -129,6 +129,7 @@ export default function Order() {
           <div className="col-9">
             {orderList?.length > 0 ? (
               orderList?.map((card, index) => {
+                console.log(card)
                 return (
                   <Ordercard
                     card={card}
