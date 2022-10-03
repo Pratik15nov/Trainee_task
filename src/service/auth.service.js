@@ -102,13 +102,12 @@ export const productUpdateHandler = (id, body) => {
 export const productUpdate = (body) => {
   return post(`${ENDPOINTURL}/product/updateMany`, body);
 };
-<<<<<<< HEAD
 
 export const catchSearchData = (body) => {
   return post(`${ENDPOINTURL}/frontSearch`, body);
-=======
+};
+
 export const orderUpdate = (id, body) => {
   console.log(id, body);
   return patch(`${ENDPOINTURL}/order/${id}`, body);
->>>>>>> 66ac28045aa4c084182546825ff5b65a16afa9e5
 };

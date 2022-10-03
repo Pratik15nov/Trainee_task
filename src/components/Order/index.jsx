@@ -32,15 +32,16 @@ export default function Order() {
         },
       })
     );
-     console.log("CHECK",response)
+    console.log("CHECK", response);
     if (response) {
       const updatedList = [];
-      response.filter((res) => {res.cartdetail.filter((res1) => {
+      response.filter((res) => {
+        res.cartdetail.filter((res1) => {
           updatedList.push({ ...res, ...res1 });
         });
         setCardData(false);
       });
-      console.log(updatedList)
+      console.log(updatedList);
       setOrderList(updatedList.filter((data) => data.productId !== null));
     }
   };
