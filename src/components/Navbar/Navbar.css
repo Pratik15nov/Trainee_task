@@ -75,7 +75,7 @@
   max-height: 20rem;
   overflow: hidden;
   overflow-y: scroll;
-  width: 35.5rem;
+  width: 35rem;
   background-color: rgb(255, 255, 255);
   position: absolute;
   z-index: 9;
@@ -90,9 +90,13 @@
   border-top: 2px solid #999;
 }
 .listClass {
-  font-size: 25px;
+  font-size: 19px;
   color: #f0f8ff;
   font-style: italic;
+}
+.listClass:hover {
+  cursor: pointer;
+  background-color: #6e6e70;
 }
 
 .imageClass {
@@ -100,9 +104,10 @@
   padding: 7px;
   margin-right: 2%;
 }
-/* .iconClass{
-margin-left: -40px;
-z-index: 100;
-border: none;
-color: red;
-} */
+.noData {
+  color: white;
+  font-size: 14px;
+  margin-left: 3%;
+  margin-top: 2%;
+  font-style: italic;
+}
