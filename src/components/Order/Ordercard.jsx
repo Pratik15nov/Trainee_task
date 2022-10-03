@@ -2,6 +2,7 @@ import React from "react";
 import { URL } from "../../utils/helper";
 import "../Order/Order.css";
 const Ordercard = (props) => {
+  console.log("check",props.card.productId.price)
   return (
     <div className="ordercard-main">
       <div className="row ordercard">
@@ -20,7 +21,7 @@ const Ordercard = (props) => {
           {props.card.addressId.address_2},{props.card.addressId.pincode}
         </div>
         <div className="col-sm-3">
-          Order id: #{props.card._id.substring(0, 8)}
+          {/* Order id: #{props.card._id.substring(0, 8)} */}
           <br />
           <button
             className="button-download"
@@ -59,7 +60,12 @@ const Ordercard = (props) => {
               <p className="textcard">
                 Quantity: {props.card.productId.quantity}
               </p>
-              <button className="cancleButton" onClick={() => props.updateState()}>Cancel Order</button>
+              <button
+                className="cancleButton"
+                onClick={() => props.updateState()}
+              >
+                Cancel Order
+              </button>
             </div>
           </div>
         </div>

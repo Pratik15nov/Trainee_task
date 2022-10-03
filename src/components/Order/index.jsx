@@ -32,15 +32,20 @@ export default function Order() {
         },
       })
     );
-     console.log("CHECK",response)
+
     if (response) {
       const updatedList = [];
-      response.filter((res) => {res.cartdetail.filter((res1) => {
-          updatedList.push({ ...res, ...res1 });
+      response.filter((res) => {
+        res.cartdetail.filter((res1) => {
+          updatedList.push({
+            ...res,
+            productId: res1.productId,
+            quantity: res1.quantity,
+          });
         });
         setCardData(false);
       });
-      console.log(updatedList)
+
       setOrderList(updatedList.filter((data) => data.productId !== null));
     }
   };
@@ -48,7 +53,6 @@ export default function Order() {
   const componentRef = React.useRef();
 
   const invoiceDataHandler = async (pId, index) => {
-    console.log(index);
     setLoading(index);
     const selectedData = orderList.filter((res) => res.paymentId === pId)[0];
     // console.log(orderList.filter((res) => res.paymentId === pId)[0]);
@@ -77,13 +81,12 @@ export default function Order() {
     // }
   };
   const updateState = async (id) => {
-    console.log("id", id);
     const body = {
       orderStatus: "CANCEL",
     };
     const response = await orderUpdate(id, body);
     if (response) {
-      console.log("response", response);
+      orderListHandler();
     }
   };
 
@@ -126,7 +129,6 @@ export default function Order() {
           <div className="col-9">
             {orderList?.length > 0 ? (
               orderList?.map((card, index) => {
-                console.log(card);
                 return (
                   <Ordercard
                     card={card}
