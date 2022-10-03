@@ -3,7 +3,7 @@ import "./Cartskeleton.css";
 const Cartskeleton = (props) => {
   return (
     <>
-      <div className="container">
+      <div className="containerBig">
         <div className="mb-5 row">
           <div className="pe-xl-3 col-lg-8 card">
             <div className="cart mb-3">

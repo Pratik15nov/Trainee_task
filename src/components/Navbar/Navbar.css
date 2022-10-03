@@ -1,26 +1,22 @@
 .starter-template {
-  padding: 3rem 1.5rem;
+  /* padding: 3rem 1.5rem; */
   text-align: center;
 }
-.navbar {
-  padding: 1rem 2rem;
-  background-color: #292a2d;
-}
+
 .nav-link {
   color: rgb(255, 254, 255);
-  
 }
 
 .nav-link:hover {
   color: aquamarine;
   cursor: pointer;
 }
-.collapse {
+/* .collapse {
   justify-content: right;
-}
+} */
 .count {
   background-color: white;
-  
+
   padding-left: 8px;
   padding-right: 8px;
   padding-top: 3px;
@@ -31,32 +27,55 @@
   background-color: aquamarine;
 }
 .cart__count {
-  
-  
   display: inline-block;
   padding: 0px 7px;
   color: rgb(0, 0, 0);
   background-color: rgb(247, 247, 247);
   border-radius: 100%;
   padding: -3px;
-  
 }
-.logoimg{
-width: 128px;
+.logoimg {
+  width: 128px;
 }
-.carticon{
+.carticon {
   font-size: 20px;
   padding: 0;
   color: aliceblue;
-  margin-top:5px ;
+  margin-top: 5px;
   border: none;
 }
-.cartcount{
+.cartcount {
   font-size: 10px;
   /* margin-top: 8px; */
 }
-.carticon:hover{
+.carticon:hover {
   color: aquamarine;
   cursor: pointer;
   border: none;
+}
+.searchBar {
+  width: 35rem;
+  height: 2rem;
+  font-size: 20px;
+  /* margin: 0 150px 0 150px; */
+}
+
+.navbar {
+  padding: 1rem 2rem;
+  background-color: #292a2d;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+.movieList {
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+  width: 35rem;
+  background-color: aqua;
+position: absolute;
+  z-index: 9;
+}
+.hell{
+  justify-content: space-evenly;
 }

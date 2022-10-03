@@ -13,6 +13,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 export default function Dashboard() {
   const [imgdata, setimgData] = useState([]);
+  console.log('imgdata: ', imgdata);
 
   useEffect(() => {
     getImgData();
@@ -50,7 +51,7 @@ export default function Dashboard() {
                     : "/products"
                 }
               >
-                <img className="banner" alt="bg" src={URL + data.Img} />
+                <img className="banner" alt="bg" src={data.Img} />
               </Link>
             </SwiperSlide>
           ))}
