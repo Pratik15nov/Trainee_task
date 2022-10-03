@@ -31,7 +31,8 @@ export default function Order() {
           userId: JSON.parse(localStorage.getItem("userData"))?.id,
         },
       })
-    );
+      );
+      console.log('response: ', response);
 
     if (response) {
       const updatedList = [];
