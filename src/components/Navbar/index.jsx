@@ -12,7 +12,7 @@ export default function Navbar() {
   const [token, setToken] = useState();
   const [userData, setuserData] = useState([]);
   const [cart, setCart] = useState([]);
-  const [value, setValue] = useState([]);
+  const [searchdata, setSearchData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,9 +83,9 @@ export default function Navbar() {
             <input
               type="text"
               className="searchBar"
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => setSearchData(e.target.value)}
             />
-            {value.length > 0 ? <div className="movieList">hellow</div> : ""}
+            {searchdata.length > 0 ? <div className="movieList">hellow</div> : ""}
           </div>
 
           <div className="col-sm">
