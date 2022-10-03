@@ -24,7 +24,7 @@ const AllCategories = (props) => {
   };
 
   return (
-    <div className="scroll_filter scroll">
+    <div className="scroll_filter">
       {categoriesData.length > 0 && (
         <div>
           <div className="sidenavbar">

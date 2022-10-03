@@ -140,8 +140,8 @@ export default function Cart() {
             >
               <div className="cart mb-1">
                 <div className="cart-body" />
-                <div className="main-content">
-                  <h4 className="main-heading main">Shopping Cart</h4>
+                <div className="mainBody-content">
+                  <h4 className="mainBody-heading mainBody">Shopping Cart</h4>
                   <div className="text">
                     <p>You have {cart.length} items in your cart.</p>{" "}
                   </div>
@@ -213,7 +213,7 @@ export default function Cart() {
 
             <div
               style={{ display: orderSubtotal > 0 ? "block" : "none" }}
-              className="col-lg-4 main giveMargin"
+              className="col-lg-4 mainBody giveMargin"
             >
               <div className="mb-5 card">
                 <div className="card-header">
@@ -274,9 +274,9 @@ export default function Cart() {
             <div className="pe-xl-3 col-lg-12 card">
               <div className="cart mb-3">
                 <div className="cart-body" />
-                <div className="main-content"></div>
+                <div className="mainBody-content"></div>
 
-                <div className="col-md-12 main pt-2">
+                <div className="col-md-12 mainBody pt-2">
                   <img
                     src="/images/empty-cart.webp"
                     className=" mx-auto d-block"

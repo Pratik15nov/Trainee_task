@@ -7,17 +7,18 @@ const CartModal = (props) => {
   const data = props.childata;
   const userData = props.userData;
   const quantity = props.childata.quantity;
-
   const [num, setNum] = useState(1);
   const [quantityCheck, setQuantityCheck] = useState(false);
-  console.log(data.quantity);
+
   const goBack = () => {
     props.closeHandle();
   };
   useEffect(() => {
     setQuantityCheck(false);
   }, [num]);
+
   const addFunc = () => {
+    localStorage.setItem("CartNum", num);
     if (quantity >= num) {
       setQuantityCheck(false);
       const body = {

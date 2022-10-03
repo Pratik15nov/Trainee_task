@@ -13,7 +13,7 @@
 .see_more_button {
   background-color: rgb(2, 178, 144);
   color: rgb(240, 248, 255);
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   border: none;
   font-size: 22px;
   height: 4rem;
@@ -46,7 +46,7 @@
   .see_more_button {
     background-color: rgb(2, 178, 144);
     color: rgb(240, 248, 255);
-    font-family: "Inter", sans-serif;
+    font-family: 'Public Sans', sans-serif;;
     border: none;
     font-size: 22px;
     height: 4rem;

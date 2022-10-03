@@ -12,11 +12,11 @@ import Invoice from "../Checkout/Invoice";
 import Ordercard from "./Ordercard";
 import Ordercardskel from "./Ordercardskel";
 export default function Order() {
-  const [orderList, setOrderList] = useState([]);
+  const [orderList, setOrderList] = useState();
   const [invoicedata, setInvoiceData] = useState([]);
   const [orderSubtotal, setOrderSubtotal] = useState(0);
   const [isInvoice, setIsInvoice] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState();
   const [cardData, setCardData] = useState(true);
 
   useEffect(() => {
@@ -41,17 +41,18 @@ export default function Order() {
         });
         setCardData(false);
       });
-
-      setOrderList(updatedList);
+      setOrderList(updatedList.filter((data) => data.productId !== null));
     }
   };
 
   const componentRef = React.useRef();
 
-  const invoiceDataHandler = async (pId) => {
+  const invoiceDataHandler = async (pId, index) => {
+    console.log(index);
+    setLoading(index);
     const selectedData = orderList.filter((res) => res.paymentId === pId)[0];
     // console.log(orderList.filter((res) => res.paymentId === pId)[0]);
-    setLoading(true);
+
     // const response = await orderinvoiceDataHandler(
     //   listBody({ where: { isActive: true, paymentId: pId } })
     // );
@@ -87,7 +88,7 @@ export default function Order() {
     pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save(`shoppy_invoice_${invoicedata.paymentId}`);
     setIsInvoice(false);
-    setLoading(false);
+    setLoading(null);
   };
 
   return (
@@ -98,7 +99,9 @@ export default function Order() {
             <div className="page-title-right">
               <ol className="breadcrumb m-0">
                 <li className="breadcrumb-item">
-                  <Link to="/"> Home</Link>
+                  <Link className="breadcrumb-item active" to="/">
+                    Home
+                  </Link>
                 </li>
                 <li className="breadcrumb-item active">Orders</li>
               </ol>
@@ -111,15 +114,20 @@ export default function Order() {
         <div className="col-3"></div>
         {!cardData ? (
           <div className="col-9">
-            {orderList.map((card) => {
-              return (
-                <Ordercard
-                  card={card}
-                  loading={loading}
-                  invoiceDataHandler={invoiceDataHandler}
-                />
-              );
-            })}
+            {orderList?.length > 0 ? (
+              orderList?.slice(0, 10).map((card, index) => {
+                return (
+                  <Ordercard
+                    card={card}
+                    index={index}
+                    loading={loading}
+                    invoiceDataHandler={invoiceDataHandler}
+                  />
+                );
+              })
+            ) : (
+              <></>
+            )}
           </div>
         ) : (
           <div className="col-9">

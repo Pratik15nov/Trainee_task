@@ -13,7 +13,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 export default function Dashboard() {
   const [imgdata, setimgData] = useState([]);
-  console.log('imgdata: ', imgdata);
+  // console.log('imgdata: ', imgdata);
 
   useEffect(() => {
     getImgData();
