@@ -23,6 +23,7 @@
     "netlify-cli": "^10.13.0",
     "node-static": "^0.7.11",
     "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
     "react-form-stepper": "^2.0.3",
@@ -43,10 +44,10 @@
     "autoprefixer": "10.4.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired start",
+    "test": "react-app-rewired start",
+    "eject": "react-app-rewired start"
   },
   "eslintConfig": {
     "extends": [

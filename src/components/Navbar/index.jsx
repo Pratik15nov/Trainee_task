@@ -5,7 +5,13 @@ import "./Navbar.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listBody } from "../../utils/helper";
-import { categoryHndlerData, cartHndlerData } from "../../service/auth.service";
+import {
+  categoryHndlerData,
+  cartHndlerData,
+  catchSearchData,
+} from "../../service/auth.service";
+import { URL } from "../../utils/helper";
+import { useRef } from "react";
 
 export default function Navbar() {
   const [categoriesData, setcategoriesData] = useState([]);
@@ -13,6 +19,7 @@ export default function Navbar() {
   const [userData, setuserData] = useState([]);
   const [cart, setCart] = useState([]);
   const [searchdata, setSearchData] = useState([]);
+  console.log("searchdata: ", searchdata);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +61,73 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  const searchHandler = async (e) => {
+    try {
+      if (e.target.value.length > 3) {
+        const body = {
+          searchText: e.target.value,
+        };
+        const response = await catchSearchData(body);
+        console.log("response: ", response.data[0]);
+
+        setSearchData(response.data[0]);
+      } else {
+        setSearchData([]);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const inputRef = useRef(null);
+  const onButtonClick = () => {
+    // @ts-ignore (us this comment if typescript raises an error)
+    inputRef.current.value = "";
+    setSearchData([]);
+  };
+
+  // const showSearchData = () => {
+  //   try {
+  //     if (searchdata?.category?.length > 0) {
+  //       searchdata?.category?.map((c) => {
+  //         return (
+  //           <li style={{ listStyle: "none" }} key={c._id} className="listClass">
+  //             <img
+  //               src={URL + c.categoryImg}
+  //               class="img-rounded"
+  //               alt="Cinque Terre"
+  //               className="imageClass"
+  //               width="80px"
+  //               height="80px"
+  //             />
+  //             {c.categoryName}
+  //           </li>
+  //         );
+  //       });
+  //     } else if (searchdata?.products?.length > 0) {
+  //       searchdata?.products?.map((p) => {
+  //         return (
+  //           <li style={{ listStyle: "none" }} key={p._id} className="listClass">
+  //             <img
+  //               src={URL + p.img}
+  //               class="img-rounded"
+  //               alt="Cinque Terre"
+  //               width="80px"
+  //               height="80px"
+  //               className="imageClass"
+  //             />
+  //             {p.name}
+  //           </li>
+  //         );
+  //       });
+  //     } else {
+  //       return <p>No such data Found</p>;
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
+
   return (
     <nav className="navbar navbar-expand-md fixed-top text">
       <div className="containe hell">
@@ -80,12 +154,133 @@ export default function Navbar() {
           </div>
 
           <div className="col-sm">
-            <input
-              type="text"
-              className="searchBar"
-              onChange={(e) => setSearchData(e.target.value)}
-            />
-            {searchdata.length > 0 ? <div className="movieList">hellow</div> : ""}
+            <div class="input-group">
+              <input
+                className="searchBar"
+                ref={inputRef}
+                type="text"
+                class="form-control"
+                placeholder="Search..."
+                onChange={(e) => searchHandler(e)}
+              />
+              <button
+                type="button"
+                class="btn bg-transparent iconClass"
+                style={{
+                  marginLeft: "-40px",
+                  zIndex: "100",
+                  border: "none",
+                  color: "red",
+                }}
+                onClick={onButtonClick}
+              >
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+
+            {searchdata?.products?.length ||
+            searchdata?.category?.length >= 0 ? (
+              <div className="movieList">
+                <div>
+                  {searchdata?.category?.length > 0 ? (
+                    searchdata?.category?.map((c) => {
+                      return (
+                        <li
+                          style={{ listStyle: "none" }}
+                          key={c._id}
+                          className="listClass"
+                        >
+                          <img
+                            src={URL + c.categoryImg}
+                            class="img-rounded"
+                            alt="Cinque Terre"
+                            className="imageClass"
+                            width="80px"
+                            height="80px"
+                          />
+                          {c.categoryName}
+                        </li>
+                      );
+                    })
+                  ) : searchdata?.products?.length > 0 ? (
+                    searchdata?.products?.map((p) => {
+                      return (
+                        <li
+                          style={{ listStyle: "none" }}
+                          key={p._id}
+                          className="listClass"
+                        >
+                          <img
+                            src={URL + p.img}
+                            class="img-rounded"
+                            alt="Cinque Terre"
+                            width="80px"
+                            height="80px"
+                            className="imageClass"
+                          />
+                          {p.name}
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <p style={{ color: "white" }}>NO SUCH DATA FOUND</p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              ///////////
+              // <div className="movieList">
+              //   <div>
+              //     {searchdata?.category?.length > 0
+              //       ? searchdata?.category?.map((c) => {
+              //           return (
+              //             <li
+              //               style={{ listStyle: "none" }}
+              //               key={c._id}
+              //               className="listClass"
+              //             >
+              //               <img
+              //                 src={URL + c.categoryImg}
+              //                 class="img-rounded"
+              //                 alt="Cinque Terre"
+              //                 className="imageClass"
+              //                 width="80px"
+              //                 height="80px"
+              //               />
+              //               {c.categoryName}
+              //             </li>
+              //           );
+              //         })
+              //       : "No such category found"}
+              //   </div>
+              //   <hr class="solid" />
+              //   {/* /// */}
+              //   <div>
+              //     {searchdata?.products?.length > 0
+              //       ? searchdata?.products?.map((p) => {
+              //           return (
+              //             <li
+              //               style={{ listStyle: "none" }}
+              //               key={p._id}
+              //               className="listClass"
+              //             >
+              //               <img
+              //                 src={URL + p.img}
+              //                 class="img-rounded"
+              //                 alt="Cinque Terre"
+              //                 width="80px"
+              //                 height="80px"
+              //                 className="imageClass"
+              //               />
+              //               {p.name}
+              //             </li>
+              //           );
+              //         })
+              //       : "No such products found"}
+              //   </div>
+              // </div>
+              ""
+            )}
           </div>
 
           <div className="col-sm">

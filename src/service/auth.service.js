@@ -102,3 +102,7 @@ export const productUpdateHandler = (id, body) => {
 export const productUpdate = (body) => {
   return post(`${ENDPOINTURL}/product/updateMany`, body);
 };
+
+export const catchSearchData = (body) => {
+  return post(`${ENDPOINTURL}/frontSearch`, body);
+};
