@@ -59,7 +59,7 @@ const Ordercard = (props) => {
               <p className="textcard">
                 Quantity: {props.card.productId.quantity}
               </p>
-              <button></button>
+              <button className="cancleButton" onClick={() => props.updateState()}>Cancel Order</button>
             </div>
           </div>
         </div>

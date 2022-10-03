@@ -102,3 +102,7 @@ export const productUpdateHandler = (id, body) => {
 export const productUpdate = (body) => {
   return post(`${ENDPOINTURL}/product/updateMany`, body);
 };
+export const orderUpdate = (id, body) => {
+  console.log(id, body);
+  return patch(`${ENDPOINTURL}/order/${id}`, body);
+};

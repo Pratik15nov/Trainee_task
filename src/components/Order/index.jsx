@@ -2,7 +2,7 @@ import React from "react";
 import "./Order.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { orderListDataHandler } from "../../service/auth.service";
+import { orderListDataHandler, orderUpdate } from "../../service/auth.service";
 import { useEffect } from "react";
 import { listBody } from "../../utils/helper";
 import html2canvas from "html2canvas";
@@ -32,15 +32,15 @@ export default function Order() {
         },
       })
     );
-
+     console.log("CHECK",response)
     if (response) {
       const updatedList = [];
-      response.filter((res) => {
-        res.cartdetail.filter((res1) => {
+      response.filter((res) => {res.cartdetail.filter((res1) => {
           updatedList.push({ ...res, ...res1 });
         });
         setCardData(false);
       });
+      console.log(updatedList)
       setOrderList(updatedList.filter((data) => data.productId !== null));
     }
   };
@@ -75,6 +75,16 @@ export default function Order() {
       await handleDownloadPdf();
     }, 1000);
     // }
+  };
+  const updateState = async (id) => {
+    console.log("id", id);
+    const body = {
+      orderStatus: "CANCEL",
+    };
+    const response = await orderUpdate(id, body);
+    if (response) {
+      console.log("response", response);
+    }
   };
 
   const handleDownloadPdf = async () => {
@@ -115,13 +125,15 @@ export default function Order() {
         {!cardData ? (
           <div className="col-9">
             {orderList?.length > 0 ? (
-              orderList?.slice(0, 10).map((card, index) => {
+              orderList?.map((card, index) => {
+                console.log(card);
                 return (
                   <Ordercard
                     card={card}
                     index={index}
                     loading={loading}
                     invoiceDataHandler={invoiceDataHandler}
+                    updateState={() => updateState(card._id)}
                   />
                 );
               })
