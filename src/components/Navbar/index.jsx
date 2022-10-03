@@ -14,7 +14,9 @@ export default function Navbar() {
   const [cart, setCart] = useState([]);
   const [value, setValue] = useState([]);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    getcartproductData(userData.id);
+  }, [localStorage.getItem("CartNum")]);
   useEffect(() => {
     // setCount(storageData ? storageData : []);
     getcategoryData();
@@ -141,7 +143,7 @@ export default function Navbar() {
                   <Link
                     to={`/cart?uid=${userData.id}`}
                     type="button"
-                    class="btn carticon position-relative"
+                    className="btn carticon position-relative"
                   >
                     <i className="fas fa-shopping-cart"></i>
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-scuess cartcount">

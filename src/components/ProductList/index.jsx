@@ -23,8 +23,8 @@ const ProductList = (props) => {
   const { data, error } = useQuery("products", () =>
     productHndlerData(listBody({ where: { isActive: true } }))
   );
-  console.error("error: ", error);
-  console.log("data: ", data);
+  // console.error("error: ", error);
+  // console.log("data: ", data);
 
   const parentFunc = () => {
     setShow(true);

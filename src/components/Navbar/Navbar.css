@@ -65,7 +65,7 @@
   padding: 1rem 2rem;
   background-color: #292a2d;
   justify-content: space-evenly;
-  position: relative;
+  position: sticky;
 }
 
 .movieList {

@@ -1,16 +1,17 @@
-.main {
-  font-family: "Inter", sans-serif;
+.mainBody {
+  font-family: 'Public Sans', sans-serif;;
   justify-self: center;
 }
 .containerBig {
   margin-top: 8%;
 }
-.main-content {
+.mainBody-content {
   margin: 4%;
 }
 .card {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  margin-top: 5%;
 }
 @media only screen and (max-width: 1000px) {
   .card {
@@ -132,5 +133,6 @@
 }
 
 .giveMargin {
-  margin-top: 1rem;
+  margin-top: 40px;
+  padding-left: 25px;
 }

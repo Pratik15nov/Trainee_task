@@ -27,7 +27,7 @@
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
 }
 
 .third_container {
@@ -147,10 +147,11 @@
   height: 130px;
 }
 .filter_div {
-  margin-top: 7%;
+  margin-top: 3%;
+  position: fixed;
 }
 .data_div {
-  margin-top: 4%;
+  margin-left: 22%;
 }
 @media only screen and (max-width: 1024px) {
   .filter_div {

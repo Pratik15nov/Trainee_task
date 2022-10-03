@@ -1,26 +1,37 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import "./App.css";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
-import Navbar from "./components/Navbar";
-import Dashboard from "./components/Dashboard";
-import Categories from "./components/Categories";
+// import Navbar from "./components/Navbar";
+// import Dashboard from "./components/Dashboard";
+// import Categories from "./components/Categories";
 import Cart from "./components/Cart";
-import Allproducts from "./components/AllProducts";
-import Checkout from "./components/Checkout";
-import Order from "./components/Order";
-import Verify from "./components/Verify";
-import ForgotPassword from "./components/ForgotPassword";
-import Confirmpassword from "./components/Confirmpassword";
+// import Allproducts from "./components/AllProducts";
+// import Checkout from "./components/Checkout";
+// import Order from "./components/Order";
+// import Verify from "./components/Verify";
+// import ForgotPassword from "./components/ForgotPassword";
+// import Confirmpassword from "./components/Confirmpassword";
 import ProtectedRoute from "./components/protectedRoutes";
-import Successmail from "./components/successmail";
-import User from "./components/User";
+// import Successmail from "./components/successmail";
+// import User from "./components/User";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Loading from "./components/Loading";
+const Navbar = lazy(() => import("./components/Navbar"));
+const Allproducts = lazy(() => import("./components/AllProducts"));
+const Categories = lazy(() => import("./components/Categories"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const User = lazy(() => import("./components/User"));
+const Successmail = lazy(() => import("./components/successmail"));
+const Confirmpassword = lazy(() => import("./components/Confirmpassword"));
+const ForgotPassword = lazy(() => import("./components/ForgotPassword"));
+const Verify = lazy(() => import("./components/Verify"));
+const Order = lazy(() => import("./components/Order"));
+const Checkout = lazy(() => import("./components/Checkout"));
 
 const queryClient = new QueryClient();
-
 export default function App() {
   return (
     <BrowserRouter>
@@ -31,10 +42,12 @@ export default function App() {
             path="/"
             element={
               <>
-                <Navbar />
-                <Dashboard />
-                <Categories />
-                <ProductList />
+                <Suspense fallback={<Loading />}>
+                  <Navbar />
+                  <Dashboard />
+                  <Categories />
+                  <ProductList />
+                </Suspense>
               </>
             }
           />
@@ -43,8 +56,10 @@ export default function App() {
               path="/cart"
               element={
                 <>
-                  <Navbar />
-                  <Cart />
+                  <Suspense fallback={<Loading />}>
+                    <Navbar />
+                    <Cart />
+                  </Suspense>
                 </>
               }
             />
@@ -53,8 +68,10 @@ export default function App() {
             path="/categories"
             element={
               <>
-                <Navbar />
-                <Categories />
+                <Suspense fallback={<Loading />}>
+                  <Navbar />
+                  <Categories />
+                </Suspense>
               </>
             }
           />
@@ -62,8 +79,10 @@ export default function App() {
             path="/products"
             element={
               <>
-                <Navbar />
-                <Allproducts />
+                <Suspense fallback={<Loading />}>
+                  <Navbar />
+                  <Allproducts />
+                </Suspense>
               </>
             }
           />
@@ -72,8 +91,10 @@ export default function App() {
               path="/checkout"
               element={
                 <>
-                  <Navbar />
-                  <Checkout />
+                  <Suspense fallback={<Loading />}>
+                    <Navbar />
+                    <Checkout />
+                  </Suspense>
                 </>
               }
             />
@@ -83,8 +104,10 @@ export default function App() {
               path="/order"
               element={
                 <>
-                  <Navbar />
-                  <Order />
+                  <Suspense fallback={<Loading />}>
+                    <Navbar />
+                    <Order />
+                  </Suspense>
                 </>
               }
             />
@@ -94,8 +117,10 @@ export default function App() {
               path="/user"
               element={
                 <>
-                  <Navbar />
-                  <User />
+                  <Suspense fallback={<Loading />}>
+                    <Navbar />
+                    <User />
+                  </Suspense>
                 </>
               }
             />
@@ -104,22 +129,63 @@ export default function App() {
             path="/login"
             element={
               <>
-                <Login />
+                <Suspense fallback={<Loading />}>
+                  <Login />
+                </Suspense>
               </>
             }
           />
+
           <Route
             path="/register"
             element={
               <>
-                <Register />
+                <Suspense fallback={<Loading />}>
+                  <Register />
+                </Suspense>
               </>
             }
           />
-          <Route path="/verify" element={<Verify />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/confirmpassword" element={<Confirmpassword />} />
-          <Route path="/successmail" element={<Successmail />} />
+          <Route
+            path="/verify"
+            element={
+              <>
+                <Suspense fallback={<Loading />}>
+                  <Verify />
+                </Suspense>
+              </>
+            }
+          />
+          <Route
+            path="/forgotPassword"
+            element={
+              <>
+                <Suspense fallback={<Loading />}>
+                  <ForgotPassword />
+                </Suspense>
+              </>
+            }
+          />
+          <Route
+            path="/confirmpassword"
+            element={
+              <>
+                <Suspense fallback={<Loading />}>
+                  <Confirmpassword />
+                </Suspense>
+              </>
+            }
+          />
+          <Route
+            path="/successmail"
+            element={
+              <>
+                <Suspense fallback={<Loading />}>
+                  <Successmail />
+                </Suspense>
+              </>
+            }
+          />
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>

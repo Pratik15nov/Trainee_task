@@ -1,12 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@500&display=swap");
 .body {
   position: relative;
   overflow-y: scroll;
   height: 440px;
   width: 100%;
   text-align: justify;
-  font-family: 'Inter', sans-serif;
-  
+  font-family: 'Public Sans', sans-serif;;
 }
 .button {
   cursor: pointer;
@@ -29,7 +28,7 @@
   transition: 0.4s;
   color: rgb(255, 255, 255);
   text-decoration: none;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   background-color: rgb(241, 69, 69);
 }
 .errorstyle {
@@ -61,14 +60,15 @@
   text-align: center;
   font-size: 13px;
   font-weight: 600;
-  
+
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 .text {
   text-decoration: none;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
 }
 .svg {
   margin-left: 5px;
@@ -78,12 +78,12 @@
   margin-top: 3%;
   text-align: center;
   color: #292a2d;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   font-size: 24px;
 }
 .header_two {
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   font-size: 18px;
 }
 .badge {
@@ -93,15 +93,14 @@
 #RFS-StepButton {
   /* background-color: rgba(47, 46, 65); */
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   font-size: 18px;
-  
 }
 /* n-d6-0-2-26.active{
   background-color: rgba(47, 46, 65);
 } */
 #RFS-Label {
-  font-family: "Inter", sans-serif;
+  font-family: 'Public Sans', sans-serif;;
   font-size: 16px;
 }
 #activeColor {
@@ -136,4 +135,3 @@
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgb(2, 178, 144);
 }
-
