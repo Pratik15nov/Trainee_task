@@ -225,7 +225,7 @@ export default function Navbar() {
                   style={{ display: token ? "none" : "block" }}
                 >
                   <Link className="nav-link" to="/login">
-                    Log-In
+                    Login
                   </Link>
                 </li>
               </ul>

@@ -55,8 +55,9 @@
 }
 .searchBar {
   width: 35rem;
-  height: 2rem;
+  height: 35px;
   font-size: 20px;
+  padding-top: 5px;
   /* margin: 0 150px 0 150px; */
 }
 
@@ -73,9 +74,9 @@
   overflow-y: scroll;
   width: 35rem;
   background-color: aqua;
-position: absolute;
+  position: absolute;
   z-index: 9;
 }
-.hell{
+.hell {
   justify-content: space-evenly;
 }

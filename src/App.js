@@ -24,8 +24,8 @@ const queryClient = new QueryClient();
 export default function App() {
   return (
     <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-      <Routes>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
           <Route
             exact
             path="/"
@@ -120,8 +120,8 @@ export default function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/confirmpassword" element={<Confirmpassword />} />
           <Route path="/successmail" element={<Successmail />} />
-      </Routes>
-        </QueryClientProvider>
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }
