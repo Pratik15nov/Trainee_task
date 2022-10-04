@@ -295,7 +295,6 @@ export default function Cart() {
           </div>
         )}
       </div>
-
       {loading && <Cartskeleton />}
     </>
   );

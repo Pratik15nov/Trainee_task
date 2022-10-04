@@ -29,14 +29,13 @@
 }
 .sidenavbar span:hover {
   /* background: rgb(112, 162, 152);*/
-  background: rgb(36, 35, 35);
+  background: #25316d;
   color: white;
 }
-/* .sidenavbar span::after {
-    float: right;
-    right: 10%;
-    content: "+";
-  } */
+.sidenavbarafter span {
+  background: #25316d;
+  color: white;
+}
 .slide {
   clear: both;
   width: 100%;
@@ -112,16 +111,14 @@
   margin-top: 8%;
 }
 .sidebar {
-  background: #292a2d;
+  background: #25316d4f;
   padding: 12px;
-  color: white;
+  color: black;
   margin-top: 3%;
   text-align: center;
   margin-left: 15px;
   border-radius: 5px;
-  border-top: 4px solid #ff7979;
-  /* border-top-left-radius: 10px;
-  border-top-right-radius: 10px; */
+  border-top: 3px solid #25316d;
   text-transform: capitalize;
   margin-bottom: 12px;
   box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px,
@@ -133,4 +130,7 @@
 .imgcategory {
   width: 40px;
   border-radius: 10px;
+}
+.textCard {
+  padding-left: 5px;
 }
