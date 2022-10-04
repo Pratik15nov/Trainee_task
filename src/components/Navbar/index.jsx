@@ -29,7 +29,7 @@ export default function Navbar() {
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if(userData !== null) {
+    if (userData !== null) {
       dispatch(fetchCartList(listBody({ where: { userId: userData.id } })));
     }
   }, [userData]);
@@ -174,7 +174,7 @@ export default function Navbar() {
                     })
                   ) : (
                     <div className="noData">
-                      <p>NO SUCH DATA FOUND !</p>
+                      <p>No Such Data Found !</p>
                     </div>
                   )}
                 </div>

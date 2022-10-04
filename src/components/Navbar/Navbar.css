@@ -82,7 +82,7 @@
   background-color: rgb(255, 255, 255);
   position: absolute;
   z-index: 9;
-  border: 2px solid rgb(24, 23, 23);
+
   border-radius: 5px;
   background-color: #25316d;
 }
@@ -93,13 +93,12 @@
   border-top: 2px solid #999;
 }
 .listClass {
-  font-size: 19px;
+  font-size: 16px;
   color: #f0f8ff;
-  font-style: italic;
 }
 .listClass:hover {
   cursor: pointer;
-  background-color: #6e6e70;
+  background-color: #25316d4f;
 }
 
 .imageClass {
@@ -112,5 +111,4 @@
   font-size: 14px;
   margin-left: 3%;
   margin-top: 2%;
-  font-style: italic;
 }
