@@ -13,8 +13,11 @@ import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import AllproductSkeleton from "./AllproductSkeleton";
 import Box from "@mui/material/Box";
+import { useDispatch } from "react-redux";
+import { fetchCartList } from "../../js/actions";
 
 const Allproducts = (props) => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [productData, setproductData] = useState([]);
@@ -91,8 +94,10 @@ const Allproducts = (props) => {
     // localStorage.setItem("Data", JSON.stringify(cartdata));
     // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
+    dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
     // EventEmitter.dispatch("DATA", body.quantity.length);
     // console.log(cartdata);
+    
   };
 
   return (

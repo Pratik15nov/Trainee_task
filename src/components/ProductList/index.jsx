@@ -3,7 +3,7 @@ import "../ProductList/ProductList.css";
 import Products from "../Products";
 import CartModal from "../cartModalview";
 import SeeMore from "../SeemoreCard";
-import { EventEmitter } from "../../utils/helper";
+// import { EventEmitter } from "../../utils/helper";
 import { listBody } from "../../utils/helper";
 import {
   productHndlerData,
@@ -13,8 +13,11 @@ import Cardskeleton from "../Products/Cardskeleton";
 import Box from "@mui/material/Box";
 //
 import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import { fetchCartList } from "../../js/actions";
 
 const ProductList = (props) => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [userData, setuserData] = useState([]);
@@ -37,6 +40,7 @@ const ProductList = (props) => {
     setChildata(info);
   };
   const cartFunc = async (cartdata) => {
+    console.log("cartdata: ", cartdata);
     setChildata([]);
 
     const body = {
@@ -47,7 +51,8 @@ const ProductList = (props) => {
     // localStorage.setItem("Data", JSON.stringify(cartdata));
     // eslint-disable-next-line
     const response = await addcartHndlerData(body);
-    EventEmitter.dispatch("DATA", body.quantity.length);
+    dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
+    // EventEmitter.dispatch("DATA", body.quantity.length);
   };
 
   const [productData, setproductData] = useState([]);

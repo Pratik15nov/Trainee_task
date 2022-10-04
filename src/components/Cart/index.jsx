@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
-// import { EventEmitter } from "../../utils/helper";
 import {
   cartHndlerData,
   cartproductdeleteHndlerData,
@@ -11,9 +10,14 @@ import {
 import { delBody, listBody } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
 import Cartskeleton from "./Cartskeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartList } from "../../js/actions";
 
 export default function Cart() {
-  const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.list);
+  // console.log("cart: ", cart);
+  // const [cart, setCart] = useState([]);
   const location = useLocation();
   const [uid, setuid] = useState();
   const { search } = location;
@@ -31,25 +35,28 @@ export default function Cart() {
 
     getcartproductData(userId);
     setuid(userId);
-
-    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
-  // const updatedData = cart.map((cart) => ({ ...cart, ...cart.productId })); //Spread Ope..
-  // const orderSubtotal = Object.values(updatedData).reduce(
-  //   (r, { price }) => r + price,
-  //   0
-  // );
+  const getcartproductData = async (id) => {
+    // const response = await cartHndlerData(
+    //   listBody({
+    //     where: { userId: log },
+    //   })
+    // );
+    // setLoading(false);
+
+    // if (response.length > 0) {
+    //   setCart(response[0]?.cartdetail);
+    // } else {
+    // }
+    dispatch(fetchCartList(listBody({ where: { userId: id } })));
+    setLoading(false);
+  };
 
   var orderSubtotal = 0;
   for (var i = 0; i < cart.length; i++) {
     orderSubtotal += cart[i].productId.discountPrice * cart[i].quantity;
   }
-
-  // console.log(orderSubtotal);
-
-  // console.log("updatedata", cart);
-  // console.log("totoal", orderSubtotal);
 
   const handleDelete = async (itemId) => {
     // eslint-disable-next-line
@@ -59,32 +66,8 @@ export default function Cart() {
         productId: String(itemId),
       })
     );
-
+    // call here too
     getcartproductData(uid);
-  };
-
-  // const claerAll = async () => {
-  //   // eslint-disable-next-line
-  //   const response = await cartdeleteHndlerData(
-  //     delBody({
-  //       userId: String(uid),
-  //     })
-  //   );
-  //   getcartproductData(uid);
-  // };
-
-  const getcartproductData = async (log = "") => {
-    const response = await cartHndlerData(
-      listBody({
-        where: { userId: log },
-      })
-    );
-    setLoading(false);
-
-    if (response.length > 0) {
-      setCart(response[0]?.cartdetail);
-    } else {
-    }
   };
 
   const handlecheckbox = (e) => {
@@ -104,6 +87,7 @@ export default function Cart() {
     });
 
     if (response) {
+      // call here too
       getcartproductData(uid);
       setcheckedList([]);
     }
@@ -148,14 +132,6 @@ export default function Cart() {
                   <div
                     style={{ display: orderSubtotal > 0 ? "block" : "none" }}
                   >
-                    {/* <button
-                      className="dbutton"
-                      type="button"
-                      onClick={claerAll}
-                    >
-                      Empty Cart
-                    </button> */}
-
                     {checkedList.length > 0 && (
                       <button
                         className="dbutton ml-1"
@@ -295,7 +271,6 @@ export default function Cart() {
           </div>
         )}
       </div>
-
       {loading && <Cartskeleton />}
     </>
   );

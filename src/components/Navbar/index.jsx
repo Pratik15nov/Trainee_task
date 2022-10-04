@@ -1,54 +1,38 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-// import { EventEmitter } from "../../utils/helper";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listBody } from "../../utils/helper";
 import {
   categoryHndlerData,
-  cartHndlerData,
   catchSearchData,
 } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartList } from "../../js/actions";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.cart.list);
   const [categoriesData, setcategoriesData] = useState([]);
   const [token, setToken] = useState();
-  const [userData, setuserData] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [userData, setuserData] = useState(null);
   const [searchdata, setSearchData] = useState([]);
-  console.log("searchdata: ", searchdata);
   const navigate = useNavigate();
   useEffect(() => {
-    getcartproductData(userData.id);
-  }, [localStorage.getItem("CartNum")]);
-  useEffect(() => {
-    // setCount(storageData ? storageData : []);
     getcategoryData();
     setToken(localStorage.getItem("accessToken"));
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
-    getcartproductData(userData.id);
+    // dispatch(fetchCartList(listBody({ where: { userId: userData.id } })));
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // const [count, setCount] = useState([]);
-
-  // EventEmitter.subscribe("DATA", (res) => {
-  //   setCount(res);
-  // });
-
-  // EventEmitter.subscribe("DELETE", (res) => {
-  //   setCount(res);
-  // });
-  const getcartproductData = async (log = "") => {
-    const response = await cartHndlerData(
-      listBody({
-        where: { userId: log },
-      })
-    );
-    setCart(response[0].cartdetail);
-  };
+  useEffect(() => {
+    if(userData !== null) {
+      dispatch(fetchCartList(listBody({ where: { userId: userData.id } })));
+    }
+  }, [userData]);
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
@@ -70,7 +54,6 @@ export default function Navbar() {
           searchText: e.target.value,
         };
         const response = await catchSearchData(body);
-        console.log("response: ", response.data[0]);
 
         setSearchData(response.data[0]);
       } else {
@@ -252,13 +235,13 @@ export default function Navbar() {
                 </li>
                 <li className="nav-item">
                   <Link
-                    to={`/cart?uid=${userData.id}`}
+                    to={`/cart?uid=${userData?.id}`}
                     type="button"
                     className="btn carticon position-relative"
                   >
                     <i className="fas fa-shopping-cart"></i>
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-scuess cartcount">
-                      {cart.length}
+                      {cartData.length}
                     </span>
                   </Link>
                 </li>
@@ -290,7 +273,7 @@ export default function Navbar() {
                     </svg>
                   </div>
                   <ui className="dropdown-menu" aria-labelledby="dropdown01">
-                    <Link className="nav-link" to={`/user?uid=${userData.id}`}>
+                    <Link className="nav-link" to={`/user?uid=${userData?.id}`}>
                       Profile
                     </Link>
 
