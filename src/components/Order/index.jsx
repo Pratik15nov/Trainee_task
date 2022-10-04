@@ -17,6 +17,7 @@ export default function Order() {
   const [orderSubtotal, setOrderSubtotal] = useState(0);
   const [isInvoice, setIsInvoice] = useState(false);
   const [loading, setLoading] = useState();
+  const [updateLoading, setUpdateLoading] = useState(null);
   const [cardData, setCardData] = useState(true);
 
   useEffect(() => {
@@ -79,13 +80,15 @@ export default function Order() {
     }, 1000);
     // }
   };
-  const updateState = async (id) => {
+  const updateState = async (id, index) => {
+    setUpdateLoading(index);
     const body = {
       orderStatus: "CANCEL",
     };
     const response = await orderUpdate(id, body);
     if (response) {
       orderListHandler();
+      setUpdateLoading(null);
     }
   };
 
@@ -128,13 +131,15 @@ export default function Order() {
           <div className="col-9">
             {orderList?.length > 0 ? (
               orderList?.map((card, index) => {
+                console.log(card);
                 return (
                   <Ordercard
                     card={card}
                     index={index}
                     loading={loading}
                     invoiceDataHandler={invoiceDataHandler}
-                    updateState={() => updateState(card._id)}
+                    updateState={() => updateState(card._id, index)}
+                    updateLoading={updateLoading}
                   />
                 );
               })

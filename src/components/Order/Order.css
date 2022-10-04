@@ -231,4 +231,9 @@
   background: #e11010;
   border-radius: 5px;
   box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+  width: 40%;
+  font-size: 14px;
+}
+.spinner-border {
+  color: white;
 }
