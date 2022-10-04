@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../AllCategories/AllCategories.css";
-import { listBody } from "../../utils/helper";
+import { ENDPOINTURL, listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
@@ -26,18 +26,26 @@ const AllCategories = (props) => {
   return (
     <div className="scroll_filter">
       {categoriesData.length > 0 && (
-        <div>
-          <div className="sidenavbar">
-            <label className="label_nav ">
-              <span>Shop by category</span>
-            </label>
+        <>
+          <div className="sidebar">
+            <span>Shop by category</span>
           </div>
-          <div className="sidenavbar" onClick={() => handleClick("")}>
+          <div
+            className="sidenavbar sideBarHeader"
+            onClick={() => handleClick("")}
+          >
             <label htmlFor="touch" className="label_nav">
-              <span>All Products</span>
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/allproduct.png"
+                ></img>
+                <>All Products</>
+              </span>
             </label>
+            <label htmlFor="touch" className="categoryList"></label>
           </div>
-        </div>
+        </>
       )}
       {categoriesData.length > 0 &&
         categoriesData.map((card, index) => {
@@ -49,7 +57,14 @@ const AllCategories = (props) => {
               onClick={() => handleClick(card._id)}
             >
               <label htmlFor="touch" className="label_nav">
-                <span>{card.categoryName}</span>
+                <span className="categoryList">
+                  <img
+                    className="imgcategory"
+                    src={URL + card.categoryImg}
+                    alt={card.categoryName}
+                  ></img>
+                  <> {card.categoryName}</>
+                </span>
               </label>
             </div>
           );
