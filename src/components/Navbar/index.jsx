@@ -119,6 +119,7 @@ export default function Navbar() {
                   zIndex: "100",
                   border: "none",
                   color: "red",
+                  top:"3px"
                 }}
                 onClick={onButtonClick}
               >
