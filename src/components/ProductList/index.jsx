@@ -71,53 +71,56 @@ const ProductList = (props) => {
   };
 
   return (
-    <div>
+    <>
       <div>
-        <h1 className="header_one">The One-stop Shopping Destination</h1>
-        <p className="header_two">
-          E-commerce is revolutionizing the way we all shop in India.
-        </p>
         <div>
-          {productData.length > 0 &&
-            productData.slice(0, 7).map((card, index) => {
-              return (
-                <div key={`products_${index}`}>
-                  <Products
-                    index={index}
-                    parentFunc={parentFunc}
-                    takeData={takeData}
-                    card={card}
-                    key={card.id}
-                  />
-                </div>
-              );
-            })}
-        </div>
+          <h1 className="header_one">The One-stop Shopping Destination</h1>
+          <p className="header_two">
+            E-commerce is revolutionizing the way we all shop in India.
+          </p>
+          <div>
+            {productData.length > 0 &&
+              productData.slice(0, 7).map((card, index) => {
+                return (
+                  <div key={`products_${index}`}>
+                    <Products
+                      index={index}
+                      parentFunc={parentFunc}
+                      takeData={takeData}
+                      card={card}
+                      key={card.id}
+                    />
+                  </div>
+                );
+              })}
+          </div>
 
-        {loading && (
-          <Box>
-            <Cardskeleton />
-            <Cardskeleton />
-            <Cardskeleton />
-            <Cardskeleton />
-            <Cardskeleton />
-            <Cardskeleton />
-            <Cardskeleton />
-          </Box>
-        )}
-        <div>
-          <SeeMore />
+          {loading && (
+            <Box>
+              <Cardskeleton />
+              <Cardskeleton />
+              <Cardskeleton />
+              <Cardskeleton />
+              <Cardskeleton />
+              <Cardskeleton />
+              <Cardskeleton />
+            </Box>
+          )}
+          <div>
+            <SeeMore />
+          </div>
         </div>
+        {show && (
+          <CartModal
+            childata={childata}
+            cartFunc={cartFunc}
+            closeHandle={closeHandle}
+            userData={userData}
+          />
+        )}
       </div>
-      {show && (
-        <CartModal
-          childata={childata}
-          cartFunc={cartFunc}
-          closeHandle={closeHandle}
-          userData={userData}
-        />
-      )}
-    </div>
+      <br />
+    </>
   );
 };
 

@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "../AllCategories/AllCategories.css";
-import { listBody } from "../../utils/helper";
+import { listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
+import { useLocation } from "react-router-dom";
 
 const AllCategories = (props) => {
+  const location = useLocation();
   const [categoriesData, setcategoriesData] = useState([]);
-
+  const [uid, setuid] = useState(undefined);
+  const { search } = location;
+  console.log("main", uid);
   useEffect(() => {
     getcategoryData();
   }, []);
+  useEffect(() => {
+    let userId;
+    if (search.split("=").length > 0) {
+      userId = search.split("=")[1];
+      setuid(userId);
+      console.log(userId);
+    } else {
+      console.log(userId);
+      setuid(null);
+    }
+
+    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
+  }, [search]);
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
@@ -21,35 +38,52 @@ const AllCategories = (props) => {
 
   const handleClick = (id) => {
     props.id(id);
+    setuid(id);
   };
 
   return (
     <div className="scroll_filter">
       {categoriesData.length > 0 && (
-        <div>
-          <div className="sidenavbar">
-            <label className="label_nav ">
-              <span>Shop by category</span>
-            </label>
+        <>
+          <div className="sidebar">
+            <span>Shop by category</span>
           </div>
-          <div className="sidenavbar" onClick={() => handleClick("")}>
+          <div
+            className={
+              uid !== undefined ? "sidenavbar" : "sidenavbar sidenavbarafter"
+            }
+            onClick={() => handleClick(undefined)}
+          >
             <label htmlFor="touch" className="label_nav">
-              <span>All Products</span>
+              <span className="categoryList">
+                <img className="imgcategory" src="/images/allproduct.png"></img>
+                <div className="text textCard"> All Products</div>
+              </span>
             </label>
+            <label htmlFor="touch" className="categoryList"></label>
           </div>
-        </div>
+        </>
       )}
       {categoriesData.length > 0 &&
         categoriesData.map((card, index) => {
           return (
             <div
-              className="sidenavbar"
+              className={
+                uid === card._id ? "sidenavbar sidenavbarafter" : "sidenavbar"
+              }
               id={card._id}
               key={`categories_${index}}`}
               onClick={() => handleClick(card._id)}
             >
               <label htmlFor="touch" className="label_nav">
-                <span>{card.categoryName}</span>
+                <span className="categoryList">
+                  <img
+                    className="imgcategory"
+                    src={URL + card.categoryImg}
+                    alt={card.categoryName}
+                  ></img>
+                  <div className="text textCard"> {card.categoryName}</div>
+                </span>
               </label>
             </div>
           );

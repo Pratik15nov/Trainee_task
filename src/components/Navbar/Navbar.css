@@ -59,13 +59,16 @@
   font-size: 20px;
   padding-top: 5px;
   /* margin: 0 150px 0 150px; */
-  border: 2px solid white;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  border: none;
   border-radius: 5px;
+  margin-top: 5px;
 }
 
 .navbar {
   padding: 1rem 2rem;
-  background-color: #292a2d;
+  background-color: #25316d;
   justify-content: space-evenly;
   position: sticky;
 }
@@ -81,7 +84,7 @@
   z-index: 9;
   border: 2px solid rgb(24, 23, 23);
   border-radius: 5px;
-  background-color: #292a2d;
+  background-color: #25316d;
 }
 .hell {
   justify-content: space-evenly;
