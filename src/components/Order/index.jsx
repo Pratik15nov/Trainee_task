@@ -19,7 +19,7 @@ export default function Order() {
   const [loading, setLoading] = useState();
   const [updateLoading, setUpdateLoading] = useState(null);
   const [cardData, setCardData] = useState(true);
-
+  const [showMore, setShowMore] = useState(false);
   useEffect(() => {
     orderListHandler();
   }, []);
@@ -131,7 +131,6 @@ export default function Order() {
           <div className="col-9">
             {orderList?.length > 0 ? (
               orderList?.map((card, index) => {
-                console.log(card);
                 return (
                   <Ordercard
                     card={card}
@@ -154,6 +153,7 @@ export default function Order() {
           </div>
         )}
       </div>
+
       <div ref={componentRef}>
         {isInvoice ? (
           <Invoice invoicedata={invoicedata} orderSubtotal={orderSubtotal} />
