@@ -60,12 +60,18 @@ const Ordercard = (props) => {
                 Quantity: {props.card.productId.quantity}
               </p>
               {props.card.orderStatus !== "CANCEL" ? (
-                <button
-                  className="cancleButton"
-                  onClick={() => props.updateState()}
-                >
-                  Cancel Order
-                </button>
+                <>
+                  <button
+                    className="cancleButton"
+                    onClick={() => props.updateState()}
+                  >
+                    {props.updateLoading === props.index ? (
+                      <div class="spinner-border spinner-border-sm"></div>
+                    ) : (
+                      "Cancel Order"
+                    )}
+                  </button>
+                </>
               ) : (
                 <></>
               )}
