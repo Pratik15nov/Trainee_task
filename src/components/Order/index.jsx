@@ -136,7 +136,7 @@ export default function Order() {
                     card={card}
                     index={index}
                     loading={loading}
-                    invoiceDataHandler={invoiceDataHandler}
+                    invoiceDataHafontndler={invoiceDataHandler}
                     updateState={() => updateState(card._id, index)}
                     updateLoading={updateLoading}
                   />

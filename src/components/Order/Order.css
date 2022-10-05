@@ -134,7 +134,8 @@
 }
 
 #progressbar .step0:before {
-  font-family: FontAwesome;
+  font-family: "Public Sans", sans-serif;
+
   content: "\f10c";
   color: #fff;
 }

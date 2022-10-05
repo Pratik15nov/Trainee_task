@@ -5,7 +5,7 @@
   height: 440px;
   width: 100%;
   text-align: justify;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
 }
 .button {
   cursor: pointer;
@@ -28,7 +28,7 @@
   transition: 0.4s;
   color: rgb(255, 255, 255);
   text-decoration: none;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
   background-color: rgb(241, 69, 69);
 }
 .errorstyle {
@@ -68,7 +68,7 @@
 
 .text {
   text-decoration: none;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
 }
 .svg {
   margin-left: 5px;
@@ -78,12 +78,12 @@
   margin-top: 3%;
   text-align: center;
   color: #25316d;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
   font-size: 24px;
 }
 .header_two {
   text-align: center;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
   font-size: 18px;
 }
 .badge {
@@ -93,14 +93,14 @@
 #RFS-StepButton {
   /* background-color: rgba(47, 46, 65); */
   text-align: center;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
   font-size: 18px;
 }
 /* n-d6-0-2-26.active{
   background-color: rgba(47, 46, 65);
 } */
 #RFS-Label {
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
 }
 #activeColor {

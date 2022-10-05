@@ -185,7 +185,8 @@
   border-radius: 5px;
 
   font-size: 14px;
-  font-family: "inter";
+  font-family: "Public Sans", sans-serif;
+
   margin: 4px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -198,7 +199,8 @@
 
 .promocodeinfo {
   font-size: 12px;
-  font-family: "inter";
+  font-family: "Public Sans", sans-serif;
+
 }
 
 div {

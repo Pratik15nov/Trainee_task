@@ -56,7 +56,11 @@ const AllCategories = (props) => {
           >
             <label htmlFor="touch" className="label_nav">
               <span className="categoryList">
-                <img className="imgcategory" src="/images/allproduct.png"></img>
+                <img
+                  className="imgcategory"
+                  src="/images/allproduct.png"
+                  alt="img"
+                ></img>
                 <div className="text textCard"> All Products</div>
               </span>
             </label>

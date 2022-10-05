@@ -12,7 +12,7 @@ import {
 import Cardskeleton from "../Products/Cardskeleton";
 import Box from "@mui/material/Box";
 //
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
 
@@ -23,9 +23,9 @@ const ProductList = (props) => {
   const [userData, setuserData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const fetcher = (url) => axios.post(url).then((res) => res.data);
-  const { data, error } = useQuery("products", () =>
-    productHndlerData(listBody({ where: { isActive: true } }))
-  );
+  // const { data, error } = useQuery("products", () =>
+  //   productHndlerData(listBody({ where: { isActive: true } }))
+  // );
   // console.error("error: ", error);
   // console.log("data: ", data);
 

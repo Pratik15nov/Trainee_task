@@ -19,7 +19,8 @@ import ProtectedRoute from "./components/protectedRoutes";
 // import User from "./components/User";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Loading from "./components/Loading";
-import Footer from "./components/Footer";
+import PageNotFound from "./components/PageNotFound";
+// import Footer from "./components/Footer";
 const Navbar = lazy(() => import("./components/Navbar"));
 const Allproducts = lazy(() => import("./components/AllProducts"));
 const Categories = lazy(() => import("./components/Categories"));
@@ -185,6 +186,16 @@ export default function App() {
               <>
                 <Suspense fallback={<Loading />}>
                   <Successmail />
+                </Suspense>
+              </>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <>
+                <Suspense fallback={<Loading />}>
+                  <PageNotFound />
                 </Suspense>
               </>
             }
