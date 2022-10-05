@@ -5,13 +5,40 @@ import { categoryHndlerData } from "../../service/auth.service";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { useLocation } from "react-router-dom";
+import { RangeSlider } from "rsuite";
 
 const AllCategories = (props) => {
   const location = useLocation();
+  const [checkbox, setCheckbox] = useState([
+    {
+      id: "1",
+      value: "1,000",
+      checked: false,
+    },
+    {
+      id: "2",
+      value: "10,000",
+      checked: false,
+    },
+    {
+      id: "3",
+      value: "50,000",
+      checked: false,
+    },
+    {
+      id: "4",
+      value: "1,00,000",
+      checked: false,
+    },
+  ]);
+  console.log(
+    "checkbox: ",
+    checkbox.map((c) => c)
+  );
+
   const [categoriesData, setcategoriesData] = useState([]);
   const [uid, setuid] = useState(undefined);
   const { search } = location;
-  console.log("main", uid);
   useEffect(() => {
     getcategoryData();
   }, []);
@@ -39,6 +66,16 @@ const AllCategories = (props) => {
   const handleClick = (id) => {
     props.id(id);
     setuid(id);
+  };
+
+  const checkfunction = (e, id) => {
+    console.log("e: ", e);
+    console.log("id: ", id);
+    const seek = checkbox.map((c) =>
+      c.id === id ? { ...c, checked: true } : { ...c, checked: false }
+    );
+    console.log("seek: ", seek);
+    setCheckbox(seek);
   };
 
   return (
@@ -92,6 +129,37 @@ const AllCategories = (props) => {
             </div>
           );
         })}
+         <div className="sidebar">
+            <span>Filters</span>
+          </div>
+      <div className="filterClass">
+        <span className="filterSpan">
+          <div className="priceHead">
+            <p className="headTag">Price</p>
+          </div>
+          <div>
+            {checkbox.map((c) => (
+              <>
+                <input
+                  key={c?.id}
+                  name="myCheckbox"
+                  class="form-check-input"
+                  type="checkbox"
+                  checked={c.checked}
+                  onChange={(e) => checkfunction(e.target.checked, c.id)}
+                />
+                <label class="form-check-label">Under ₹ {c?.value}</label>
+                <br />
+              </>
+            ))}
+          </div>
+          <div className="selfinput" >
+          <input   className="inputselfField" placeholder="From ₹ Price" type={"text"} /> 
+          <input   className="inputselfField"  placeholder="To ₹ Price"  type={"text"} /> 
+          <button className="selfInputButton" >Go</button>
+          </div>
+        </span>
+      </div>
       {categoriesData.length === 0 && (
         <Box className="skeleton_box">
           <Skeleton

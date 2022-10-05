@@ -61,10 +61,10 @@
   height: 130px;
 }
 /**********  ENABLE THIS SCROLLER IF MORE CATEGORIES AE THERE  ***************/
-/* .scroll_filter {
+.scroll_filter {
   overflow-y: scroll;
-  height: 420px;
-} */
+  height: 550px;
+}
 /************************/
 /*USE THIS FOR A DROPDON IF HAVE SUBCATEGORIES */
 /* <div className="sidenavbar" onClick={()=>console.log("WORKS")} >
@@ -134,4 +134,68 @@
 }
 .textCard {
   padding-left: 5px;
+}
+
+.filterClass {
+  width: auto;
+  margin-left: 5%;
+}
+.filterSpan {
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  border-radius: 5px;
+  border: none;
+  transition: 0.4s;
+  text-decoration: none;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  padding: 5px;
+  font-family: "Public Sans", sans-serif;
+
+  display: block;
+  align-items: center;
+  /* text-align: center; */
+}
+.priceHead{
+  border-radius: 5px;
+    background: #24316d;
+    color: white;
+    /* border: 1px solid red; */
+    text-align: center;
+    font-size: 16px;
+}
+.headTag{
+  padding: 10px;
+}
+.form-check-label{
+margin-left: 4%;
+font-size: 13px;
+cursor: pointer;
+}
+
+.form-check-label:hover{
+  color: green;
+} 
+
+.selfinput{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1%;
+}
+
+.inputselfField{
+  width: 110px;
+}
+
+.selfInputButton{
+  background-color:#24316d;
+  width: 50px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 4px;
+
 }
