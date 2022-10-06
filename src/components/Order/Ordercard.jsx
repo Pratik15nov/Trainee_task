@@ -1,5 +1,5 @@
 import React from "react";
-import { URL } from "../../utils/helper";
+import { formateNum, URL } from "../../utils/helper";
 import "../Order/Order.css";
 const Ordercard = (props) => {
   return (
@@ -11,7 +11,7 @@ const Ordercard = (props) => {
           Date: {props.card.createdAt.substring(0, 10)}
         </div>
         <div className="col-sm-2">
-          Total: {props.card.productId.price * props.card.productId.quantity}
+          Total: {formateNum(props.card.totalPrice)}
           <br />
         </div>
         <div className="col-sm-4">
@@ -20,7 +20,7 @@ const Ordercard = (props) => {
           {props.card.addressId.address_2},{props.card.addressId.pincode}
         </div>
         <div className="col-sm-3">
-          {/* Order id: #{props.card._id.substring(0, 8)} */}
+          Order id: #{props.card._id.substring(0, 8)}
           <br />
           <button
             className="button-download"
@@ -56,24 +56,21 @@ const Ordercard = (props) => {
               <p className="textcard">
                 Specification: {props.card.productId.specification}
               </p>
-              <p className="textcard">
-                Quantity: {props.card.productId.quantity}
-              </p>
-              {props.card.orderStatus !== "CANCEL" ? (
-                <>
-                  <button
-                    className="cancleButton"
-                    onClick={() => props.updateState()}
-                  >
-                    {props.updateLoading === props.index ? (
-                      <div class="spinner-border spinner-border-sm"></div>
-                    ) : (
-                      "Cancel Order"
-                    )}
-                  </button>
-                </>
-              ) : (
+              <p className="textcard">Quantity: {props.card.quantity}</p>
+              {props.card.orderStatus === "CANCEL" ||
+              props.card.orderStatus === "RECEIVED" ? (
                 <></>
+              ) : (
+                <button
+                  className="cancleButton"
+                  onClick={() => props.updateState()}
+                >
+                  {props.updateLoading === props.index ? (
+                    <div class="spinner-border spinner-border-sm"></div>
+                  ) : (
+                    "Cancel Order"
+                  )}
+                </button>
               )}
             </div>
           </div>

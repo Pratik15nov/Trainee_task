@@ -12,6 +12,7 @@ import Invoice from "../Checkout/Invoice";
 import Ordercard from "./Ordercard";
 import Ordercardskel from "./Ordercardskel";
 export default function Order() {
+  const [orderListData, setOrderListData] = useState();
   const [orderList, setOrderList] = useState();
   const [invoicedata, setInvoiceData] = useState([]);
   const [orderSubtotal, setOrderSubtotal] = useState(0);
@@ -20,10 +21,52 @@ export default function Order() {
   const [updateLoading, setUpdateLoading] = useState(null);
   const [cardData, setCardData] = useState(true);
   const [showMore, setShowMore] = useState(false);
+  const [index, setIndex] = useState("ALL");
+
   useEffect(() => {
     orderListHandler();
   }, []);
-
+  useEffect(() => {
+    if (showMore) {
+      setOrderList(orderListData);
+    } else {
+      setOrderList(orderListData?.slice(0, 3));
+    }
+  }, [orderListData, showMore]);
+  useEffect(() => {
+    switch (index) {
+      case "ALL":
+        setOrderList();
+        setOrderList(orderListData);
+        break;
+      case "Placed":
+        setOrderList();
+        setOrderList(
+          orderListData.filter((data) => data.orderStatus === "PLACED")
+        );
+        break;
+      case "Dispatched":
+        setOrderList();
+        setOrderList(
+          orderListData.filter((data) => data.orderStatus === "DISPATCHED")
+        );
+        break;
+      case "Received":
+        setOrderList();
+        setOrderList(
+          orderListData.filter((data) => data.orderStatus === "RECEIVED")
+        );
+        break;
+      case "Cancelled":
+        setOrderList();
+        setOrderList(
+          orderListData.filter((data) => data.orderStatus === "CANCEL")
+        );
+        break;
+      default:
+        setOrderList(orderListData);
+    }
+  }, [index]);
   const orderListHandler = async (pId) => {
     const response = await orderListDataHandler(
       listBody({
@@ -46,7 +89,7 @@ export default function Order() {
         setCardData(false);
       });
 
-      setOrderList(updatedList.filter((data) => data.productId !== null));
+      setOrderListData(updatedList.filter((data) => data.productId !== null));
     }
   };
 
@@ -126,7 +169,105 @@ export default function Order() {
         </div>
       </div>
       <div className="row">
-        <div className="col-3"></div>
+        <div className="col-3 "></div>
+        <div className="col-3 stickyBar">
+          <div
+            className={
+              index === "ALL"
+                ? "sidebarOrder sidebarOrderafter"
+                : " sidebarOrder "
+            }
+            onClick={() => setIndex("ALL")}
+          >
+            <label className="label_nav">
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/allproduct.png"
+                  alt="img"
+                ></img>
+                <div className="text textCard">All Orders</div>
+              </span>
+            </label>
+          </div>
+
+          <div
+            className={
+              index === "Placed"
+                ? "sidebarOrder sidebarOrderafter"
+                : " sidebarOrder "
+            }
+            onClick={() => setIndex("Placed")}
+          >
+            <label className="label_nav">
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/plac.png"
+                  alt="img"
+                ></img>
+                <div className="text textCard">Placed Orders</div>
+              </span>
+            </label>
+          </div>
+          <div
+            className={
+              index === "Dispatched"
+                ? "sidebarOrder sidebarOrderafter"
+                : " sidebarOrder "
+            }
+            onClick={() => setIndex("Dispatched")}
+          >
+            <label className="label_nav">
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/dis.png"
+                  alt="img"
+                ></img>
+                <div className="text textCard">Dispatched Orders</div>
+              </span>
+            </label>
+          </div>
+          <div
+            className={
+              index === "Received"
+                ? "sidebarOrder sidebarOrderafter"
+                : " sidebarOrder "
+            }
+            onClick={() => setIndex("Received")}
+          >
+            <label className="label_nav">
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/rec.png"
+                  alt="img"
+                ></img>
+                <div className="text textCard">Received Orders</div>
+              </span>
+            </label>
+          </div>
+          <div
+            className={
+              index === "Cancelled"
+                ? "sidebarOrder sidebarOrderafter"
+                : " sidebarOrder "
+            }
+            onClick={() => setIndex("Cancelled")}
+          >
+            <label className="label_nav">
+              <span className="categoryList">
+                <img
+                  className="imgcategory"
+                  src="/images/can.png"
+                  alt="img"
+                ></img>
+                <div className="text textCard">Cancelled Orders</div>
+              </span>
+            </label>
+          </div>
+        </div>
         {!cardData ? (
           <div className="col-9">
             {orderList?.length > 0 ? (
@@ -136,7 +277,7 @@ export default function Order() {
                     card={card}
                     index={index}
                     loading={loading}
-                    invoiceDataHafontndler={invoiceDataHandler}
+                    invoiceDataHandler={invoiceDataHandler}
                     updateState={() => updateState(card._id, index)}
                     updateLoading={updateLoading}
                   />
@@ -153,10 +294,29 @@ export default function Order() {
           </div>
         )}
       </div>
+      {showMore ? (
+        <></>
+      ) : (
+        <div className="viewall">
+          <button
+            className="viewallButton"
+            onClick={() => [setShowMore(true), setIndex("ALL")]}
+          >
+            View All Orders
+          </button>
+        </div>
+      )}
 
-      <div ref={componentRef}>
+      <div>
         {isInvoice ? (
-          <Invoice invoicedata={invoicedata} orderSubtotal={orderSubtotal} />
+          <div className="col customcard">
+            <div className="container-fluid invoice" ref={componentRef}>
+              <Invoice
+                invoicedata={invoicedata}
+                orderSubtotal={orderSubtotal}
+              />
+            </div>
+          </div>
         ) : (
           <></>
         )}

@@ -68,25 +68,26 @@
   width: 1px;
 }
 
-.checkbox-input-adds:checked+.checkbox-adds {
+.checkbox-input-adds:checked + .checkbox-adds {
   border-color: #345724;
   /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); */
 }
 
-.checkbox-input-adds:checked+.checkbox-adds:before {
+.checkbox-input-adds:checked + .checkbox-adds:before {
   transform: scale(1);
   opacity: 1;
   background-color: #345724;
 }
 
-.checkbox-input-adds:checked+.checkbox-adds .checkbox-icon,
-.checkbox-input-adds:checked+.checkbox-adds .checkbox-label {
+.checkbox-input-adds:checked + .checkbox-adds .checkbox-icon,
+.checkbox-input-adds:checked + .checkbox-adds .checkbox-label {
   color: #000000;
 }
 
-.checkbox-input-adds:focus+.checkbox-adds {}
+.checkbox-input-adds:focus + .checkbox-adds {
+}
 
-.checkbox-input-adds:focus+.checkbox-adds:before {
+.checkbox-input-adds:focus + .checkbox-adds:before {
   transform: scale(1);
   opacity: 1;
 }
@@ -137,7 +138,8 @@
   background-position: 50% 50%;
 }
 
-.checkbox-adds:hover {}
+.checkbox-adds:hover {
+}
 
 .checkbox-adds:hover:before {
   transform: scale(1);
@@ -200,7 +202,6 @@
 .promocodeinfo {
   font-size: 12px;
   font-family: "Public Sans", sans-serif;
-
 }
 
 div {
@@ -226,8 +227,6 @@ ol {
 dfn,
 cite,
 em,
-
-
 blockquote {
   margin: 0 15px;
 
@@ -265,12 +264,12 @@ button {
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #666666;
 }
-button:hover[disabled]{
+button:hover[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #666666;
@@ -833,11 +832,11 @@ kbd {
   overflow-x: auto;
 }
 
-.cs-table_responsive>table {
+.cs-table_responsive > table {
   min-width: 600px;
 }
 
-.cs-50_col>* {
+.cs-50_col > * {
   width: 50%;
   -webkit-box-flex: 0;
   -ms-flex: none;
@@ -899,7 +898,7 @@ kbd {
   padding-right: 0;
 }
 
-.cs-table.cs-style1.cs-type2>* {
+.cs-table.cs-style1.cs-type2 > * {
   padding: 0 10px;
 }
 
@@ -938,7 +937,7 @@ kbd {
   border-bottom: 1px dashed #eaeaea;
 }
 
-.cs-list.cs-style1 li>* {
+.cs-list.cs-style1 li > * {
   -webkit-box-flex: 0;
   -ms-flex: none;
   flex: none;
@@ -960,7 +959,7 @@ kbd {
   display: flex;
 }
 
-.cs-list.cs-style2 li>* {
+.cs-list.cs-style2 li > * {
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;

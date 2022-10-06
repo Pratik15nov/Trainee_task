@@ -101,7 +101,7 @@ const AllCategories = (props) => {
                   src="/images/allproduct.png"
                   alt="img"
                 ></img>
-                <div className="text textCard"> All Products</div>
+                <div className="text textCard">All Products</div>
               </span>
             </label>
             <label htmlFor="touch" className="categoryList"></label>

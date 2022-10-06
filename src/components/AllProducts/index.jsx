@@ -20,13 +20,16 @@ const Allproducts = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
-  const [productData, setproductData] = useState([]);
+  const [productData, setProductData] = useState([]);
+  console.log("UPDATED", productData);
+  const [productDataOld, setProductDataOld] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataNotFound, setDataNotFound] = useState(false);
   const location = useLocation();
   const { search } = location;
   const [userData, setuserData] = useState([]);
-  // const [selected, setSelected] = useState(false);
+  const [index, setIndex] = useState(1);
+
   useEffect(() => {
     let categoryId;
     if (search.split("=").length > 0) {
@@ -39,8 +42,43 @@ const Allproducts = (props) => {
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const onChnageIndex = (i) => {
+    setIndex(i);
+    console.log(i);
+    switch (i) {
+      case 1:
+        getproductData();
+
+        break;
+      case 2:
+        setProductData(productDataOld);
+
+        break;
+      case 3:
+        getproductData();
+
+        break;
+      case 4:
+        setProductData(
+          productDataOld.sort(function (a, b) {
+            return parseFloat(a.discountPrice) - parseFloat(b.discountPrice);
+          })
+        );
+
+        break;
+      case 5:
+        setProductData(
+          productDataOld.sort(function (a, b) {
+            return parseFloat(b.discountPrice) - parseFloat(a.discountPrice);
+          })
+        );
+
+        break;
+      default:
+        setProductData(productDataOld);
+    }
+  };
   const getproductData = async (log = "") => {
-    setproductData([]);
     let body;
     if (log.length === 0) {
       body = listBody({
@@ -58,9 +96,9 @@ const Allproducts = (props) => {
         perPage: 1000,
       });
     }
-    setLoading(true);
     const response = await productHndlerData(body);
-    setproductData(response);
+    setProductDataOld(response);
+    setProductData(response);
     if (response.length > 0) {
       setDataNotFound(false);
       setLoading(false);
@@ -97,7 +135,6 @@ const Allproducts = (props) => {
     dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
     // EventEmitter.dispatch("DATA", body.quantity.length);
     // console.log(cartdata);
-    
   };
 
   return (
@@ -107,6 +144,40 @@ const Allproducts = (props) => {
       </div>
       <div className="col-9 data_div">
         <div className="data_container">
+          <div className="sortby">
+            Sort By :
+            <span
+              className={index === 1 ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex(1)}
+            >
+              All Products
+            </span>
+            <span
+              className={index === 2 ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex(2)}
+            >
+              Popularity
+            </span>
+            <span
+              className={index === 3 ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex(3)}
+            >
+              Newest First
+            </span>
+            <span
+              className={index === 4 ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex(4)}
+            >
+              Price - Low to High
+            </span>
+            <span
+              className={index === 5 ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex(5)}
+            >
+              Price - High to Low
+            </span>
+          </div>
+
           {productData.length > 0 &&
             productData.map((card) => {
               return (

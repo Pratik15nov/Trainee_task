@@ -27,7 +27,7 @@
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;
-  font-family: 'Public Sans', sans-serif;;
+  font-family: "Public Sans", sans-serif;
 }
 
 .third_container {
@@ -202,4 +202,38 @@
 }
 .skebutton {
   border-radius: 5px;
+}
+
+.sortby {
+  margin-left: 3%;
+  margin-top: 6%;
+}
+.sortbyspan {
+  margin-left: 8px;
+  background: #25316d;
+  color: white;
+  font-size: 12px;
+  padding: 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+}
+.sortbynone {
+  margin-left: 8px;
+  background: white;
+  color: rgb(0, 0, 0);
+  /* border: 1px solid #25316d; */
+  font-size: 12px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.sortbynone:hover {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.sortbyspan:hover {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
