@@ -5,37 +5,32 @@ import { categoryHndlerData } from "../../service/auth.service";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { useLocation } from "react-router-dom";
-import { RangeSlider } from "rsuite";
+import { useForm, Controller } from "react-hook-form";
 
 const AllCategories = (props) => {
   const location = useLocation();
   const [checkbox, setCheckbox] = useState([
     {
-      id: "1",
+      id: "11",
       value: "1,000",
       checked: false,
     },
     {
-      id: "2",
+      id: "12",
       value: "10,000",
       checked: false,
     },
     {
-      id: "3",
+      id: "13",
       value: "50,000",
       checked: false,
     },
     {
-      id: "4",
+      id: "14",
       value: "1,00,000",
       checked: false,
     },
   ]);
-  console.log(
-    "checkbox: ",
-    checkbox.map((c) => c)
-  );
-
   const [categoriesData, setcategoriesData] = useState([]);
   const [uid, setuid] = useState(undefined);
   const { search } = location;
@@ -69,13 +64,21 @@ const AllCategories = (props) => {
   };
 
   const checkfunction = (e, id) => {
-    console.log("e: ", e);
-    console.log("id: ", id);
     const seek = checkbox.map((c) =>
       c.id === id ? { ...c, checked: true } : { ...c, checked: false }
     );
-    console.log("seek: ", seek);
     setCheckbox(seek);
+  };
+
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      from: null,
+      to:null
+    },
+  });
+
+  const handleForm = (data) => {
+    console.log("data: ", data);
   };
 
   return (
@@ -129,9 +132,9 @@ const AllCategories = (props) => {
             </div>
           );
         })}
-         <div className="sidebar">
-            <span>Filters</span>
-          </div>
+      <div className="sidebar">
+        <span>Filters</span>
+      </div>
       <div className="filterClass">
         <span className="filterSpan">
           <div className="priceHead">
@@ -153,10 +156,66 @@ const AllCategories = (props) => {
               </>
             ))}
           </div>
-          <div className="selfinput" >
-          <input   className="inputselfField" placeholder="From ₹ Price" type={"text"} /> 
-          <input   className="inputselfField"  placeholder="To ₹ Price"  type={"text"} /> 
-          <button className="selfInputButton" >Go</button>
+          <div className="selfinput">
+            <form onSubmit={handleSubmit(handleForm)}>
+              <Controller
+                name="from"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <input
+                    className="inputselfField"
+                    placeholder="From ₹ Price"
+                    type={"number"}
+                    name="from"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ? error.message : ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Number only",
+                }}
+              />
+              {/* <input
+                className="inputselfField"
+                placeholder="From ₹ Price"
+                type={"text"}
+              /> */}
+               <Controller
+                name="to"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <input
+                    className="inputselfField"
+                    placeholder="To ₹ Price"
+                    type={"number"}
+                    name="to"
+                    value={value}
+                    onChange={onChange}
+                    error={!!error}
+                    helperText={error?.message ? error.message : ""}
+                  />
+                )}
+                control={control}
+                rules={{
+                  required: "Number only",
+                }}
+              />
+              {/* <input
+                className="inputselfField"
+                placeholder="To ₹ Price"
+                type={"text"}
+              /> */}
+              <button type={"submit"} className="selfInputButton">
+                Go
+              </button>
+            </form>
           </div>
         </span>
       </div>

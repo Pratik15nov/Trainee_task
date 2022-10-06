@@ -188,6 +188,7 @@ cursor: pointer;
 
 .inputselfField{
   width: 110px;
+  margin-right: 4px;
 }
 
 .selfInputButton{
