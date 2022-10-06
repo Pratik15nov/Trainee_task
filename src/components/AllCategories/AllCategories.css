@@ -7,6 +7,7 @@
   margin-left: 5%;
 }
 .sidenavbar span {
+  margin-right: 10px;
   padding: 20px;
   /* background: rgb(7, 104, 84); */
   /* background:rgb(195, 255, 221); */
@@ -112,6 +113,7 @@
   margin-top: 8%;
 }
 .sidebar {
+  margin-right: 10px;
   background: #25316d4f;
   padding: 8px;
   color: black;
@@ -141,6 +143,7 @@
   margin-left: 5%;
 }
 .filterSpan {
+  margin-right: 10px;
   background: #ffffff;
   color: rgb(0, 0, 0);
   font-size: 16px;
@@ -159,44 +162,57 @@
   align-items: center;
   /* text-align: center; */
 }
-.priceHead{
+.priceHead {
   border-radius: 5px;
-    background: #24316d;
-    color: white;
-    /* border: 1px solid red; */
-    text-align: center;
-    font-size: 16px;
+  background: #24316d;
+  color: white;
+  /* border: 1px solid red; */
+  text-align: center;
+  font-size: 16px;
 }
-.headTag{
+.headTag {
   padding: 10px;
+  padding: 5px;
+  font-size: 12px;
+  background: #25316d;
+  border-top: 3px solid #25316d;
+  color: white;
+  border-radius: 5px;
 }
-.form-check-label{
-margin-left: 4%;
-font-size: 13px;
-cursor: pointer;
+.form-check-label {
+  margin-left: 4%;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.form-check-label:hover{
+.form-check-label:hover {
   color: green;
-} 
+}
 
-.selfinput{
+.selfinput {
   display: flex;
   justify-content: space-between;
   margin-top: 1%;
 }
 
-.inputselfField{
-  width: 110px;
+.inputselfField {
+  width: 35%;
   margin-right: 4px;
+  font-size: 12px;
+  border-radius: 5px;
 }
 
-.selfInputButton{
-  background-color:#24316d;
+.selfInputButton {
+  background-color: #24316d;
   width: 50px;
   border: none;
   border-radius: 5px;
   color: white;
   padding: 4px;
-
+  font-size: 12px;
+}
+.priceCheckbox {
+  margin-left: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
 }
