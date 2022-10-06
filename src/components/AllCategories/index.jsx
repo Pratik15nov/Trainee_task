@@ -6,8 +6,10 @@ import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { useLocation } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const AllCategories = (props) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [checkbox, setCheckbox] = useState([
     {
@@ -42,14 +44,59 @@ const AllCategories = (props) => {
     if (search.split("=").length > 0) {
       userId = search.split("=")[1];
       setuid(userId);
-      console.log(userId);
     } else {
-      console.log(userId);
       setuid(null);
     }
-
-    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
+    checkSearch();
   }, [search]);
+
+  const checkSearch = () => {
+    try {
+      if (search.split("filter=")[1].includes("From")) {
+        const From = search.split("From")[1].split("To")[0];
+
+        const To = search.split("From")[1].split("To")[1];
+
+        const Together = `${From}${To}`;
+
+        switch (Together) {
+          case "01000":
+            const C1 = checkbox.map((c) =>
+              c.id === "11" ? { ...c, checked: true } : { ...c, checked: false }
+            );
+            setCheckbox(C1);
+            break;
+          case "010000":
+            const C2 = checkbox.map((c) =>
+              c.id === "12" ? { ...c, checked: true } : { ...c, checked: false }
+            );
+            setCheckbox(C2);
+            break;
+          case "050000":
+            const C3 = checkbox.map((c) =>
+              c.id === "13" ? { ...c, checked: true } : { ...c, checked: false }
+            );
+            setCheckbox(C3);
+            break;
+          case "0100000":
+            const C4 = checkbox.map((c) =>
+              c.id === "14" ? { ...c, checked: true } : { ...c, checked: false }
+            );
+            setCheckbox(C4);
+            break;
+          default:
+            reset({
+              from: From,
+              to: To,
+            });
+        }
+      } else {
+        getcategoryData();
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   const getcategoryData = async () => {
     const response = await categoryHndlerData(
@@ -64,21 +111,54 @@ const AllCategories = (props) => {
   };
 
   const checkfunction = (e, id) => {
-    const seek = checkbox.map((c) =>
-      c.id === id ? { ...c, checked: true } : { ...c, checked: false }
-    );
-    setCheckbox(seek);
+    try {
+      const seek = checkbox.map((c) =>
+        c.id === id ? { ...c, checked: true } : { ...c, checked: false }
+      );
+      setCheckbox(seek);
+      reset({
+        from: "",
+        to: "",
+      });
+
+      switch (id) {
+        case "11":
+          navigate(`/products?filter=From0To1000`);
+
+          break;
+        case "12":
+          navigate(`/products?filter=From0To10000`);
+
+          break;
+        case "13":
+          navigate(`/products?filter=From0To50000`);
+
+          break;
+        case "14":
+          navigate(`/products?filter=From0To100000`);
+
+          break;
+        default:
+          navigate(`/products?filter=Allproduct`);
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       from: null,
-      to:null
+      to: null,
     },
   });
 
   const handleForm = (data) => {
-    console.log("data: ", data);
+    const seek = checkbox.map((c) =>
+      c !== null ? { ...c, checked: false } : ""
+    );
+    setCheckbox(seek);
+    navigate(`/products?filter=From${data.from}To${data.to}`);
   };
 
   return (
@@ -180,12 +260,7 @@ const AllCategories = (props) => {
                   required: "Number only",
                 }}
               />
-              {/* <input
-                className="inputselfField"
-                placeholder="From ₹ Price"
-                type={"text"}
-              /> */}
-               <Controller
+              <Controller
                 name="to"
                 render={({
                   field: { onChange, value },
@@ -207,11 +282,6 @@ const AllCategories = (props) => {
                   required: "Number only",
                 }}
               />
-              {/* <input
-                className="inputselfField"
-                placeholder="To ₹ Price"
-                type={"text"}
-              /> */}
               <button type={"submit"} className="selfInputButton">
                 Go
               </button>
