@@ -6,8 +6,10 @@ import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { useLocation } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const AllCategories = (props) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [checkbox, setCheckbox] = useState([
     {
@@ -47,8 +49,6 @@ const AllCategories = (props) => {
       console.log(userId);
       setuid(null);
     }
-
-    // setCart(JSON.parse(localStorage.getItem("Data")) || []);
   }, [search]);
 
   const getcategoryData = async () => {
@@ -64,21 +64,46 @@ const AllCategories = (props) => {
   };
 
   const checkfunction = (e, id) => {
-    const seek = checkbox.map((c) =>
-      c.id === id ? { ...c, checked: true } : { ...c, checked: false }
-    );
-    setCheckbox(seek);
+    try {
+      const seek = checkbox.map((c) =>
+        c.id === id ? { ...c, checked: true } : { ...c, checked: false }
+      );
+      setCheckbox(seek);
+
+      switch (id) {
+        case "11":
+          navigate(`/products?filter=Under1000`);
+
+          break;
+        case "12":
+          navigate(`/products?filter=Under10000`);
+
+          break;
+        case "13":
+          navigate(`/products?filter=Under50000`);
+
+          break;
+        case "14":
+          navigate(`/products?filter=Under100000`);
+
+          break;
+        default:
+          navigate(`/products?filter=Allproduct`);
+      }
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
       from: null,
-      to:null
+      to: null,
     },
   });
 
   const handleForm = (data) => {
-    console.log("data: ", data);
+    navigate(`/products?filter=From${data.from}To${data.to}`);
   };
 
   return (
@@ -180,12 +205,7 @@ const AllCategories = (props) => {
                   required: "Number only",
                 }}
               />
-              {/* <input
-                className="inputselfField"
-                placeholder="From ₹ Price"
-                type={"text"}
-              /> */}
-               <Controller
+              <Controller
                 name="to"
                 render={({
                   field: { onChange, value },
@@ -207,11 +227,6 @@ const AllCategories = (props) => {
                   required: "Number only",
                 }}
               />
-              {/* <input
-                className="inputselfField"
-                placeholder="To ₹ Price"
-                type={"text"}
-              /> */}
               <button type={"submit"} className="selfInputButton">
                 Go
               </button>
