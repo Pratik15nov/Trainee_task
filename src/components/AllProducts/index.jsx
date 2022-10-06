@@ -96,7 +96,6 @@ const Allproducts = (props) => {
         perPage: 1000,
       });
     }
-    setLoading(true);
     const response = await productHndlerData(body);
     setProductDataOld(response);
     setProductData(response);
