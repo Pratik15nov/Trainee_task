@@ -140,7 +140,7 @@ const AllCategories = (props) => {
           <div className="priceHead">
             <p className="headTag">Price</p>
           </div>
-          <div>
+          <div className="priceCheckbox">
             {checkbox.map((c) => (
               <>
                 <input
