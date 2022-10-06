@@ -15,72 +15,69 @@ import AllproductSkeleton from "./AllproductSkeleton";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
+import { useNavigate } from "react-router";
 
 const Allproducts = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [productData, setProductData] = useState([]);
-  console.log("UPDATED", productData);
-  const [productDataOld, setProductDataOld] = useState([]);
+  // console.log("UPDATED", productData);
   const [loading, setLoading] = useState(true);
   const [dataNotFound, setDataNotFound] = useState(false);
   const location = useLocation();
   const { search } = location;
   const [userData, setuserData] = useState([]);
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let categoryId;
     if (search.split("=").length > 0) {
       categoryId = search.split("=")[1];
+      setIndex(categoryId);
+      if (!categoryId) {
+        setIndex("ALL");
+      }
     } else {
       categoryId = "";
     }
-    getproductData(categoryId);
+    getproductData(categoryId, categoryId);
     setDataNotFound(false);
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChnageIndex = (i) => {
-    setIndex(i);
     console.log(i);
+    setIndex(i);
     switch (i) {
-      case 1:
-        getproductData();
-
+      case "ALL":
+        navigate(`/products`);
         break;
-      case 2:
-        setProductData(productDataOld);
-
+      case "Popularity":
+        navigate(`/products?filter=Popularity`);
+        getproductData("Popularity");
         break;
-      case 3:
-        getproductData();
-
+      case "NewestFirst":
+        navigate(`/products?filter=NewestFirst`);
+        getproductData("NewestFirst");
         break;
-      case 4:
-        setProductData(
-          productDataOld.sort(function (a, b) {
-            return parseFloat(a.discountPrice) - parseFloat(b.discountPrice);
-          })
-        );
-
+      case "LowToHigh":
+        navigate(`/products?filter=LowToHigh`);
+        getproductData("LowToHigh");
         break;
-      case 5:
-        setProductData(
-          productDataOld.sort(function (a, b) {
-            return parseFloat(b.discountPrice) - parseFloat(a.discountPrice);
-          })
-        );
+      case "HighToLow":
+        navigate(`/products?filter=HighToLow`);
+        getproductData("HighToLow");
 
         break;
       default:
-        setProductData(productDataOld);
+        navigate(`/products`);
     }
   };
-  const getproductData = async (log = "") => {
+  const getproductData = async (filter, log = "") => {
     let body;
-    if (log.length === 0) {
+    if (log.length === 0 || filter.length !== 0) {
       body = listBody({
         where: {
           isActive: true,
@@ -97,20 +94,36 @@ const Allproducts = (props) => {
       });
     }
     const response = await productHndlerData(body);
-    setProductDataOld(response);
-    setProductData(response);
+    switch (filter) {
+      case "LowToHigh":
+        setProductData(
+          response?.sort(function (a, b) {
+            return parseFloat(a.discountPrice) - parseFloat(b.discountPrice);
+          })
+        );
+        break;
+      case "HighToLow":
+        setProductData(
+          response.sort(function (a, b) {
+            return parseFloat(b.discountPrice) - parseFloat(a.discountPrice);
+          })
+        );
+        break;
+      case "NewestFirst":
+        setProductData(response);
+        break;
+      case "Popularity":
+        setProductData(response);
+        break;
+      default:
+        setProductData(response);
+    }
     if (response.length > 0) {
       setDataNotFound(false);
       setLoading(false);
     } else {
       setDataNotFound(true);
     }
-    // if (response.data?.data?) {
-    //   setDataNotFound(false);
-    //   setLoading(false);
-    // } else {
-    //   setDataNotFound(true);
-    // }
   };
 
   const parentFunc = (card) => {
@@ -147,37 +160,36 @@ const Allproducts = (props) => {
           <div className="sortby">
             Sort By :
             <span
-              className={index === 1 ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex(1)}
+              className={index === "ALL" ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex("ALL")}
             >
               All Products
             </span>
             <span
-              className={index === 2 ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex(2)}
+              className={index === "Popularity" ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex("Popularity")}
             >
               Popularity
             </span>
             <span
-              className={index === 3 ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex(3)}
+              className={index === "NewestFirst" ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex("NewestFirst")}
             >
               Newest First
             </span>
             <span
-              className={index === 4 ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex(4)}
+              className={index === "LowToHigh" ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex("LowToHigh")}
             >
               Price - Low to High
             </span>
             <span
-              className={index === 5 ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex(5)}
+              className={index === "HighToLow" ? "sortbyspan" : "sortbynone"}
+              onClick={() => onChnageIndex("HighToLow")}
             >
               Price - High to Low
             </span>
           </div>
-
           {productData.length > 0 &&
             productData.map((card) => {
               return (

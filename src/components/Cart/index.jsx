@@ -3,7 +3,7 @@ import "./Cart.css";
 import { Link } from "react-router-dom";
 import Cartproduct from "./Cartproduct";
 import {
-  cartHndlerData,
+  // cartHndlerData,
   cartproductdeleteHndlerData,
   cartseldeleteHndlerData,
 } from "../../service/auth.service";
