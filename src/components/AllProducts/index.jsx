@@ -8,6 +8,7 @@ import { listBody } from "../../utils/helper";
 import {
   productHndlerData,
   addcartHndlerData,
+  orderListDataHandler,
 } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -33,22 +34,21 @@ const Allproducts = (props) => {
 
   useEffect(() => {
     let categoryId;
-    if (search.split("=").length > 0) {
+    let filter;
+    if (search.includes("cid")) {
       categoryId = search.split("=")[1];
       setIndex(categoryId);
-      if (!categoryId) {
-        setIndex("ALL");
-      }
+    } else if (search.includes("filter")) {
+      filter = search.split("=")[1];
+      setIndex(filter);
     } else {
-      categoryId = "";
+      setIndex("ALL");
     }
-    getproductData(categoryId, categoryId);
-    setDataNotFound(false);
+    getproductData(filter, categoryId);
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChnageIndex = (i) => {
-    console.log(i);
     setIndex(i);
     switch (i) {
       case "ALL":
@@ -69,15 +69,24 @@ const Allproducts = (props) => {
       case "HighToLow":
         navigate(`/products?filter=HighToLow`);
         getproductData("HighToLow");
-
         break;
       default:
         navigate(`/products`);
     }
   };
   const getproductData = async (filter, log = "") => {
+    setProductData([]);
+    setLoading(true);
     let body;
-    if (log.length === 0 || filter.length !== 0) {
+    console.log("OK");
+    if (filter) {
+      body = listBody({
+        where: {
+          isActive: true,
+        },
+        perPage: 1000,
+      });
+    } else if (!log) {
       body = listBody({
         where: {
           isActive: true,
@@ -113,7 +122,43 @@ const Allproducts = (props) => {
         setProductData(response);
         break;
       case "Popularity":
-        setProductData(response);
+        const responses = await orderListDataHandler(
+          listBody({
+            where: {
+              isActive: true,
+            },
+          })
+        );
+        const updatedList = [];
+        responses.filter((res) => {
+          res.cartdetail.filter((res1) => {
+            updatedList.push({
+              id: res1?.productId?._id,
+              qua: res1?.quantity,
+            });
+          });
+        });
+        var filterMap = {};
+        updatedList.forEach(function (item) {
+          if (!filterMap[item.id] || filterMap[item.id].qua < item.qua) {
+            filterMap[item.id] = item;
+          }
+        });
+        var result = [];
+        for (var id in filterMap) {
+          result.push(filterMap[id]);
+        }
+        result.sort(function (a, b) {
+          return b.qua - a.qua;
+        });
+        var output = [];
+        result.forEach((item) => {
+          const match = response.find((item2) => item.id === item2._id);
+          if (match) {
+            output.push({ ...item, ...match });
+          }
+        });
+        setProductData(output);
         break;
       default:
         setProductData(response);
@@ -188,6 +233,9 @@ const Allproducts = (props) => {
               onClick={() => onChnageIndex("HighToLow")}
             >
               Price - High to Low
+            </span>
+            <span className="productLength">
+              Showing {productData.length} results
             </span>
           </div>
           {productData.length > 0 &&

@@ -232,8 +232,16 @@
 .sortbynone:hover {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  background: #25316d;
+  color: white;
+  
+
 }
 .sortbyspan:hover {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.productLength {
+  font-size: 14px;
+  padding: 12px;
 }

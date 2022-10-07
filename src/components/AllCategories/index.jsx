@@ -52,7 +52,7 @@ const AllCategories = (props) => {
 
   const checkSearch = () => {
     try {
-      if (search.split("filter=")[1].includes("From")) {
+      if (search.split("filter=")[1]?.includes("From")) {
         const From = search.split("From")[1].split("To")[0];
 
         const To = search.split("From")[1].split("To")[1];
@@ -106,14 +106,17 @@ const AllCategories = (props) => {
   };
 
   const handleClick = (id) => {
-    props.id(id);
-    setuid(id);
+    if (id) {
+      navigate(`/products?cid=${id}`);
+    } else {
+      navigate(`/products`);
+    }
   };
 
   const checkfunction = (e, id) => {
     try {
       const seek = checkbox.map((c) =>
-        c.id === id ? { ...c, checked: true } : { ...c, checked: false }
+        c.id === id ? { ...c, checked: e } : { ...c, checked: false }
       );
       setCheckbox(seek);
       reset({
@@ -121,25 +124,29 @@ const AllCategories = (props) => {
         to: "",
       });
 
-      switch (id) {
-        case "11":
-          navigate(`/products?filter=From0To1000`);
+      if (e === false) {
+        navigate(`/products`);
+      } else {
+        switch (id) {
+          case "11":
+            navigate(`/products?filter=From0To1000`);
 
-          break;
-        case "12":
-          navigate(`/products?filter=From0To10000`);
+            break;
+          case "12":
+            navigate(`/products?filter=From0To10000`);
 
-          break;
-        case "13":
-          navigate(`/products?filter=From0To50000`);
+            break;
+          case "13":
+            navigate(`/products?filter=From0To50000`);
 
-          break;
-        case "14":
-          navigate(`/products?filter=From0To100000`);
+            break;
+          case "14":
+            navigate(`/products?filter=From0To100000`);
 
-          break;
-        default:
-          navigate(`/products?filter=Allproduct`);
+            break;
+          default:
+            navigate(`/products?filter=Allproduct`);
+        }
       }
     } catch (error) {
       alert(error);
@@ -289,7 +296,7 @@ const AllCategories = (props) => {
           </div>
         </span>
       </div>
-      {categoriesData.length === 0 && (
+      {!categoriesData.length === 0 && (
         <Box className="skeleton_box">
           <Skeleton
             variant="rectangular"
