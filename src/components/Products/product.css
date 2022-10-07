@@ -29,17 +29,17 @@
 .div4 {
   font-size: 16px;
 }
-.BuyButton{
+.BuyButton {
   background-color: #292a2d;
-    border: none;
-    border-radius: 5px;
-    color: #f0f8ff;
-    font-family: "Public Sans", sans-serif;
+  border: none;
+  border-radius: 5px;
+  color: #f0f8ff;
+  font-family: "Public Sans", sans-serif;
 
-    font-size: 16px;
-    height: 2.5rem;
-    padding-left: 15px;
-    padding-right: 15px;
+  font-size: 16px;
+  height: 2.5rem;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .BuyButton:hover {
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -104,7 +104,7 @@
     rgb(0 0 0 / 30%) 0px 1px 3px -1px;
 }
 .lowstock {
-  background: #fffb8d;
+  background: #ffbc8d;
   padding-top: 5px;
   padding-bottom: 4px;
   padding-right: 10px;

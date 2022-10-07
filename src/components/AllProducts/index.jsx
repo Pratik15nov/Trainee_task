@@ -17,6 +17,7 @@ import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
 import { useNavigate } from "react-router";
+import Skeleton from "@mui/material/Skeleton";
 
 const Allproducts = (props) => {
   const dispatch = useDispatch();
@@ -292,7 +293,7 @@ const Allproducts = (props) => {
                     <></>
                   )}
                   {card.quantity < 11 && card.quantity > 0 ? (
-                    <span class=" text lowstock">Low Stock</span>
+                    <span class=" text lowstock">Selling fast!</span>
                   ) : (
                     <></>
                   )}
@@ -347,7 +348,8 @@ const Allproducts = (props) => {
               {/* <p className="header_two">Please add product to your cart list</p> */}
             </div>
           )}
-          {!dataNotFound && loading && (
+          {/* {!dataNotFound && loading && ( */}
+          <>
             <Box>
               <AllproductSkeleton />
               <AllproductSkeleton />
@@ -358,7 +360,8 @@ const Allproducts = (props) => {
               <AllproductSkeleton />
               <AllproductSkeleton />
             </Box>
-          )}
+          </>
+          {/* )} */}
 
           {show && (
             <CartModal

@@ -35,7 +35,7 @@
   padding: -3px;
 }
 .logoimg {
-  width: 128px;
+  width: 150px;
 }
 .carticon {
   font-size: 20px;
@@ -63,17 +63,25 @@
     rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   border: none;
   border-radius: 5px;
-  margin-top: 5px;
+  padding: 6px;
 }
 
 .navbar {
-  padding: 1rem 2rem;
+  padding: 10px;
   background-color: #25316d;
   justify-content: space-evenly;
   position: sticky;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
-
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .movieList {
   display: list-item;
   max-height: 20rem;
@@ -83,10 +91,11 @@
   background-color: rgb(255, 255, 255);
   position: absolute;
   z-index: 9;
-
   border-radius: 5px;
   background-color: #25316d;
+  animation: fadeIn 0.5s;
 }
+
 .hell {
   justify-content: space-evenly;
 }
@@ -112,4 +121,7 @@
   font-size: 14px;
   margin-left: 3%;
   margin-top: 2%;
+}
+.topnavbar {
+  align-items: center;
 }

@@ -13,7 +13,7 @@ const Products = (props) => {
         <></>
       )} */}
       {props.card.quantity < 11 && props.card.quantity > 0 ? (
-        <span class=" text lowstock">Low Stock</span>
+        <span class=" text lowstock">Selling fast</span>
       ) : (
         <></>
       )}

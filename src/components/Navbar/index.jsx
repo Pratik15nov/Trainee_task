@@ -49,7 +49,7 @@ export default function Navbar() {
 
   const searchHandler = async (e) => {
     try {
-      if (e.target.value.length > 3) {
+      if (e.target.value.length > 0) {
         const body = {
           searchText: e.target.value,
         };
@@ -80,7 +80,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-md fixed-top text">
       <div className="containe hell">
-        <div className="row">
+        <div className="row topnavbar">
           <div className="col-sm">
             <Link className="logo" to="/">
               <img
@@ -118,8 +118,8 @@ export default function Navbar() {
                   marginLeft: "-40px",
                   zIndex: "100",
                   border: "none",
-                  color: "red",
-                  top:"3px"
+                  color: "#25316d",
+                  fontSize: "16px",
                 }}
                 onClick={onButtonClick}
               >

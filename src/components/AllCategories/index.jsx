@@ -320,7 +320,7 @@ const AllCategories = (props) => {
           </div>
         </span>
       </div>
-      {!categoriesData.length === 0 && (
+      {categoriesData.length === 0 && (
         <Box className="skeleton_box">
           <Skeleton
             variant="rectangular"
