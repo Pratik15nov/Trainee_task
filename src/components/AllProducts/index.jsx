@@ -26,6 +26,7 @@ const Allproducts = (props) => {
   // console.log("UPDATED", productData);
   const [loading, setLoading] = useState(true);
   const [dataNotFound, setDataNotFound] = useState(false);
+  const [saveIcon, setSaveIcon] = useState(false);
   const location = useLocation();
   const { search } = location;
   const [userData, setuserData] = useState([]);
@@ -43,7 +44,6 @@ const Allproducts = (props) => {
       setIndex(categoryId);
     } else if (search.includes("filter")) {
       if (search.includes("From")) {
-        console.log("done");
         from = search.split("From")[1]?.split("To")[0];
         to = search.split("From")[1]?.split("To")[1];
         filter = "From";
@@ -51,7 +51,6 @@ const Allproducts = (props) => {
         filter = search.split("=")[1];
       }
 
-      console.log(from, to);
       setIndex(filter);
     } else {
       setIndex("ALL");
@@ -87,7 +86,6 @@ const Allproducts = (props) => {
     }
   };
   const getproductData = async (filter, log = "", from, to) => {
-    console.log(filter, log, from, to);
     setProductData([]);
     setLoading(true);
     let body;
@@ -210,7 +208,7 @@ const Allproducts = (props) => {
         } else {
           setDataNotFound(true);
         }
-        console.log(result);
+
         break;
       default:
         setProductData(response);
@@ -239,6 +237,24 @@ const Allproducts = (props) => {
     dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
     // EventEmitter.dispatch("DATA", body.quantity.length);
     // console.log(cartdata);
+  };
+
+  const watchList = (id, value) => {
+    setSaveIcon(value);
+    let data = JSON.parse(localStorage.getItem("watchList") || "[]");
+    data.push({ id: id, value: value });
+    var newData = Object.values(
+      data.reduce((r, o) => {
+        r[o.id] = r[o.id] || {
+          id: o.id,
+          value: 0,
+        };
+        r[o.id].value = o.value;
+        return r;
+      }, {})
+    );
+
+    localStorage.setItem("watchList", JSON.stringify(newData));
   };
 
   return (
@@ -288,21 +304,38 @@ const Allproducts = (props) => {
             productData.map((card) => {
               return (
                 <div className="cardView ">
-                  {card.quantity > 10 ? (
-                    <span class=" text instock">In Stock</span>
-                  ) : (
-                    <></>
-                  )}
-                  {card.quantity < 11 && card.quantity > 0 ? (
-                    <span class=" text lowstock">Selling fast!</span>
-                  ) : (
-                    <></>
-                  )}
-                  {card.quantity === 0 ? (
-                    <span class=" text outofstock">Out of Stock</span>
-                  ) : (
-                    <></>
-                  )}
+                  <div className="topBarCard">
+                    {card.quantity > 10 ? (
+                      <span class=" text instock">In Stock</span>
+                    ) : (
+                      <></>
+                    )}
+                    {card.quantity < 11 && card.quantity > 0 ? (
+                      <span class=" text lowstock">Selling fast!</span>
+                    ) : (
+                      <></>
+                    )}
+                    {card.quantity === 0 ? (
+                      <span class=" text outofstock">Out of Stock</span>
+                    ) : (
+                      <></>
+                    )}
+                    {saveIcon ? (
+                      <div
+                        className="saveIcon"
+                        onClick={() => watchList(card._id, false)}
+                      >
+                        <span>&#9829;</span>
+                      </div>
+                    ) : (
+                      <div
+                        className="saveIcon"
+                        onClick={() => watchList(card._id, true)}
+                      >
+                        <span>&#9825;</span>
+                      </div>
+                    )}
+                  </div>
                   <img
                     src={URL + card.img}
                     className="card-img-top"

@@ -249,3 +249,14 @@
 .topLabelSke {
   display: flex;
 }
+.topBarCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.saveIcon {
+  margin-right: 5%;
+  font-size: 20px;
+  cursor: pointer;
+  color: #25316d;
+}

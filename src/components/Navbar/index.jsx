@@ -142,7 +142,7 @@ export default function Navbar() {
                 }}
                 onClick={onButtonClick}
               >
-                <i class="fa fa-times"></i>
+                {isOpen && <i class="fa fa-times"></i>}
               </button>
             </div>
             {isOpen && (

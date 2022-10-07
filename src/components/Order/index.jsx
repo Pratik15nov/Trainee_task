@@ -269,7 +269,7 @@ export default function Order() {
           </div>
         </div>
         {!cardData ? (
-          <div className="col-9">
+          <div className="col-9 myOrderCard">
             {orderList?.length > 0 ? (
               orderList?.map((card, index) => {
                 return (
@@ -288,7 +288,7 @@ export default function Order() {
             )}
           </div>
         ) : (
-          <div className="col-9">
+          <div className="col-9 myOrderCard">
             <Ordercardskel />
             <Ordercardskel />
           </div>

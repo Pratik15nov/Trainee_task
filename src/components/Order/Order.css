@@ -274,9 +274,8 @@
 .stickyBar {
   position: fixed;
   top: 142px;
-  
 }
-.col-9{
+.myOrderCard {
   margin-top: 60px;
 }
 .sidebarOrder span {
