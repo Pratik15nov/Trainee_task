@@ -21,6 +21,22 @@ export default function Navbar() {
   const [userData, setuserData] = useState(null);
   const [searchdata, setSearchData] = useState([]);
   const navigate = useNavigate();
+  const ref = useRef();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (isOpen && ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [isOpen]);
   useEffect(() => {
     getcategoryData();
     setToken(localStorage.getItem("accessToken"));
@@ -31,7 +47,7 @@ export default function Navbar() {
   useEffect(() => {
     if (userData !== null) {
       dispatch(fetchCartList(listBody({ where: { userId: userData.id } })));
-    }
+    } // eslint-disable-next-line
   }, [userData]);
 
   const getcategoryData = async () => {
@@ -49,7 +65,7 @@ export default function Navbar() {
 
   const searchHandler = async (e) => {
     try {
-      if (e.target.value.length > 0) {
+      if (e.target.value.length > 1) {
         const body = {
           searchText: e.target.value,
         };
@@ -79,7 +95,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-md fixed-top text">
-      <div className="containe hell">
+      <div className="containe hell" ref={ref}>
         <div className="row topnavbar">
           <div className="col-sm">
             <Link className="logo" to="/">
@@ -103,7 +119,10 @@ export default function Navbar() {
           </div>
 
           <div className="col-sm">
-            <div class="input-group">
+            <div
+              class="input-group"
+              onClick={() => setIsOpen((oldState) => !oldState)}
+            >
               <input
                 ref={inputRef}
                 type="text"
@@ -126,62 +145,65 @@ export default function Navbar() {
                 <i class="fa fa-times"></i>
               </button>
             </div>
-
-            {searchdata?.products?.length ||
-            searchdata?.category?.length >= 0 ? (
-              <div className="movieList">
-                <div>
-                  {searchdata?.category?.length > 0 ? (
-                    searchdata?.category?.map((c) => {
-                      return (
-                        <li
-                          style={{ listStyle: "none" }}
-                          key={c._id}
-                          className="listClass"
-                          onClick={() => toggleToNext(c._id)}
-                        >
-                          <img
-                            src={URL + c.categoryImg}
-                            class="img-rounded"
-                            alt="img"
-                            className="imageClass"
-                            width="50px"
-                            height="50px"
-                          />
-                          {c.categoryName}
-                        </li>
-                      );
-                    })
-                  ) : searchdata?.products?.length > 0 ? (
-                    searchdata?.products?.map((p) => {
-                      return (
-                        <li
-                          style={{ listStyle: "none" }}
-                          key={p._id}
-                          className="listClass"
-                          onClick={() => toggleToNext(p.categoryId._id)}
-                        >
-                          <img
-                            src={URL + p.img}
-                            class="img-rounded"
-                            alt="img"
-                            width="50px"
-                            height="50px"
-                            className="imageClass"
-                          />
-                          {p.name}
-                        </li>
-                      );
-                    })
-                  ) : (
-                    <div className="noData">
-                      <p>No Such Data Found !</p>
+            {isOpen && (
+              <>
+                {searchdata?.products?.length ||
+                searchdata?.category?.length >= 0 ? (
+                  <div className="movieList">
+                    <div>
+                      {searchdata?.category?.length > 0 ? (
+                        searchdata?.category?.map((c) => {
+                          return (
+                            <li
+                              style={{ listStyle: "none" }}
+                              key={c._id}
+                              className="listClass"
+                              onClick={() => toggleToNext(c._id)}
+                            >
+                              <img
+                                src={URL + c.categoryImg}
+                                class="img-rounded"
+                                alt="img"
+                                className="imageClass"
+                                width="50px"
+                                height="50px"
+                              />
+                              {c.categoryName}
+                            </li>
+                          );
+                        })
+                      ) : searchdata?.products?.length > 0 ? (
+                        searchdata?.products?.map((p) => {
+                          return (
+                            <li
+                              style={{ listStyle: "none" }}
+                              key={p._id}
+                              className="listClass"
+                              onClick={() => toggleToNext(p.categoryId._id)}
+                            >
+                              <img
+                                src={URL + p.img}
+                                class="img-rounded"
+                                alt="img"
+                                width="50px"
+                                height="50px"
+                                className="imageClass"
+                              />
+                              {p.name}
+                            </li>
+                          );
+                        })
+                      ) : (
+                        <div className="noData">
+                          <p>No Such Data Found !</p>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              ""
+                  </div>
+                ) : (
+                  ""
+                )}
+              </>
             )}
           </div>
 

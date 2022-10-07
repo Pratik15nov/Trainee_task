@@ -48,7 +48,7 @@ const AllCategories = (props) => {
     } else {
       setuid(null);
     }
-    checkSearch();
+    checkSearch(); // eslint-disable-next-line
   }, [search]);
 
   const checkSearch = () => {

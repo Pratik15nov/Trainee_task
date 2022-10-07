@@ -17,7 +17,6 @@ import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
 import { useNavigate } from "react-router";
-import Skeleton from "@mui/material/Skeleton";
 
 const Allproducts = (props) => {
   const dispatch = useDispatch();
@@ -151,8 +150,10 @@ const Allproducts = (props) => {
           })
         );
         if (responses) {
-          const updatedList = [];
+          setLoading(false);
+          const updatedList = []; // eslint-disable-next-line
           responses.filter((res) => {
+            // eslint-disable-next-line
             res.cartdetail.filter((res1) => {
               updatedList.push({
                 id: res1?.productId?._id,
@@ -195,7 +196,7 @@ const Allproducts = (props) => {
       case "From":
         let newData = response.filter(function (obj) {
           return obj.discountPrice >= from && obj.discountPrice <= to;
-        });
+        }); // eslint-disable-next-line
         var result = [];
         for (var discountPrice in newData) {
           result.push(newData[discountPrice]);
@@ -348,20 +349,20 @@ const Allproducts = (props) => {
               {/* <p className="header_two">Please add product to your cart list</p> */}
             </div>
           )}
-          {/* {!dataNotFound && loading && ( */}
-          <>
-            <Box>
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-              <AllproductSkeleton />
-            </Box>
-          </>
-          {/* )} */}
+          {!dataNotFound && loading && (
+            <>
+              <Box>
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+                <AllproductSkeleton />
+              </Box>
+            </>
+          )}
 
           {show && (
             <CartModal
