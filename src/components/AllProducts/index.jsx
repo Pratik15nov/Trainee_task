@@ -35,16 +35,28 @@ const Allproducts = (props) => {
   useEffect(() => {
     let categoryId;
     let filter;
+    let from;
+    let to;
+    // console.log(search.split("=")[1].substring(4));
     if (search.includes("cid")) {
       categoryId = search.split("=")[1];
       setIndex(categoryId);
     } else if (search.includes("filter")) {
-      filter = search.split("=")[1];
+      if (search.includes("From")) {
+        console.log("done");
+        from = search.split("From")[1]?.split("To")[0];
+        to = search.split("From")[1]?.split("To")[1];
+        filter = "From";
+      } else {
+        filter = search.split("=")[1];
+      }
+
+      console.log(from, to);
       setIndex(filter);
     } else {
       setIndex("ALL");
     }
-    getproductData(filter, categoryId);
+    getproductData(filter, categoryId, from, to);
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -74,11 +86,12 @@ const Allproducts = (props) => {
         navigate(`/products`);
     }
   };
-  const getproductData = async (filter, log = "") => {
+  const getproductData = async (filter, log = "", from, to) => {
+    console.log(filter, log, from, to);
     setProductData([]);
     setLoading(true);
     let body;
-    console.log("OK");
+
     if (filter) {
       body = listBody({
         where: {
@@ -103,6 +116,12 @@ const Allproducts = (props) => {
       });
     }
     const response = await productHndlerData(body);
+    if (response.length > 0) {
+      setDataNotFound(false);
+      setLoading(false);
+    } else {
+      setDataNotFound(true);
+    }
     switch (filter) {
       case "LowToHigh":
         setProductData(
@@ -122,6 +141,7 @@ const Allproducts = (props) => {
         setProductData(response);
         break;
       case "Popularity":
+        setLoading(true);
         const responses = await orderListDataHandler(
           listBody({
             where: {
@@ -129,45 +149,69 @@ const Allproducts = (props) => {
             },
           })
         );
-        const updatedList = [];
-        responses.filter((res) => {
-          res.cartdetail.filter((res1) => {
-            updatedList.push({
-              id: res1?.productId?._id,
-              qua: res1?.quantity,
+        if (responses) {
+          const updatedList = [];
+          responses.filter((res) => {
+            res.cartdetail.filter((res1) => {
+              updatedList.push({
+                id: res1?.productId?._id,
+                qua: res1?.quantity,
+              });
             });
           });
-        });
-        var filterMap = {};
-        updatedList.forEach(function (item) {
-          if (!filterMap[item.id] || filterMap[item.id].qua < item.qua) {
-            filterMap[item.id] = item;
+          var filterMap = {};
+          updatedList.forEach(function (item) {
+            if (!filterMap[item.id] || filterMap[item.id].qua < item.qua) {
+              filterMap[item.id] = item;
+            }
+          });
+          var result = [];
+          for (var id in filterMap) {
+            result.push(filterMap[id]);
           }
+          result.sort(function (a, b) {
+            return b.qua - a.qua;
+          });
+          var output = [];
+          result.forEach((item) => {
+            const match = response.find((item2) => item.id === item2._id);
+            if (match) {
+              output.push({ ...item, ...match });
+            }
+          });
+          setProductData(output);
+        } else {
+          setProductData([]);
+        }
+
+        break;
+      case "InStock":
+        var newArray = response.filter(function (obj) {
+          return obj.quantity > 0;
+        });
+        setProductData(newArray);
+        break;
+      case "From":
+        let newData = response.filter(function (obj) {
+          return obj.discountPrice >= from && obj.discountPrice <= to;
         });
         var result = [];
-        for (var id in filterMap) {
-          result.push(filterMap[id]);
+        for (var discountPrice in newData) {
+          result.push(newData[discountPrice]);
         }
         result.sort(function (a, b) {
-          return b.qua - a.qua;
+          return a.discountPrice - b.discountPrice;
         });
-        var output = [];
-        result.forEach((item) => {
-          const match = response.find((item2) => item.id === item2._id);
-          if (match) {
-            output.push({ ...item, ...match });
-          }
-        });
-        setProductData(output);
+
+        if (result.length > 0) {
+          setProductData(result);
+        } else {
+          setDataNotFound(true);
+        }
+        console.log(result);
         break;
       default:
         setProductData(response);
-    }
-    if (response.length > 0) {
-      setDataNotFound(false);
-      setLoading(false);
-    } else {
-      setDataNotFound(true);
     }
   };
 

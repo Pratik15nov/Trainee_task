@@ -35,6 +35,7 @@ const AllCategories = (props) => {
   ]);
   const [categoriesData, setcategoriesData] = useState([]);
   const [uid, setuid] = useState(undefined);
+  const [inStock, setInStock] = useState(false);
   const { search } = location;
   useEffect(() => {
     getcategoryData();
@@ -53,6 +54,7 @@ const AllCategories = (props) => {
   const checkSearch = () => {
     try {
       if (search.split("filter=")[1]?.includes("From")) {
+        setInStock(false);
         const From = search.split("From")[1].split("To")[0];
 
         const To = search.split("From")[1].split("To")[1];
@@ -90,7 +92,10 @@ const AllCategories = (props) => {
               to: To,
             });
         }
+      } else if (search.split("filter=")[1]?.includes("InStock")) {
+        setInStock(true);
       } else {
+        setInStock(false);
         getcategoryData();
       }
     } catch (error) {
@@ -142,7 +147,9 @@ const AllCategories = (props) => {
             break;
           case "14":
             navigate(`/products?filter=From0To100000`);
-
+            break;
+          case "15":
+            navigate(`/products?filter=InStock`);
             break;
           default:
             navigate(`/products?filter=Allproduct`);
@@ -289,10 +296,27 @@ const AllCategories = (props) => {
                   required: "Number only",
                 }}
               />
+
               <button type={"submit"} className="selfInputButton">
                 Go
               </button>
             </form>
+          </div>
+        </span>
+        <span className="filterSpan">
+          <div className="priceHead">
+            <p className="headTag">Availability</p>
+          </div>
+          <div className="priceCheckbox">
+            <input
+              name="myCheckbox"
+              class="form-check-input"
+              type="checkbox"
+              checked={inStock}
+              onChange={(e) => checkfunction(e.target.checked, "15")}
+            />
+            <label class="form-check-label">In Stock</label>
+            <br />
           </div>
         </span>
       </div>
