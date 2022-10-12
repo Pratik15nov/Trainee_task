@@ -23,7 +23,7 @@ const Allproducts = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [productData, setProductData] = useState([]);
-  // console.log("UPDATED", productData);
+  console.log("UPDATED", productData);
   const [loading, setLoading] = useState(true);
   const [dataNotFound, setDataNotFound] = useState(false);
   const [saveIcon, setSaveIcon] = useState(false);
@@ -86,6 +86,8 @@ const Allproducts = (props) => {
     }
   };
   const getproductData = async (filter, log = "", from, to) => {
+    console.log('filter: ', filter);
+    console.log("HERE");
     setProductData([]);
     setLoading(true);
     let body;
@@ -240,6 +242,8 @@ const Allproducts = (props) => {
   };
 
   const watchList = (id, value) => {
+    console.log('id: ', id);
+
     setSaveIcon(value);
     let data = JSON.parse(localStorage.getItem("watchList") || "[]");
     data.push({ id: id, value: value });
