@@ -13,12 +13,13 @@ import {
   wishlistDataListHandler,
 } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AllproductSkeleton from "./AllproductSkeleton";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Allproducts = (props) => {
   const dispatch = useDispatch();
@@ -33,7 +34,8 @@ const Allproducts = (props) => {
   const [userData, setuserData] = useState([]);
   const [index, setIndex] = useState();
   const navigate = useNavigate();
-
+  const successnotify = (msg) =>
+    toast.success(msg, { duration: 3000, id: msg });
   useEffect(() => {
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
     let categoryId;
@@ -88,6 +90,7 @@ const Allproducts = (props) => {
     }
   };
   const getproductData = async (filter, log = "", from, to) => {
+    setProductData([]);
     setLoading(true);
     let body;
     if (filter) {
@@ -118,6 +121,8 @@ const Allproducts = (props) => {
       setDataNotFound(false);
       switch (filter) {
         case "LowToHigh":
+          setProductData([]);
+          setLoading(true);
           wishlist(
             response
               .map((obj) => ({ ...obj, isShow: false }))
@@ -130,6 +135,8 @@ const Allproducts = (props) => {
 
           break;
         case "HighToLow":
+          setProductData([]);
+          setLoading(true);
           wishlist(
             response
               .map((obj) => ({ ...obj, isShow: false }))
@@ -141,6 +148,8 @@ const Allproducts = (props) => {
           );
           break;
         case "NewestFirst":
+          setProductData([]);
+          setLoading(true);
           wishlist(response.map((obj) => ({ ...obj, isShow: false })));
           break;
         case "Popularity":
@@ -184,8 +193,12 @@ const Allproducts = (props) => {
               }
             });
             setLoading(false);
+            setProductData([]);
+            setLoading(true);
             wishlist(output);
           } else {
+            setProductData([]);
+            setLoading(true);
             wishlist([]);
           }
 
@@ -196,6 +209,8 @@ const Allproducts = (props) => {
             .filter(function (obj) {
               return obj.quantity > 0;
             });
+          setProductData([]);
+          setLoading(true);
           wishlist(newArray);
           break;
         case "From":
@@ -213,6 +228,8 @@ const Allproducts = (props) => {
           });
 
           if (result.length > 0) {
+            setProductData([]);
+            setLoading(true);
             wishlist(result);
           } else {
             setDataNotFound(true);
@@ -220,6 +237,8 @@ const Allproducts = (props) => {
 
           break;
         default:
+          setProductData([]);
+          setLoading(true);
           wishlist(response.map((obj) => ({ ...obj, isShow: false })));
       }
     } else {
@@ -245,24 +264,30 @@ const Allproducts = (props) => {
     };
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
+    if (response) {
+      successnotify("Product added to cart successfully!");
+    }
   };
 
   const wishlist = async (resData, id) => {
     setWishLoading(id);
-    setLoading(true);
     let data = JSON.parse(localStorage.getItem("userData") || "[]");
     if (id) {
       const res = await wishlistDataHandler({
         userId: data?.id,
         productId: id,
       });
-      if (res.success) {
-        const res = await wishlistDataListHandler(
+
+      if (res) {
+        successnotify(res.message);
+
+        const res2 = await wishlistDataListHandler(
           listBody({ where: { userId: data?.id } })
         );
+        console.log(res2);
         setProductData(
           productData.map((obj) =>
-            res[0].wishlist.some((w) => w.productId._id === obj._id)
+            res2[0].wishlist.some((w) => w.productId._id === obj._id)
               ? { ...obj, isShow: true }
               : { ...obj, isShow: false }
           )
@@ -289,165 +314,186 @@ const Allproducts = (props) => {
   };
 
   return (
-    <div className="row no-gutters datas_container text">
-      <div className="col-3 filter_div">
-        <AllCategories id={getproductData} />
-      </div>
-      <div className="col-9 data_div">
-        <div className="data_container">
-          <div className="sortby">
-            Sort By :
-            <span
-              className={index === "ALL" ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex("ALL")}
-            >
-              All Products
-            </span>
-            <span
-              className={index === "Popularity" ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex("Popularity")}
-            >
-              Popularity
-            </span>
-            <span
-              className={index === "NewestFirst" ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex("NewestFirst")}
-            >
-              Newest First
-            </span>
-            <span
-              className={index === "LowToHigh" ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex("LowToHigh")}
-            >
-              Price - Low to High
-            </span>
-            <span
-              className={index === "HighToLow" ? "sortbyspan" : "sortbynone"}
-              onClick={() => onChnageIndex("HighToLow")}
-            >
-              Price - High to Low
-            </span>
-            <span className="productLength">
-              Showing {productData.length} results
-            </span>
+    <>
+      <div className="row no-gutters datas_container text">
+        <div className="col-3 filter_div">
+          <div className="row text">
+            <div className="col-12 productBrud">
+              <div className="page-title-box">
+                <div className="page-title-right">
+                  <ol className="breadcrumb m-0">
+                    <li className="breadcrumb-item">
+                      <Link className="breadcrumb-item active text" to="/">
+                        Home
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item active">Products</li>
+                  </ol>
+                </div>
+                <h4 className="page-title text">Products</h4>
+              </div>
+            </div>
           </div>
-          {productData.length > 0 &&
-            productData.map((card) => {
-              return (
-                <div className="cardView">
-                  <div className="topBarCard">
-                    {card.quantity > 10 ? (
-                      <span class=" text instock">In Stock</span>
-                    ) : (
-                      <></>
-                    )}
-                    {card.quantity < 11 && card.quantity > 0 ? (
-                      <span class=" text lowstock">Selling fast!</span>
-                    ) : (
-                      <></>
-                    )}
-                    {card.quantity === 0 ? (
-                      <span class=" text outofstock">Out of Stock</span>
-                    ) : (
-                      <></>
-                    )}
-
-                    {card.isShow ? (
-                      <div
-                        className="saveIcon"
-                        onClick={() => wishlist(null, card._id)}
-                      >
-                        {card._id === wishloading ? (
-                          <div class="spinner-border spinner-border-sm" />
-                        ) : (
-                          <span>&#9829;</span>
-                        )}
-                      </div>
-                    ) : (
-                      <div
-                        className="saveIcon"
-                        onClick={() => wishlist(null, card._id)}
-                      >
-                        {card._id === wishloading ? (
-                          <div class="spinner-border spinner-border-sm " />
-                        ) : (
-                          <span>&#9825;</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <img
-                    src={URL + card.img}
-                    className="card-img-top"
-                    alt={card.name}
-                  />
-
-                  <div className="div1">
-                    <p className="font_cardView text">
-                      <b className="text">{card.name}</b>
-                      <br />
-                      &#x20b9;{card.discountPrice}
-                    </p>
-                  </div>
-                  <div className="third_container">
-                    <div className="fourth_container">
-                      &#x20b9;
-                      <del>{card.price}</del>
-                    </div>
-                    <div className="fifth_conatiner">
-                      {card.quantity === 0 ? (
-                        <div className="fourth_container">Out Of Stock</div>
+          <AllCategories id={getproductData} />
+        </div>
+        <div className="col-9 data_div">
+          <div className="data_container">
+            <div className="sortby">
+              Sort By :
+              <span
+                className={index === "ALL" ? "sortbyspan" : "sortbynone"}
+                onClick={() => onChnageIndex("ALL")}
+              >
+                All Products
+              </span>
+              <span
+                className={index === "Popularity" ? "sortbyspan" : "sortbynone"}
+                onClick={() => onChnageIndex("Popularity")}
+              >
+                Popularity
+              </span>
+              <span
+                className={
+                  index === "NewestFirst" ? "sortbyspan" : "sortbynone"
+                }
+                onClick={() => onChnageIndex("NewestFirst")}
+              >
+                Newest First
+              </span>
+              <span
+                className={index === "LowToHigh" ? "sortbyspan" : "sortbynone"}
+                onClick={() => onChnageIndex("LowToHigh")}
+              >
+                Price - Low to High
+              </span>
+              <span
+                className={index === "HighToLow" ? "sortbyspan" : "sortbynone"}
+                onClick={() => onChnageIndex("HighToLow")}
+              >
+                Price - High to Low
+              </span>
+              <span className="productLength">
+                Showing {productData.length} results
+              </span>
+            </div>
+            {productData.length > 0 &&
+              productData.map((card) => {
+                return (
+                  <div className="cardView">
+                    <div className="topBarCard">
+                      {card.quantity > 10 ? (
+                        <span class=" text instock">In Stock</span>
                       ) : (
-                        <button
-                          className="BuyButton"
-                          onClick={(e) => parentFunc(card)}
+                        <></>
+                      )}
+                      {card.quantity < 11 && card.quantity > 0 ? (
+                        <span class=" text lowstock">Selling fast!</span>
+                      ) : (
+                        <></>
+                      )}
+                      {card.quantity === 0 ? (
+                        <span class=" text outofstock">Out of Stock</span>
+                      ) : (
+                        <></>
+                      )}
+
+                      {card.isShow ? (
+                        <div
+                          className="saveIcon"
+                          onClick={() => wishlist(null, card._id)}
                         >
-                          Buy Now
-                        </button>
+                          {card._id === wishloading ? (
+                            <div class="spinner-border spinner-border-sm" />
+                          ) : (
+                            <span>&#9829;</span>
+                          )}
+                        </div>
+                      ) : (
+                        <div
+                          className="saveIcon"
+                          onClick={() => wishlist(null, card._id)}
+                        >
+                          {card._id === wishloading ? (
+                            <div class="spinner-border spinner-border-sm " />
+                          ) : (
+                            <span>&#9825;</span>
+                          )}
+                        </div>
                       )}
                     </div>
+                    <img
+                      src={URL + card.img}
+                      className="card-img-top"
+                      alt={card.name}
+                    />
+
+                    <div className="div1">
+                      <p className="font_cardView text">
+                        <b className="text">{card.name}</b>
+                        <br />
+                        &#x20b9;{card.discountPrice}
+                      </p>
+                    </div>
+                    <div className="third_container">
+                      <div className="fourth_container">
+                        &#x20b9;
+                        <del>{card.price}</del>
+                      </div>
+                      <div className="fifth_conatiner">
+                        {card.quantity === 0 ? (
+                          <div className="fourth_container">Out Of Stock</div>
+                        ) : (
+                          <button
+                            className="BuyButton"
+                            onClick={(e) => parentFunc(card)}
+                          >
+                            Buy Now
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
 
-          {dataNotFound && (
-            <div className="col-md-12 main pt-5">
-              <img
-                src="/images/noproduct.png"
-                className=" mx-auto d-block"
-                alt="..."
+            {dataNotFound && (
+              <div className="col-md-12 main pt-5">
+                <img
+                  src="/images/noproduct.png"
+                  className=" mx-auto d-block"
+                  alt="..."
+                />
+                <p className="header_one">No Products Found!</p>
+                {/* <p className="header_two">Please add product to your cart list</p> */}
+              </div>
+            )}
+            {!dataNotFound && loading && (
+              <>
+                <Box>
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                  <AllproductSkeleton />
+                </Box>
+              </>
+            )}
+
+            {show && (
+              <CartModal
+                childata={childata}
+                cartFunc={cartFunc}
+                closeHandle={closeHandle}
+                userData={userData}
               />
-              <p className="header_one">No Products Found!</p>
-              {/* <p className="header_two">Please add product to your cart list</p> */}
-            </div>
-          )}
-          {!dataNotFound && loading && (
-            <>
-              <Box>
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-                <AllproductSkeleton />
-              </Box>
-            </>
-          )}
-
-          {show && (
-            <CartModal
-              childata={childata}
-              cartFunc={cartFunc}
-              closeHandle={closeHandle}
-              userData={userData}
-            />
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

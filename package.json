@@ -34,6 +34,7 @@
     "react-dual-rangeslider": "^1.2.16",
     "react-form-stepper": "^2.0.3",
     "react-hook-form": "^7.36.1",
+    "react-hot-toast": "^2.4.0",
     "react-js-multi-range-sliders": "^0.1.6",
     "react-loader-spinner": "^5.1.7-beta.1",
     "react-loading-skeleton": "^3.1.0",

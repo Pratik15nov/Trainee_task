@@ -65,7 +65,7 @@ export default function Order() {
         break;
       default:
         setOrderList(orderListData);
-    }
+    }// eslint-disable-next-line
   }, [index]);
   const orderListHandler = async (pId) => {
     const response = await orderListDataHandler(
@@ -77,8 +77,8 @@ export default function Order() {
       })
     );
     if (response) {
-      const updatedList = [];
-      response.filter((res) => {
+      const updatedList = []; // eslint-disable-next-line
+      response.filter((res) => { // eslint-disable-next-line
         res.cartdetail.filter((res1) => {
           updatedList.push({
             ...res,
@@ -150,7 +150,7 @@ export default function Order() {
   };
 
   return (
-    <div className="container-fluid text">
+    <div className="container-fluid orderBrud text">
       <div className="row">
         <div className="col-12">
           <div className="page-title-box">

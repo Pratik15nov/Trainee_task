@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 // import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { fetchCartList } from "../../js/actions";
+import toast from "react-hot-toast";
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const ProductList = (props) => {
   const [childata, setChildata] = useState([]);
   const [userData, setuserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const successnotify = (msg) =>
+    toast.success(msg, { duration: 4000, id: msg });
+
   // const fetcher = (url) => axios.post(url).then((res) => res.data);
   // const { data, error } = useQuery("products", () =>
   //   productHndlerData(listBody({ where: { isActive: true } }))
@@ -53,6 +57,9 @@ const ProductList = (props) => {
     const response = await addcartHndlerData(body);
     dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
     // EventEmitter.dispatch("DATA", body.quantity.length);
+    if (response) {
+      successnotify("Product added to cart successfully!");
+    }
   };
 
   const [productData, setproductData] = useState([]);

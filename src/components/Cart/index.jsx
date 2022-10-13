@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 import Cartskeleton from "./Cartskeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartList } from "../../js/actions";
+import toast from "react-hot-toast";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [checkedList, setcheckedList] = useState([]); // eslint-disable-next-line
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const successnotify = (msg) =>
+    toast.success(msg, { duration: 4000, id: msg });
 
   useEffect(() => {
     let userId;
@@ -34,7 +37,7 @@ export default function Cart() {
     }
 
     getcartproductData(userId);
-    setuid(userId);
+    setuid(userId); // eslint-disable-next-line
   }, [search]);
 
   const getcartproductData = async (id) => {
@@ -66,6 +69,7 @@ export default function Cart() {
         productId: String(itemId),
       })
     );
+
     // call here too
     getcartproductData(uid);
   };
@@ -90,6 +94,7 @@ export default function Cart() {
       // call here too
       getcartproductData(uid);
       setcheckedList([]);
+      successnotify("Products Deleted Successfully");
     }
   };
 

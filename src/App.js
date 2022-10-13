@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import "./App.css";
 import Register from "./components/Register";
+import  { Toaster } from "react-hot-toast";
 import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
@@ -86,7 +87,6 @@ export default function App() {
                 <Suspense fallback={<Loading />}>
                   <Navbar />
                   <Allproducts />
-                  {/* <Footer /> */}
                 </Suspense>
               </>
             }
@@ -216,6 +216,20 @@ export default function App() {
           />
         </Routes>
       </QueryClientProvider>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          className: "",
+          style: {
+            padding: "16px",
+            color: "black",
+            fontWeight: 600,
+            fontFamily: "'Public Sans'",
+            fontSize: "14px",
+            background: "bisque",
+          },
+        }}
+      />
     </BrowserRouter>
   );
 }

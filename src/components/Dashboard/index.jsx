@@ -7,7 +7,6 @@ import "./Dashboard.css";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import { listBody } from "../../utils/helper";
 import { headerimgHandle } from "../../service/auth.service";
-import { URL } from "../../utils/helper";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 

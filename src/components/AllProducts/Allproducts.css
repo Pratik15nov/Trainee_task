@@ -286,6 +286,11 @@
   background: #25316d;
   animation: fadeInAnimation 1s;
 } */
-.spinner-border{
+.spinner-border {
   font-size: 12px;
+}
+.productBrud {
+  margin-top: 2%;
+  margin-left: 5%;
+  text-decoration: none;
 }

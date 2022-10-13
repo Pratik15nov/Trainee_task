@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { loginHandlerData } from "../../service/auth.service";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setMail] = useState(" ");
@@ -15,6 +16,9 @@ export default function Login() {
   const [selected, setSelected] = useState(false);
   // const [authtoken, setauthToken] = useState();
   const navigate = useNavigate();
+  const successnotify = (msg) =>
+    toast.success(msg, { duration: 4000, id: msg });
+  const errornotify = (msg) => toast.error(msg, { duration: 4000, id: msg });
 
   const validation = () => {
     let formIsValid = true;
@@ -58,14 +62,15 @@ export default function Login() {
       localStorage.setItem("accessToken", response?.data.token);
       localStorage.setItem("userData", JSON.stringify(response?.data));
       setSelected(false);
-
       navigate("/");
-    }
-
-    if (response.message) {
+      successnotify(response.message);
+      setSelected(false);
+    } else {
+      errornotify(response.message);
       setSelected(false);
     }
-    setMsg(response.message);
+
+    // setMsg(response.message);
   };
 
   return (

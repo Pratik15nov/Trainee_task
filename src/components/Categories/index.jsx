@@ -7,11 +7,12 @@ import { listBody, URL } from "../../utils/helper";
 import { categoryHndlerData } from "../../service/auth.service";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import Skeleton from "@mui/material/Skeleton";
+import { Link } from "react-router-dom";
 // import { useQuery } from "react-query";
 
 export default function Categories() {
   const [categoriesData, setcategoriesData] = useState([]);
-
+  console.log(categoriesData);
   useEffect(() => {
     getcategoryData();
   }, []);
@@ -26,7 +27,6 @@ export default function Categories() {
   // const { data, error } = useQuery("category", () =>
   //   categoryHndlerData(listBody({ where: { isActive: true }, perPage: 1000 }))
   // );
- 
 
   return (
     <div>
@@ -79,16 +79,21 @@ export default function Categories() {
             {categoriesData?.map((card, index) => {
               return (
                 <SwiperSlide key={`categories_${index}}`}>
-                  <div className="cimg-container">
-                    <p className="categories-img">
-                      <img
-                        src={URL + card.categoryImg.replace(/(^\^)|,/g, "/")}
-                        className="cimg"
-                        alt="categories"
-                      />
-                    </p>
-                    <p className="categories-text">{card.categoryName}</p>
-                  </div>
+                  <Link
+                    className="categoryLink"
+                    to={card._id ? `/products?cid=${card._id}` : "/products"}
+                  >
+                    <div className="cimg-container">
+                      <p className="categories-img">
+                        <img
+                          src={URL + card.categoryImg.replace(/(^\^)|,/g, "/")}
+                          className="cimg"
+                          alt="categories"
+                        />
+                      </p>
+                      <p className="categories-text">{card.categoryName}</p>
+                    </div>
+                  </Link>
                 </SwiperSlide>
               );
             })}
