@@ -108,6 +108,11 @@ export const catchSearchData = (body) => {
 };
 
 export const orderUpdate = (id, body) => {
-  console.log(id, body);
   return patch(`${ENDPOINTURL}/order/${id}`, body);
+};
+export const wishlistDataHandler = (body) => {
+  return post(`${ENDPOINTURL}/wishlist`, body);
+};
+export const wishlistDataListHandler = (body) => {
+  return post(`${ENDPOINTURL}/wishlist/list`, body);
 };

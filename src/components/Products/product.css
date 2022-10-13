@@ -93,7 +93,7 @@
 }
 .instock {
   background: #baffba;
-  padding-top: 5px;
+  padding-top: 4px;
   padding-bottom: 4px;
   padding-right: 10px;
   padding-left: 10px;
@@ -102,11 +102,11 @@
   border-bottom-right-radius: 10px;
   box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px,
     rgb(0 0 0 / 30%) 0px 1px 3px -1px;
-  margin-top: -3px;
+  margin-top: -8px;
 }
 .lowstock {
   background: #ffbc8d;
-  padding-top: 5px;
+  padding-top: 4px;
   padding-bottom: 4px;
   padding-right: 10px;
   padding-left: 10px;
@@ -115,11 +115,11 @@
   border-bottom-right-radius: 10px;
   box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px,
     rgb(0 0 0 / 30%) 0px 1px 3px -1px;
-  margin-top: -3px;
+  margin-top: -8px;
 }
 .outofstock {
   background: #ff8787f0;
-  padding-top: 5px;
+  padding-top: 4px;
   padding-bottom: 4px;
   padding-right: 10px;
   padding-left: 10px;
@@ -128,5 +128,5 @@
   border-bottom-right-radius: 10px;
   box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px,
     rgb(0 0 0 / 30%) 0px 1px 3px -1px;
-  margin-top: -3px;
+  margin-top: -8px;
 }

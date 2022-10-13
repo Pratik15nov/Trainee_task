@@ -1,0 +1,35 @@
+.maincard {
+  padding: 5px;
+  box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+  margin: 1%;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+}
+.wishCard {
+  margin: 2%;
+}
+.remove {
+  border: none;
+  background: #ff938e;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+  width: 50%;
+  margin-bottom: 5%;
+  color: black;
+}
+.noWishList {
+  text-align: center;
+}
+
+.WishListimg {
+  width: 120px;
+}
+.NOWishListimg {
+  width: 440px;
+}
+.mainLoading {
+  margin-top: 15%;
+}

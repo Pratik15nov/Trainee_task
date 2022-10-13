@@ -9,6 +9,8 @@ import {
   productHndlerData,
   addcartHndlerData,
   orderListDataHandler,
+  wishlistDataHandler,
+  wishlistDataListHandler,
 } from "../../service/auth.service";
 import { URL } from "../../utils/helper";
 import { useLocation } from "react-router-dom";
@@ -23,10 +25,9 @@ const Allproducts = (props) => {
   const [show, setShow] = useState(false);
   const [childata, setChildata] = useState([]);
   const [productData, setProductData] = useState([]);
-  // console.log("UPDATED", productData);
   const [loading, setLoading] = useState(true);
+  const [wishloading, setWishLoading] = useState(null);
   const [dataNotFound, setDataNotFound] = useState(false);
-  const [saveIcon, setSaveIcon] = useState(false);
   const location = useLocation();
   const { search } = location;
   const [userData, setuserData] = useState([]);
@@ -34,11 +35,11 @@ const Allproducts = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setuserData(JSON.parse(localStorage.getItem("userData")) || []);
     let categoryId;
     let filter;
     let from;
     let to;
-    // console.log(search.split("=")[1].substring(4));
     if (search.includes("cid")) {
       categoryId = search.split("=")[1];
       setIndex(categoryId);
@@ -55,11 +56,12 @@ const Allproducts = (props) => {
     } else {
       setIndex("ALL");
     }
+
     getproductData(filter, categoryId, from, to);
-    setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChnageIndex = (i) => {
+    setProductData([]);
     setIndex(i);
     switch (i) {
       case "ALL":
@@ -86,10 +88,8 @@ const Allproducts = (props) => {
     }
   };
   const getproductData = async (filter, log = "", from, to) => {
-    setProductData([]);
     setLoading(true);
     let body;
-
     if (filter) {
       body = listBody({
         where: {
@@ -116,102 +116,114 @@ const Allproducts = (props) => {
     const response = await productHndlerData(body);
     if (response.length > 0) {
       setDataNotFound(false);
-      setLoading(false);
-    } else {
-      setDataNotFound(true);
-    }
-    switch (filter) {
-      case "LowToHigh":
-        setProductData(
-          response?.sort(function (a, b) {
-            return parseFloat(a.discountPrice) - parseFloat(b.discountPrice);
-          })
-        );
-        break;
-      case "HighToLow":
-        setProductData(
-          response.sort(function (a, b) {
-            return parseFloat(b.discountPrice) - parseFloat(a.discountPrice);
-          })
-        );
-        break;
-      case "NewestFirst":
-        setProductData(response);
-        break;
-      case "Popularity":
-        setLoading(true);
-        const responses = await orderListDataHandler(
-          listBody({
-            where: {
-              isActive: true,
-            },
-          })
-        );
-        if (responses) {
-          setLoading(false);
-          const updatedList = []; // eslint-disable-next-line
-          responses.filter((res) => {
-            // eslint-disable-next-line
-            res.cartdetail.filter((res1) => {
-              updatedList.push({
-                id: res1?.productId?._id,
-                qua: res1?.quantity,
+      switch (filter) {
+        case "LowToHigh":
+          wishlist(
+            response
+              .map((obj) => ({ ...obj, isShow: false }))
+              ?.sort(function (a, b) {
+                return (
+                  parseFloat(a.discountPrice) - parseFloat(b.discountPrice)
+                );
+              })
+          );
+
+          break;
+        case "HighToLow":
+          wishlist(
+            response
+              .map((obj) => ({ ...obj, isShow: false }))
+              .sort(function (a, b) {
+                return (
+                  parseFloat(b.discountPrice) - parseFloat(a.discountPrice)
+                );
+              })
+          );
+          break;
+        case "NewestFirst":
+          wishlist(response.map((obj) => ({ ...obj, isShow: false })));
+          break;
+        case "Popularity":
+          setLoading(true);
+          const responses = await orderListDataHandler(
+            listBody({
+              where: {
+                isActive: true,
+              },
+            })
+          );
+          if (responses) {
+            const updatedList = []; // eslint-disable-next-line
+            responses.filter((res) => {
+              // eslint-disable-next-line
+              res.cartdetail.filter((res1) => {
+                updatedList.push({
+                  id: res1?.productId?._id,
+                  qua: res1?.quantity,
+                });
               });
             });
-          });
-          var filterMap = {};
-          updatedList.forEach(function (item) {
-            if (!filterMap[item.id] || filterMap[item.id].qua < item.qua) {
-              filterMap[item.id] = item;
+            var filterMap = {};
+            updatedList.forEach(function (item) {
+              if (!filterMap[item.id] || filterMap[item.id].qua < item.qua) {
+                filterMap[item.id] = item;
+              }
+            });
+            var result = [];
+            for (var id in filterMap) {
+              result.push(filterMap[id]);
             }
-          });
+            result.sort(function (a, b) {
+              return b.qua - a.qua;
+            });
+            var output = [];
+            result.forEach((item) => {
+              const match = response.find((item2) => item.id === item2._id);
+              if (match) {
+                output.push({ ...item, ...match });
+              }
+            });
+            setLoading(false);
+            wishlist(output);
+          } else {
+            wishlist([]);
+          }
+
+          break;
+        case "InStock":
+          var newArray = response
+            .map((obj) => ({ ...obj, isShow: false }))
+            .filter(function (obj) {
+              return obj.quantity > 0;
+            });
+          wishlist(newArray);
+          break;
+        case "From":
+          let newData = response
+            .map((obj) => ({ ...obj, isShow: false }))
+            .filter(function (obj) {
+              return obj.discountPrice >= from && obj.discountPrice <= to;
+            }); // eslint-disable-next-line
           var result = [];
-          for (var id in filterMap) {
-            result.push(filterMap[id]);
+          for (var discountPrice in newData) {
+            result.push(newData[discountPrice]);
           }
           result.sort(function (a, b) {
-            return b.qua - a.qua;
+            return a.discountPrice - b.discountPrice;
           });
-          var output = [];
-          result.forEach((item) => {
-            const match = response.find((item2) => item.id === item2._id);
-            if (match) {
-              output.push({ ...item, ...match });
-            }
-          });
-          setProductData(output);
-        } else {
-          setProductData([]);
-        }
 
-        break;
-      case "InStock":
-        var newArray = response.filter(function (obj) {
-          return obj.quantity > 0;
-        });
-        setProductData(newArray);
-        break;
-      case "From":
-        let newData = response.filter(function (obj) {
-          return obj.discountPrice >= from && obj.discountPrice <= to;
-        }); // eslint-disable-next-line
-        var result = [];
-        for (var discountPrice in newData) {
-          result.push(newData[discountPrice]);
-        }
-        result.sort(function (a, b) {
-          return a.discountPrice - b.discountPrice;
-        });
+          if (result.length > 0) {
+            wishlist(result);
+          } else {
+            setDataNotFound(true);
+          }
 
-        if (result.length > 0) {
-          setProductData(result);
-        } else {
-          setDataNotFound(true);
-        }
-
-        break;
-      default:
-        setProductData(response);
+          break;
+        default:
+          wishlist(response.map((obj) => ({ ...obj, isShow: false })));
+      }
+    } else {
+      setDataNotFound(true);
     }
   };
 
@@ -231,30 +243,49 @@ const Allproducts = (props) => {
       productId: cartdata.productId,
       quantity: cartdata.quantity,
     };
-    // localStorage.setItem("Data", JSON.stringify(cartdata));
-    // eslint-disable-next-line
     const response = await addcartHndlerData(body); // eslint-disable-next-line
     dispatch(fetchCartList(listBody({ where: { userId: cartdata.userId } })));
-    // EventEmitter.dispatch("DATA", body.quantity.length);
-    // console.log(cartdata);
   };
 
-  const watchList = (id, value) => {
-    setSaveIcon(value);
-    let data = JSON.parse(localStorage.getItem("watchList") || "[]");
-    data.push({ id: id, value: value });
-    var newData = Object.values(
-      data.reduce((r, o) => {
-        r[o.id] = r[o.id] || {
-          id: o.id,
-          value: 0,
-        };
-        r[o.id].value = o.value;
-        return r;
-      }, {})
-    );
-
-    localStorage.setItem("watchList", JSON.stringify(newData));
+  const wishlist = async (resData, id) => {
+    setWishLoading(id);
+    setLoading(true);
+    let data = JSON.parse(localStorage.getItem("userData") || "[]");
+    if (id) {
+      const res = await wishlistDataHandler({
+        userId: data?.id,
+        productId: id,
+      });
+      if (res.success) {
+        const res = await wishlistDataListHandler(
+          listBody({ where: { userId: data?.id } })
+        );
+        setProductData(
+          productData.map((obj) =>
+            res[0].wishlist.some((w) => w.productId._id === obj._id)
+              ? { ...obj, isShow: true }
+              : { ...obj, isShow: false }
+          )
+        );
+        setLoading(false);
+        setWishLoading(null);
+      }
+    } else {
+      const res = await wishlistDataListHandler(
+        listBody({ where: { userId: data?.id } })
+      );
+      if (res.success) {
+      }
+      setProductData(
+        resData.map((obj) =>
+          res[0].wishlist.some((w) => w.productId._id === obj._id)
+            ? { ...obj, isShow: true }
+            : { ...obj, isShow: false }
+        )
+      );
+      setLoading(false);
+      setWishLoading(null);
+    }
   };
 
   return (
@@ -303,7 +334,7 @@ const Allproducts = (props) => {
           {productData.length > 0 &&
             productData.map((card) => {
               return (
-                <div className="cardView ">
+                <div className="cardView">
                   <div className="topBarCard">
                     {card.quantity > 10 ? (
                       <span class=" text instock">In Stock</span>
@@ -320,19 +351,28 @@ const Allproducts = (props) => {
                     ) : (
                       <></>
                     )}
-                    {saveIcon ? (
+
+                    {card.isShow ? (
                       <div
                         className="saveIcon"
-                        onClick={() => watchList(card._id, false)}
+                        onClick={() => wishlist(null, card._id)}
                       >
-                        <span>&#9829;</span>
+                        {card._id === wishloading ? (
+                          <div class="spinner-border spinner-border-sm" />
+                        ) : (
+                          <span>&#9829;</span>
+                        )}
                       </div>
                     ) : (
                       <div
                         className="saveIcon"
-                        onClick={() => watchList(card._id, true)}
+                        onClick={() => wishlist(null, card._id)}
                       >
-                        <span>&#9825;</span>
+                        {card._id === wishloading ? (
+                          <div class="spinner-border spinner-border-sm " />
+                        ) : (
+                          <span>&#9825;</span>
+                        )}
                       </div>
                     )}
                   </div>

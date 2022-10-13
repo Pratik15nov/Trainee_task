@@ -20,6 +20,7 @@ import ProtectedRoute from "./components/protectedRoutes";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Loading from "./components/Loading";
 import PageNotFound from "./components/PageNotFound";
+import Wishlist from "./components/Wishlist";
 // import Footer from "./components/Footer";
 const Navbar = lazy(() => import("./components/Navbar"));
 const Allproducts = lazy(() => import("./components/AllProducts"));
@@ -90,6 +91,19 @@ export default function App() {
               </>
             }
           />
+          <Route exact path="/wishlist" element={<ProtectedRoute />}>
+            <Route
+              path="/wishlist"
+              element={
+                <>
+                  <Suspense fallback={<Loading />}>
+                    <Navbar />
+                    <Wishlist />
+                  </Suspense>
+                </>
+              }
+            />
+          </Route>
           <Route exact path="/checkout" element={<ProtectedRoute />}>
             <Route
               path="/checkout"

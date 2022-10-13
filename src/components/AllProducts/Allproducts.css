@@ -254,9 +254,38 @@
   align-items: center;
   justify-content: space-between;
 }
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .saveIcon {
   margin-right: 5%;
   font-size: 20px;
   cursor: pointer;
   color: #25316d;
+  background: white;
+  padding: 3px;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-top: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* .saveIcon:hover {
+  color: #ffffff;
+  background: #25316d;
+  animation: fadeInAnimation 1s;
+} */
+.spinner-border{
+  font-size: 12px;
 }

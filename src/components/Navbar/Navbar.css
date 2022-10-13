@@ -125,3 +125,8 @@
 .topnavbar {
   align-items: center;
 }
+.watchListicon {
+  font-size: 20px;
+  color: aliceblue;
+  border: none;
+}

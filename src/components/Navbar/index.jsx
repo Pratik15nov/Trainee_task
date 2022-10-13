@@ -268,6 +268,13 @@ export default function Navbar() {
                     </span>
                   </Link>
                 </li>
+                <li>
+                  <Link to={`/wishlist`}>
+                    <div className="btn watchListicon position-relative">
+                      <span>&#9825;</span>
+                    </div>
+                  </Link>
+                </li>
 
                 <li
                   className="nav-item dropdown"
@@ -331,6 +338,7 @@ export default function Navbar() {
                     </svg>
                   </Link>
                 </li>
+
                 <li
                   className="nav-item "
                   style={{ display: token ? "none" : "block" }}
