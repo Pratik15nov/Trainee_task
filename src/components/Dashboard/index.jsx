@@ -12,8 +12,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 export default function Dashboard() {
   const [imgdata, setimgData] = useState([]);
-  // console.log('imgdata: ', imgdata);
-
+  const [topLoading, setTopLoading] = useState(true);
   useEffect(() => {
     getImgData();
   }, []);
@@ -22,6 +21,9 @@ export default function Dashboard() {
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
     setimgData(response);
+    if (response) {
+      setTopLoading(false);
+    }
   };
 
   return (
