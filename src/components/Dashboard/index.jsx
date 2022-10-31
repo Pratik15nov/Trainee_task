@@ -10,9 +10,9 @@ import { headerimgHandle } from "../../service/auth.service";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const [imgdata, setimgData] = useState([]);
-  const [topLoading, setTopLoading] = useState(true);
+
   useEffect(() => {
     getImgData();
   }, []);
@@ -22,7 +22,7 @@ export default function Dashboard() {
     );
     setimgData(response);
     if (response) {
-      setTopLoading(false);
+      props.setTopLoading(false);
     }
   };
 

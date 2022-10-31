@@ -10,9 +10,8 @@ import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 // import { useQuery } from "react-query";
 
-export default function Categories() {
+export default function Categories(props) {
   const [categoriesData, setcategoriesData] = useState([]);
-
   useEffect(() => {
     getcategoryData();
   }, []);
@@ -21,7 +20,10 @@ export default function Categories() {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setcategoriesData(response);
+    if (response) {
+      setcategoriesData(response);
+      props.setTopLoading(false);
+    }
   };
 
   // const { data, error } = useQuery("category", () =>

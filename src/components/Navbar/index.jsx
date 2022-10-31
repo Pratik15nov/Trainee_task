@@ -13,7 +13,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartList } from "../../js/actions";
 
-export default function Navbar() {
+export default function Navbar(props) {
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state.cart.list);
   const [categoriesData, setcategoriesData] = useState([]);
@@ -23,8 +23,9 @@ export default function Navbar() {
   const navigate = useNavigate();
   const ref = useRef();
   const [isOpen, setIsOpen] = useState(false);
-  const [topLoading, setTopLoading] = useState(true);
+
   useEffect(() => {
+    
     const checkIfClickedOutside = (e) => {
       if (isOpen && ref.current && !ref.current.contains(e.target)) {
         setIsOpen(false);
@@ -54,8 +55,10 @@ export default function Navbar() {
     const response = await categoryHndlerData(
       listBody({ where: { isActive: true }, perPage: 1000 })
     );
-    setcategoriesData(response);
-    setTopLoading(false);
+    if (response) {
+      setcategoriesData(response);
+      props.setTopLoading(false);
+    }
   };
 
   const logout = () => {
@@ -122,7 +125,7 @@ export default function Navbar() {
 
             <div className="col-sm">
               <div
-                class="input-group"
+                className="input-group"
                 onClick={() => setIsOpen((oldState) => !oldState)}
               >
                 <input

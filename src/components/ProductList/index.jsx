@@ -65,16 +65,17 @@ const ProductList = (props) => {
   const [productData, setproductData] = useState([]);
   // console.log("productData: ", productData);
   useEffect(() => {
-    getproductData();
+    getProductData();
     setuserData(JSON.parse(localStorage.getItem("userData")) || []);
   }, []);
 
-  const getproductData = async () => {
+  const getProductData = async () => {
     const response = await productHndlerData(
       listBody({ where: { isActive: true } })
     );
     setproductData(response);
     setLoading(false);
+    props.setTopLoading(false);
   };
 
   return (
