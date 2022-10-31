@@ -292,6 +292,8 @@ const Allproducts = (props) => {
               : { ...obj, isShow: false }
           )
         );
+        props.setTopLoading(false);
+
         setLoading(false);
         setWishLoading(null);
       }
@@ -310,6 +312,7 @@ const Allproducts = (props) => {
       );
       setLoading(false);
       setWishLoading(null);
+      props.setTopLoading(false);
     }
   };
 

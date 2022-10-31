@@ -23,6 +23,7 @@ import Loading from "./components/Loading";
 import PageNotFound from "./components/PageNotFound";
 import Wishlist from "./components/Wishlist";
 import Home from "./Pages/Home";
+import Products from "./Pages/Products";
 // import Footer from "./components/Footer";
 const Navbar = lazy(() => import("./components/Navbar"));
 const Allproducts = lazy(() => import("./components/AllProducts"));
@@ -49,7 +50,6 @@ export default function App() {
               <>
                 <Suspense fallback={<Loading />}>
                   <Home />
-                  {/* <Footer /> */}
                 </Suspense>
               </>
             }
@@ -83,8 +83,7 @@ export default function App() {
             element={
               <>
                 <Suspense fallback={<Loading />}>
-                  <Navbar />
-                  <Allproducts />
+                  <Products />
                 </Suspense>
               </>
             }

@@ -14,7 +14,6 @@ export default function Home() {
   useEffect(() => {
     chnageLoading();
   }, [navbar, dashboard, categories, productList]);
-  console.log("LOADING STATE", topLoading);
   const chnageLoading = () => {
     try {
       if (!navbar && !dashboard && !categories && !productList) {
