@@ -11,6 +11,7 @@ export default function Home() {
   const [dashboard, setDashboard] = useState(true);
   const [categories, setCategories] = useState(true);
   const [productList, setProductList] = useState(true);
+
   useEffect(() => {
     chnageLoading();
   }, [navbar, dashboard, categories, productList]);

@@ -22,19 +22,18 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Loading from "./components/Loading";
 import PageNotFound from "./components/PageNotFound";
 import Wishlist from "./components/Wishlist";
-import Home from "./Pages/Home";
-import Products from "./Pages/Products";
+
 // import Footer from "./components/Footer";
 const Navbar = lazy(() => import("./components/Navbar"));
-const Allproducts = lazy(() => import("./components/AllProducts"));
+const Home = lazy(() => import("./Pages/Home"));
 const Categories = lazy(() => import("./components/Categories"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
+const Products = lazy(() => import("./Pages/Products"));
 const User = lazy(() => import("./components/User"));
 const Successmail = lazy(() => import("./components/successmail"));
 const Confirmpassword = lazy(() => import("./components/Confirmpassword"));
 const ForgotPassword = lazy(() => import("./components/ForgotPassword"));
 const Verify = lazy(() => import("./components/Verify"));
-const Order = lazy(() => import("./components/Order"));
+const Orders = lazy(() => import("./Pages/Orders"));
 const Checkout = lazy(() => import("./components/Checkout"));
 
 const queryClient = new QueryClient();
@@ -120,8 +119,7 @@ export default function App() {
               element={
                 <>
                   <Suspense fallback={<Loading />}>
-                    <Navbar />
-                    <Order />
+                    <Orders />
                   </Suspense>
                 </>
               }

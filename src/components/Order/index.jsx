@@ -11,7 +11,7 @@ import Invoice from "../Checkout/Invoice";
 // import { orderinvoiceDataHandler } from "../../service/auth.service";
 import Ordercard from "./Ordercard";
 import Ordercardskel from "./Ordercardskel";
-export default function Order() {
+export default function Order(props) {
   const [orderListData, setOrderListData] = useState();
   const [orderList, setOrderList] = useState();
   const [invoicedata, setInvoiceData] = useState([]);
@@ -65,7 +65,7 @@ export default function Order() {
         break;
       default:
         setOrderList(orderListData);
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [index]);
   const orderListHandler = async (pId) => {
     const response = await orderListDataHandler(
@@ -78,7 +78,8 @@ export default function Order() {
     );
     if (response) {
       const updatedList = []; // eslint-disable-next-line
-      response.filter((res) => { // eslint-disable-next-line
+      response.filter((res) => {
+        // eslint-disable-next-line
         res.cartdetail.filter((res1) => {
           updatedList.push({
             ...res,
@@ -87,6 +88,7 @@ export default function Order() {
           });
         });
         setCardData(false);
+        props.setTopLoading(false);
       });
 
       setOrderListData(updatedList.filter((data) => data.productId !== null));
