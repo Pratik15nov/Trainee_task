@@ -14,8 +14,11 @@ import Skeleton from "@mui/material/Skeleton";
 export default function Dashboard() {
   const [imgdata, setimgData] = useState([]);
 
+  
+
   useEffect(() => {
     getImgData();
+    
   }, []);
   const getImgData = async () => {
     const response = await headerimgHandle(
